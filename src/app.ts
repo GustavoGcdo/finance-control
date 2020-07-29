@@ -4,7 +4,8 @@ import mongoose from 'mongoose';
 import 'reflect-metadata';
 import config from './config';
 import DIContainer from './di-container';
-import { InfoRoutes } from './presentation/routes/info.route';
+import { InfoRoutes } from './presentation/routes/info.routes';
+import { LoginRoutes } from './presentation/routes/login.routes';
 
 export class App {
   private app: Application;
@@ -27,7 +28,10 @@ export class App {
 
   private configureRoutes() {
     const indexRoutes = DIContainer.resolve<InfoRoutes>(InfoRoutes);
+    const loginRoutes = DIContainer.resolve<LoginRoutes>(LoginRoutes);
+
     this.app.use(indexRoutes.getRoutes());
+    this.app.use(loginRoutes.getRoutes());
   }
 
   private async connectToDatabase() {

@@ -51,7 +51,7 @@ export class SignupHandler implements ISignupHandler {
             password: encriptedPassword
         } as User;
 
-        const { _id, ...userCreated } = await this._userRepository.create(newUser);
+        const { password, ...userCreated } = await this._userRepository.create(newUser);
         return userCreated;
     }
 }

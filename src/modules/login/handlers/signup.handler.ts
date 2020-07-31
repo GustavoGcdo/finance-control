@@ -36,7 +36,7 @@ export class SignupHandler implements ISignupHandler {
         const contract = new SignupContract(signupDto);
         const isInvalid = !contract.validate();
 
-        if (isInvalid) {
+        if (isInvalid) {            
             throw new ValidationFailedError('fail to register user', ...contract.reports);
         }
     }

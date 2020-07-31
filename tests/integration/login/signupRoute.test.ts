@@ -21,8 +21,8 @@ describe('Signup Controller', () => {
         const newUser = {
             name: 'Gustavo',
             email: 'gustavo.gcdo@gmail.com',
-            password: 'senha',
-            confirmPassword: 'senha'
+            password: 'senha123',
+            confirmPassword: 'senha123'
         };
 
         const result = await request(expressAplication).post('/signup').send(newUser);
@@ -35,7 +35,7 @@ describe('Signup Controller', () => {
     
         const newUser = {
             name: 'Gustavo',     
-            password: 'senha',            
+            password: 'senha123',            
         };
 
         const result = await request(expressAplication).post('/signup').send(newUser);

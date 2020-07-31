@@ -16,13 +16,12 @@ export class SignupContract extends Notifiable implements Contract {
     }
 
     validate(): boolean {
-
         this.validateName();
         this.validateEmail();
         this.validatePassword();
         this.validateConfirmPassword();
 
-        this.addReports(this.reports);
+        this.addReports(this.validator.reports);
         return this.isValid();
     }
 

@@ -12,6 +12,9 @@ import { LoginRoutes } from './presentation/routes/login.routes';
 import { IUserRepository } from './modules/users/repositories/user-repository.interface';
 import UserTypes from './modules/users/types/user.types';
 import { UserRepository } from './modules/users/repositories/user.repository';
+import { IEncriptService } from './modules/shared/services/encript-service.interface';
+import SharedTypes from './modules/shared/types/shared.types';
+import { EncriptService } from './modules/shared/services/encript.service';
 
 const DIContainer = new Container();
 
@@ -25,6 +28,7 @@ DIContainer.bind<LoginController>(LoginController).toSelf();
 
 // services
 DIContainer.bind<IInfoService>(InfoTypes.InfoService).to(InfoService);
+DIContainer.bind<IEncriptService>(SharedTypes.EncriptService).to(EncriptService);
 
 // handlers
 DIContainer.bind<ISignupHandler>(LoginTypes.SignupHandler).to(SignupHandler);

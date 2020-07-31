@@ -6,6 +6,7 @@ import config from './config';
 import DIContainer from './di-container';
 import { InfoRoutes } from './presentation/routes/info.routes';
 import { LoginRoutes } from './presentation/routes/login.routes';
+import { FinanceRoutes } from './presentation/routes/finance.routes';
 
 export class App {
   private app: Application;
@@ -29,9 +30,11 @@ export class App {
   private configureRoutes() {
     const indexRoutes = DIContainer.resolve<InfoRoutes>(InfoRoutes);
     const loginRoutes = DIContainer.resolve<LoginRoutes>(LoginRoutes);
+    const finaceRoutes = DIContainer.resolve<FinanceRoutes>(FinanceRoutes);
 
     this.app.use(indexRoutes.getRoutes());
     this.app.use(loginRoutes.getRoutes());
+    this.app.use(finaceRoutes.getRoutes());
   }
 
   private async connectToDatabase() {
@@ -49,6 +52,10 @@ export class App {
 
   public getApplication() {
     return this.app;
+  }
+
+  public getConnection() {
+    return mongoose.connection;
   }
 
   public async disconnect() {

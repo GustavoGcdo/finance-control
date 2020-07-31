@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 import { Report } from '../models/report';
 
 export class Validator {
@@ -52,6 +53,12 @@ export class Validator {
 
   public isValidNumber(value: any, name: string, message: string) {
     if (isNaN(parseInt(value))) {
+      this.reports.push({ name, message });
+    }
+  }
+
+  public isValidObjectId(id: string, name: string, message: string) {
+    if (!Types.ObjectId.isValid(id)) {
       this.reports.push({ name, message });
     }
   }

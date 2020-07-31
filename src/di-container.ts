@@ -1,30 +1,37 @@
 import { Container } from 'inversify';
-import InfoTypes from './modules/info/types/info.types';
-import { InfoController } from './presentation/controllers/info.controller';
-import { InfoRoutes } from './presentation/routes/info.routes';
+import { IAddRecipeHandler } from './modules/finance/handlers/add-recipe-handler.interface';
+import { AddRecipeHandler } from './modules/finance/handlers/add-recipe.handler';
+import FinanceTypes from './modules/finance/types/finance.types';
 import { IInfoService } from './modules/info/services/info-service.interface';
 import { InfoService } from './modules/info/services/info.service';
-import { LoginController } from './presentation/controllers/login.controller';
+import InfoTypes from './modules/info/types/info.types';
 import { ISignupHandler } from './modules/login/handlers/signup-handler.interface';
-import LoginTypes from './modules/login/types/login.types';
 import { SignupHandler } from './modules/login/handlers/signup.handler';
-import { LoginRoutes } from './presentation/routes/login.routes';
-import { IUserRepository } from './modules/users/repositories/user-repository.interface';
-import UserTypes from './modules/users/types/user.types';
-import { UserRepository } from './modules/users/repositories/user.repository';
+import LoginTypes from './modules/login/types/login.types';
 import { IEncriptService } from './modules/shared/services/encript-service.interface';
-import SharedTypes from './modules/shared/types/shared.types';
 import { EncriptService } from './modules/shared/services/encript.service';
+import SharedTypes from './modules/shared/types/shared.types';
+import { IUserRepository } from './modules/users/repositories/user-repository.interface';
+import { UserRepository } from './modules/users/repositories/user.repository';
+import UserTypes from './modules/users/types/user.types';
+import { InfoController } from './presentation/controllers/info.controller';
+import { LoginController } from './presentation/controllers/login.controller';
+import { InfoRoutes } from './presentation/routes/info.routes';
+import { LoginRoutes } from './presentation/routes/login.routes';
+import { FinanceRoutes } from './presentation/routes/finance.routes';
+import { FinanceController } from './presentation/controllers/finance.controller';
 
 const DIContainer = new Container();
 
 // routes
 DIContainer.bind<InfoRoutes>(InfoRoutes).toSelf();
 DIContainer.bind<LoginRoutes>(LoginRoutes).toSelf();
+DIContainer.bind<FinanceRoutes>(FinanceRoutes).toSelf();
 
 // controllers
 DIContainer.bind<InfoController>(InfoController).toSelf();
 DIContainer.bind<LoginController>(LoginController).toSelf();
+DIContainer.bind<FinanceController>(FinanceController).toSelf();
 
 // services
 DIContainer.bind<IInfoService>(InfoTypes.InfoService).to(InfoService);
@@ -32,6 +39,7 @@ DIContainer.bind<IEncriptService>(SharedTypes.EncriptService).to(EncriptService)
 
 // handlers
 DIContainer.bind<ISignupHandler>(LoginTypes.SignupHandler).to(SignupHandler);
+DIContainer.bind<IAddRecipeHandler>(FinanceTypes.AddRecipeHandler).to(AddRecipeHandler);
 
 // repositories
 DIContainer.bind<IUserRepository>(UserTypes.UserRepository).to(UserRepository);

@@ -6,13 +6,21 @@ import UserTypes from '../../users/types/user.types';
 import { AddRecipeContract } from '../contracts/add-recipe.contract';
 import { AddRecipeDto } from '../dtos/add-recipe.dto';
 import { IAddRecipeHandler } from './add-recipe-handler.interface';
+import { IOperationRepository } from '../repositories/operation-repository.interface';
+import FinanceTypes from '../types/finance.types';
+import { Operation } from '../models/entities/operation';
+import { OperationType } from '../models/enums/operation-type.enum';
+import { UserOperation } from '../models/entities/user-operation';
 
 @injectable()
 export class AddRecipeHandler implements IAddRecipeHandler {
     private _userRepository: IUserRepository;
+    private _operationRepository: IOperationRepository;
 
-    constructor(@inject(UserTypes.UserRepository) userRepository: IUserRepository) {
+    constructor(@inject(UserTypes.UserRepository) userRepository: IUserRepository,
+        @inject(FinanceTypes.OperationRepository) operationRepository: IOperationRepository) {
         this._userRepository = userRepository;
+        this._operationRepository = operationRepository;
     }
 
     async handle(addRecipeDto: AddRecipeDto): Promise<Result> {
@@ -36,6 +44,27 @@ export class AddRecipeHandler implements IAddRecipeHandler {
     }
 
     async addRecipe(addRecipeDto: AddRecipeDto) {
-        this._userRepository.addRecipe(addRecipeDto.userId, addRecipeDto.value)
+        const { userId, value } = addRecipeDto;
+
+        const userToAddRecipe = await this._userRepository.getById(userId);
+        const userOperation = userToAddRecipe as UserOperation;
+
+        const newOperation = {
+            type: OperationType.RECIPE,
+            value,
+            user: userOperation,
+
+        } as Operation;
+
+        let newBalance = 0;
+        if (userToAddRecipe.balance) {            
+            const newValue = Number(value);
+            newBalance = userToAddRecipe.balance + newValue;
+        } else {
+            newBalance = value;
+        }
+
+        this._operationRepository.add(newOperation)
+        this._userRepository.addRecipe(userId, newBalance);
     }
 }

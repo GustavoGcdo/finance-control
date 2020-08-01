@@ -67,4 +67,19 @@ describe('Add Recipe a User', () => {
         expect(result.body.message).toEqual('fail to add recipe');
         expect(result.body.success).toBeFalsy();
     });
+
+
+    it('POST - must return fail when trying to add recipe a invalid value', async () => {
+        await createValidUser();
+
+        const recipeToAdd: AddRecipeDto = {
+            userId: 'userIdInvalid',
+            value: -50.0
+        }
+
+        const result = await request(expressAplication).post('/finance/recipes').send(recipeToAdd);
+        expect(result.status).toEqual(HttpStatus.BAD_REQUEST);
+        expect(result.body.message).toEqual('fail to add recipe');
+        expect(result.body.success).toBeFalsy();
+    });
 });

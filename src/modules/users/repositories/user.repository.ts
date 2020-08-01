@@ -6,6 +6,11 @@ import { injectable } from 'inversify';
 @injectable()
 export class UserRepository implements IUserRepository {
 
+    async getById(id: string): Promise<User> {
+        const userFound = await UserModel.findById(id).then(o => o?.toObject());
+        return userFound;
+    }
+
     async create(user: User): Promise<User> {
         const documentCreated = await UserModel.create(user);
         const userCreated = documentCreated.toObject();

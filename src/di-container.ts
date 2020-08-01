@@ -20,6 +20,8 @@ import { InfoRoutes } from './presentation/routes/info.routes';
 import { LoginRoutes } from './presentation/routes/login.routes';
 import { FinanceRoutes } from './presentation/routes/finance.routes';
 import { FinanceController } from './presentation/controllers/finance.controller';
+import { IOperationRepository } from './modules/finance/repositories/operation-repository.interface';
+import { OperationRepository } from './modules/finance/repositories/operation.repository';
 
 const DIContainer = new Container();
 
@@ -43,5 +45,6 @@ DIContainer.bind<IAddRecipeHandler>(FinanceTypes.AddRecipeHandler).to(AddRecipeH
 
 // repositories
 DIContainer.bind<IUserRepository>(UserTypes.UserRepository).to(UserRepository);
+DIContainer.bind<IOperationRepository>(FinanceTypes.OperationRepository).to(OperationRepository);
 
 export default DIContainer;

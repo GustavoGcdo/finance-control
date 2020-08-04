@@ -19,5 +19,6 @@ export class FinanceRoutes {
 
   private mapRoutes() {
     this.router.post('/finance/recipes', (req, res) => this._controller.addRecipe(req, res));
+    this.router.post('/finance/expenses', (req, res) => this._controller.addExpense(req, res));
   }
 }

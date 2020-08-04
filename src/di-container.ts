@@ -22,6 +22,8 @@ import { FinanceRoutes } from './presentation/routes/finance.routes';
 import { FinanceController } from './presentation/controllers/finance.controller';
 import { IOperationRepository } from './modules/finance/repositories/operation-repository.interface';
 import { OperationRepository } from './modules/finance/repositories/operation.repository';
+import { IAddExpenseHandler } from './modules/finance/handlers/add-expense-handler.interface';
+import { AddExpenseHandler } from './modules/finance/handlers/add-expense.handler';
 
 const DIContainer = new Container();
 
@@ -42,6 +44,7 @@ DIContainer.bind<IEncriptService>(SharedTypes.EncriptService).to(EncriptService)
 // handlers
 DIContainer.bind<ISignupHandler>(LoginTypes.SignupHandler).to(SignupHandler);
 DIContainer.bind<IAddRecipeHandler>(FinanceTypes.AddRecipeHandler).to(AddRecipeHandler);
+DIContainer.bind<IAddExpenseHandler>(FinanceTypes.AddExpenseHandler).to(AddExpenseHandler);
 
 // repositories
 DIContainer.bind<IUserRepository>(UserTypes.UserRepository).to(UserRepository);

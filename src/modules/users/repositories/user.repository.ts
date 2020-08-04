@@ -17,7 +17,7 @@ export class UserRepository implements IUserRepository {
         return userCreated;
     }
 
-    async addRecipe(userId: string, value: number): Promise<void> {
+    async updateBalance(userId: string, value: number): Promise<void> {
         await UserModel.updateOne({ _id: userId }, { balance: value });
     }
 }

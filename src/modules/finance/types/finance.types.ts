@@ -1,7 +1,7 @@
 const FinanceTypes = {
-    AddRecipeHandler: Symbol.for('AddRecipeHandler'),
-    OperationRepository: Symbol.for('OperationRepository'),
-  };
-  
-  export default FinanceTypes;
-  
+  AddRecipeHandler: Symbol.for('AddRecipeHandler'),
+  AddExpenseHandler: Symbol.for('AddExpenseHandler'),
+  OperationRepository: Symbol.for('OperationRepository'),
+};
+
+export default FinanceTypes;

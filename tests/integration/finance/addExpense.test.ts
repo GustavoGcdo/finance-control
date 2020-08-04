@@ -7,6 +7,7 @@ import { ISignupHandler } from '../../../src/modules/login/handlers/signup-handl
 import LoginTypes from '../../../src/modules/login/types/login.types';
 import { User } from '../../../src/modules/users/models/user';
 import { AddRecipeDto } from '../../../src/modules/finance/dtos/add-recipe.dto';
+import { AddExpenseDto } from '../../../src/modules/finance/dtos/add-expense.dto';
 
 describe('Add Recipe a User', () => {
     let expressAplication: Application;
@@ -35,46 +36,61 @@ describe('Add Recipe a User', () => {
         await app.disconnect();
     });
 
-    it('POST - must return success when trying to add recipe to a valid user', async () => {
+    it('POST - must return success when trying to add expense to a valid user', async () => {
         await createValidUser();
 
-        const recipeToAdd: AddRecipeDto = {
+        const expenseToAdd: AddExpenseDto = {
             userId: userToTest._id,
             value: 50.0
         }
 
-        const result = await request(expressAplication).post(`/finance/recipes`).send(recipeToAdd);
+        const result = await request(expressAplication).post(`/finance/expenses`).send(expenseToAdd);
         expect(result.status).toEqual(HttpStatus.SUCCESS);
-        expect(result.body.message).toEqual('recipe added successfully');
+        expect(result.body.message).toEqual('expense added successfully');
         expect(result.body.success).toBeTruthy();
     });
 
-    it('POST - must return fail when trying to add recipe a invalid user', async () => {
+    it('POST - must return success when trying to add paid expense to a valid user', async () => {
         await createValidUser();
 
-        const recipeToAdd: AddRecipeDto = {
+        const expenseToAdd: AddExpenseDto = {
+            userId: userToTest._id,
+            value: 50.0,
+            paid: true
+        }
+
+        const result = await request(expressAplication).post(`/finance/expenses`).send(expenseToAdd);
+        expect(result.status).toEqual(HttpStatus.SUCCESS);
+        expect(result.body.message).toEqual('expense added successfully');
+        expect(result.body.success).toBeTruthy();
+    });
+
+    it('POST - must return fail when trying to add expense a invalid user', async () => {
+        await createValidUser();
+
+        const expenseToAdd: AddExpenseDto = {
             userId: 'userIdInvalid',
             value: 50.0
         }
 
-        const result = await request(expressAplication).post('/finance/recipes').send(recipeToAdd);
+        const result = await request(expressAplication).post('/finance/expenses').send(expenseToAdd);
         expect(result.status).toEqual(HttpStatus.BAD_REQUEST);
-        expect(result.body.message).toEqual('fail to add recipe');
+        expect(result.body.message).toEqual('fail to add expense');
         expect(result.body.success).toBeFalsy();
     });
 
 
-    it('POST - must return fail when trying to add recipe a invalid value', async () => {
+    it('POST - must return fail when trying to add expense a invalid value', async () => {
         await createValidUser();
 
-        const recipeToAdd: AddRecipeDto = {
+        const expenseToAdd: AddExpenseDto = {
             userId: 'userIdInvalid',
             value: -50.0
         }
 
-        const result = await request(expressAplication).post('/finance/recipes').send(recipeToAdd);
+        const result = await request(expressAplication).post('/finance/expenses').send(expenseToAdd);
         expect(result.status).toEqual(HttpStatus.BAD_REQUEST);
-        expect(result.body.message).toEqual('fail to add recipe');
+        expect(result.body.message).toEqual('fail to add expense');
         expect(result.body.success).toBeFalsy();
     });
 });

@@ -5,15 +5,16 @@ import { IUserRepository } from '../../users/repositories/user-repository.interf
 import UserTypes from '../../users/types/user.types';
 import { AddRecipeContract } from '../contracts/add-recipe.contract';
 import { AddRecipeDto } from '../dtos/add-recipe.dto';
-import { IAddRecipeHandler } from './add-recipe-handler.interface';
+import { Operation } from '../models/entities/operation';
+import { UserOperation } from '../models/entities/user-operation';
+import { OperationType } from '../models/enums/operation-type.enum';
 import { IOperationRepository } from '../repositories/operation-repository.interface';
 import FinanceTypes from '../types/finance.types';
-import { Operation } from '../models/entities/operation';
-import { OperationType } from '../models/enums/operation-type.enum';
-import { UserOperation } from '../models/entities/user-operation';
+import { IAddExpenseHandler } from './add-expense-handler.interface';
+import { AddExpenseDto } from '../dtos/add-expense.dto';
 
 @injectable()
-export class AddRecipeHandler implements IAddRecipeHandler {
+export class AddExpenseHandler implements IAddExpenseHandler {
     private _userRepository: IUserRepository;
     private _operationRepository: IOperationRepository;
 
@@ -23,42 +24,45 @@ export class AddRecipeHandler implements IAddRecipeHandler {
         this._operationRepository = operationRepository;
     }
 
-    async handle(addRecipeDto: AddRecipeDto): Promise<Result> {
-        await this.validate(addRecipeDto);
-        await this.addRecipe(addRecipeDto);
-        const resultSucess = new Result(null, 'recipe added successfully', true, []);
+    async handle(addExpenseDto: AddExpenseDto): Promise<Result> {
+        await this.validate(addExpenseDto);
+        await this.addExpense(addExpenseDto);
+        const resultSucess = new Result(null, 'expense added successfully', true, []);
         return resultSucess;
     }
 
-    private async validate(addRecipeDto: AddRecipeDto) {
-        this.validateContract(addRecipeDto);
+    private async validate(addExpenseDto: AddExpenseDto) {
+        this.validateContract(addExpenseDto);
     }
 
-    private validateContract(addRecipeDto: AddRecipeDto) {
-        const contract = new AddRecipeContract(addRecipeDto);
+    private validateContract(addExpenseDto: AddExpenseDto) {
+        const contract = new AddRecipeContract(addExpenseDto);
         const isInvalid = !contract.validate();
 
         if (isInvalid) {
-            throw new ValidationFailedError('fail to add recipe', ...contract.reports);
+            throw new ValidationFailedError('fail to add expense', ...contract.reports);
         }
     }
 
-    async addRecipe(addRecipeDto: AddRecipeDto) {
-        const { userId, value } = addRecipeDto;
+    async addExpense(addExpenseDto: AddExpenseDto) {
+        const { userId, value, paid } = addExpenseDto;
 
-        const userToAddRecipe = await this._userRepository.getById(userId);
-        const userOperation = userToAddRecipe as UserOperation;
+        const userToAddExpense = await this._userRepository.getById(userId);
+        const userOperation = userToAddExpense as UserOperation;
         const newValue = Number(value);
 
         const newOperation = {
-            type: OperationType.RECIPE,
+            type: OperationType.EXPENSE,
             value: newValue,
             user: userOperation
         } as Operation;
 
-        const { balance } = userToAddRecipe;
+        const { balance } = userToAddExpense;
         let newBalance = balance ? balance : 0;
-        newBalance += newValue;
+
+        if (paid) {
+            newBalance -= newValue;
+        }
 
         await this._operationRepository.add(newOperation)
         await this._userRepository.updateBalance(userId, newBalance);

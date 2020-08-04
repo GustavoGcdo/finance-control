@@ -48,23 +48,24 @@ export class AddRecipeHandler implements IAddRecipeHandler {
 
         const userToAddRecipe = await this._userRepository.getById(userId);
         const userOperation = userToAddRecipe as UserOperation;
+        const newValue = Number(value);
 
         const newOperation = {
             type: OperationType.RECIPE,
-            value,
-            user: userOperation,
-
+            value: newValue,
+            user: userOperation
         } as Operation;
 
         let newBalance = 0;
-        if (userToAddRecipe.balance) {            
-            const newValue = Number(value);
-            newBalance = userToAddRecipe.balance + newValue;
+        const { balance } = userToAddRecipe;
+        
+        if (balance) {
+            newBalance = balance + newValue;
         } else {
-            newBalance = value;
+            newBalance = newValue;
         }
 
-        this._operationRepository.add(newOperation)
-        this._userRepository.addRecipe(userId, newBalance);
+        await this._operationRepository.add(newOperation)
+        await this._userRepository.addRecipe(userId, newBalance);
     }
 }

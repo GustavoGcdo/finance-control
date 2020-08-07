@@ -5,9 +5,15 @@ import { injectable } from 'inversify';
 
 @injectable()
 export class UserRepository implements IUserRepository {
+    
 
     async getById(id: string): Promise<User> {
         const userFound = await UserModel.findById(id).then(o => o?.toObject());
+        return userFound;
+    }
+
+    async findByEmailAndPassword(email: string, password: string): Promise<User> {
+        const userFound = await UserModel.findOne({email, password}).then(o => o?.toObject());
         return userFound;
     }
 

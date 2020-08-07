@@ -24,6 +24,10 @@ import { IOperationRepository } from './modules/finance/repositories/operation-r
 import { OperationRepository } from './modules/finance/repositories/operation.repository';
 import { IAddExpenseHandler } from './modules/finance/handlers/add-expense-handler.interface';
 import { AddExpenseHandler } from './modules/finance/handlers/add-expense.handler';
+import { ILoginHandler } from './modules/login/handlers/login-handler.interface';
+import { LoginHandler } from './modules/login/handlers/login.handler';
+import { IAuthService } from './modules/shared/services/auth-service.interface';
+import { AuthService } from './modules/shared/services/auth.service';
 
 const DIContainer = new Container();
 
@@ -40,9 +44,11 @@ DIContainer.bind<FinanceController>(FinanceController).toSelf();
 // services
 DIContainer.bind<IInfoService>(InfoTypes.InfoService).to(InfoService);
 DIContainer.bind<IEncriptService>(SharedTypes.EncriptService).to(EncriptService);
+DIContainer.bind<IAuthService>(SharedTypes.AuthService).to(AuthService);
 
 // handlers
 DIContainer.bind<ISignupHandler>(LoginTypes.SignupHandler).to(SignupHandler);
+DIContainer.bind<ILoginHandler>(LoginTypes.LoginHandler).to(LoginHandler);
 DIContainer.bind<IAddRecipeHandler>(FinanceTypes.AddRecipeHandler).to(AddRecipeHandler);
 DIContainer.bind<IAddExpenseHandler>(FinanceTypes.AddExpenseHandler).to(AddExpenseHandler);
 

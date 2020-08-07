@@ -19,5 +19,6 @@ export class LoginRoutes {
 
   private mapRoutes() {
     this.router.post('/signup', (req, res) => this._controller.signup(req, res));
+    this.router.post('/login', (req, res) => this._controller.login(req, res));
   }
 }

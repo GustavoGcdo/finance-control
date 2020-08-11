@@ -24,7 +24,7 @@ export class FinanceController {
         try {
             const result = await this._addRecipeHandler.handle(request.body);
             return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
-        } catch (error) {
+        } catch (error) {            
             return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);
         }
     }

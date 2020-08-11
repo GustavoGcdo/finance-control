@@ -7,6 +7,7 @@ import { ISignupHandler } from '../../../src/modules/login/handlers/signup-handl
 import LoginTypes from '../../../src/modules/login/types/login.types';
 import { User } from '../../../src/modules/users/models/user';
 import { AddRecipeDto } from '../../../src/modules/finance/dtos/add-recipe.dto';
+import { Types } from 'mongoose';
 
 describe('Add Recipe a User', () => {
     let expressAplication: Application;
@@ -68,7 +69,7 @@ describe('Add Recipe a User', () => {
         await createValidUser();
 
         const recipeToAdd: AddRecipeDto = {
-            userId: 'userIdInvalid',
+            userId: userToTest._id,
             value: -50.0
         }
 
@@ -76,5 +77,21 @@ describe('Add Recipe a User', () => {
         expect(result.status).toEqual(HttpStatus.BAD_REQUEST);
         expect(result.body.message).toEqual('fail to add recipe');
         expect(result.body.success).toBeFalsy();
+    });
+
+
+    it('POST - must return failure when trying to add a recipe to a non-existent user ', async () => {
+        const idValidUserNonExistent = new Types.ObjectId().toHexString();
+
+        const recipeToAdd: AddRecipeDto = {
+            userId: idValidUserNonExistent,
+            value: 50.0
+        }
+
+        const result = await request(expressAplication).post('/finance/recipes').send(recipeToAdd);
+        expect(result.status).toEqual(HttpStatus.BAD_REQUEST);
+        expect(result.body.message).toEqual('fail to add recipe');
+        expect(result.body.success).toBeFalsy();
+        expect(result.body.errors).toContainEqual({ name: 'user', message: 'non-existent user' });
     });
 });

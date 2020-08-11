@@ -24,13 +24,13 @@ export class AddRecipeHandler implements IAddRecipeHandler {
     }
 
     async handle(addRecipeDto: AddRecipeDto): Promise<Result> {
-        await this.validate(addRecipeDto);
+        this.validate(addRecipeDto);
         await this.addRecipe(addRecipeDto);
         const resultSucess = new Result(null, 'recipe added successfully', true, []);
         return resultSucess;
     }
 
-    private async validate(addRecipeDto: AddRecipeDto) {
+    private validate(addRecipeDto: AddRecipeDto) {
         this.validateContract(addRecipeDto);
     }
 
@@ -44,9 +44,10 @@ export class AddRecipeHandler implements IAddRecipeHandler {
     }
 
     async addRecipe(addRecipeDto: AddRecipeDto) {
+
         const { userId, value } = addRecipeDto;
 
-        const userToAddRecipe = await this._userRepository.getById(userId);
+        const userToAddRecipe = await this.findUser(userId);       
         const userOperation = userToAddRecipe as UserOperation;
         const newValue = Number(value);
 
@@ -62,5 +63,16 @@ export class AddRecipeHandler implements IAddRecipeHandler {
 
         await this._operationRepository.add(newOperation)
         await this._userRepository.updateBalance(userId, newBalance);
+
+    }
+
+    private async findUser(userId: string) {
+        const userFound = await this._userRepository.getById(userId);
+        
+        if (!userFound) {            
+            throw new ValidationFailedError('fail to add recipe', { name: 'user', message: 'non-existent user' });
+        }
+
+        return userFound;
     }
 }

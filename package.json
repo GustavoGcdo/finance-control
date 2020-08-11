@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./dist/server.js",
-    "start:dev": "cross-env NODE_ENV=dev ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify  ./src/server.ts",
+    "dev": "cross-env NODE_ENV=dev ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify  ./src/server.ts",
     "build": "tsc",
     "test": "jest",
     "test:watch": "cross-env NODE_ENV=test jest --watch",

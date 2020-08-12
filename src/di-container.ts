@@ -28,6 +28,7 @@ import { ILoginHandler } from './modules/login/handlers/login-handler.interface'
 import { LoginHandler } from './modules/login/handlers/login.handler';
 import { IAuthService } from './modules/shared/services/auth-service.interface';
 import { AuthService } from './modules/shared/services/auth.service';
+import { AuthMiddleware } from './presentation/middlewares/auth.middleware';
 
 const DIContainer = new Container();
 
@@ -35,6 +36,9 @@ const DIContainer = new Container();
 DIContainer.bind<InfoRoutes>(InfoRoutes).toSelf();
 DIContainer.bind<LoginRoutes>(LoginRoutes).toSelf();
 DIContainer.bind<FinanceRoutes>(FinanceRoutes).toSelf();
+
+// middlewares
+DIContainer.bind<AuthMiddleware>(AuthMiddleware).toSelf();
 
 // controllers
 DIContainer.bind<InfoController>(InfoController).toSelf();

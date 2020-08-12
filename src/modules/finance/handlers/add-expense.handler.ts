@@ -47,7 +47,7 @@ export class AddExpenseHandler implements IAddExpenseHandler {
     async addExpense(addExpenseDto: AddExpenseDto) {
         const { userId, value, paid } = addExpenseDto;
 
-        const userToAddExpense = await this._userRepository.getById(userId);
+        const userToAddExpense = await this.findUser(userId);
         const userOperation = userToAddExpense as UserOperation;
         const newValue = Number(value);
 
@@ -66,5 +66,15 @@ export class AddExpenseHandler implements IAddExpenseHandler {
 
         await this._operationRepository.add(newOperation)
         await this._userRepository.updateBalance(userId, newBalance);
+    }
+
+    private async findUser(userId: string) {
+        const userFound = await this._userRepository.getById(userId);
+        
+        if (!userFound) {            
+            throw new ValidationFailedError('fail to add expense', { name: 'user', message: 'non-existent user' });
+        }
+
+        return userFound;
     }
 }

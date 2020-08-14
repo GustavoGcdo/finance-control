@@ -23,7 +23,11 @@ export class FinanceRoutes {
   }
 
   private mapRoutes() {
-    this.router.post('/finance/recipes',
+    this.router.get('/finance/operations',
+      (req, res, next) => this._auth.authorize(req, res, next),
+      (req, res) => this._controller.getUserOperations(req, res));
+    
+      this.router.post('/finance/recipes',
       (req, res, next) => this._auth.authorize(req, res, next),
       (req, res) => this._controller.addRecipe(req, res));
 

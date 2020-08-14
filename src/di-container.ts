@@ -29,6 +29,8 @@ import { LoginHandler } from './modules/login/handlers/login.handler';
 import { IAuthService } from './modules/shared/services/auth-service.interface';
 import { AuthService } from './modules/shared/services/auth.service';
 import { AuthMiddleware } from './presentation/middlewares/auth.middleware';
+import { IGetUserOperationsHandler } from './modules/finance/handlers/get-user-operations-handler.interface';
+import { GetUserOperationsHandler } from './modules/finance/handlers/get-user-operations.handler';
 
 const DIContainer = new Container();
 
@@ -55,6 +57,7 @@ DIContainer.bind<ISignupHandler>(LoginTypes.SignupHandler).to(SignupHandler);
 DIContainer.bind<ILoginHandler>(LoginTypes.LoginHandler).to(LoginHandler);
 DIContainer.bind<IAddRecipeHandler>(FinanceTypes.AddRecipeHandler).to(AddRecipeHandler);
 DIContainer.bind<IAddExpenseHandler>(FinanceTypes.AddExpenseHandler).to(AddExpenseHandler);
+DIContainer.bind<IGetUserOperationsHandler>(FinanceTypes.GetUserOperationsHandler).to(GetUserOperationsHandler);
 
 // repositories
 DIContainer.bind<IUserRepository>(UserTypes.UserRepository).to(UserRepository);

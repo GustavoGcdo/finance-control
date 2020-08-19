@@ -5,62 +5,69 @@
   flex-direction: column;
   height: 100vh;
   width: 100vw;
-  background: $background-color-login;
+  background: $background-color-default;
   font-family: 'Montserrat', sans-serif;
   align-items: center;
   justify-content: center;
+
+  .login-card {
+    padding: 30px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    min-width: 350px;
+
+    .header {
+      width: 100%;
+      display: flex;
+      margin-bottom: 40px;
+      align-items: center;
+      justify-content: flex-start;
+
+      .title {
+        font-weight: 500;
+      }
+    }
+
+    .divider {
+      width: 100%;
+      margin: 15px 0 20px;
+      background: #e6e6e6;
+      height: 1px;
+      border: none;
+    }
+  }
 }
 
-.login-card {
-  padding: 30px;
-  background: white;
+.login-form {
   display: flex;
   flex-direction: column;
+  width: 100%;
   align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  min-width: 350px;
-
-  .header {
-    width: 100%;
-    display: flex;
-    margin-bottom: 40px;
-    align-items: center;
-    justify-content: flex-start;
-  }
-
-  .title {
-    font-weight: 500;
-  }
 
   .input-form {
     margin-bottom: 20px;
   }
+}
 
-  .divider {
-    width: 100%;
-    margin: 15px 0 20px;
-    background: #e6e6e6;
-    height: 1px;
-    border: none;
-  }
+.btn-registrar {
+  font-size: 0.85em;
+  cursor: pointer;
+  text-decoration: none;
+  color: #201e29;
 
-  .btn-registrar {
-    font-size: 0.85em;
+  .link-to-register {
+    margin-left: 5px;
     cursor: pointer;
     text-decoration: none;
-    color: #201e29;
-
-    .link-to-register {
-      margin-left: 5px;
-      cursor: pointer;
-      text-decoration: none;
-      color: #57d2a8;
-      font-weight: bold;
-    }
+    font-weight: bold;
+    color: #36a552;
   }
+}
 
-  .errors {
-    margin-top: 10px;
-  }
+.errors {
+  margin-top: 10px;
 }

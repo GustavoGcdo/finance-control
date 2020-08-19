@@ -2,26 +2,27 @@ import Button from '@material-ui/core/Button';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import React, { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import AlertErrorMessage from '../../components/AlertErrorMessage/AlertErrorMessage';
 import InputForm from '../../components/formComponents/InputForm';
-import { useAuth } from '../../contexts/auth.context';
+import Goback from '../../components/GoBack/Goback';
 import { ErrorHandler } from '../../infra/errorHandler';
 import { Result } from '../../infra/models/result';
-import { LoginDto } from '../../models/dtos/login.dto';
-import './Login.scss';
-import { signupRoute } from '../../constants/routes.constants';
+import './Signup.scss';
+import * as authService from '../../services/auth.service';
+import { RouteComponentProps } from 'react-router-dom';
 
-const Login: React.FC = () => {
-  const { signIn } = useAuth();
+const Signup: React.FC<RouteComponentProps> = ({ history }) => {
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const formRef = useRef<FormHandles>(null);
 
-  const handleSignin = async (loginDto: LoginDto) => {
-    setErrorMessages([]);
-    signIn(loginDto).catch((resultError) => {
-      handleErrors(resultError.response?.data);
-    });
+  const handleSignin = async (signupDto: any) => {
+    try {
+      await authService.signup(signupDto);
+      history.goBack();
+    } catch (error) {
+      const resultError = error.response?.data;
+      handleErrors(resultError);
+    }
   };
 
   const handleErrors = (resultError: Result) => {
@@ -43,28 +44,26 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
+    <div className="signup-container">
+      <div className="signup-card">
         <div className="header">
-          <span className="title">Login</span>
+          <Goback />
+          <span className="title">Cadastrar-se</span>
         </div>
 
-        <Form className="login-form" ref={formRef} onSubmit={handleSignin}>
+        <Form className="signup-form" ref={formRef} onSubmit={handleSignin}>
+          <InputForm name="name" label="Nome" />
           <InputForm name="email" type="email" label="E-mail" />
           <InputForm name="password" type="password" label="Senha" />
+          <InputForm
+            name="confirmPassword"
+            type="password"
+            label="Confirmação de senha"
+          />
           <Button type="submit" variant="contained" color="primary">
-            Entrar
+            Cadastrar
           </Button>
         </Form>
-
-        <hr className="divider" />
-
-        <span className="btn-registrar">
-          Não tem uma conta?
-          <Link to={signupRoute} className="link-to-register">
-            <span className="label">Registre-se</span>
-          </Link>
-        </span>
 
         <div className="errors">
           {errorMessages.map((error: string, index: number) => (
@@ -76,4 +75,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default Signup;

@@ -31,6 +31,10 @@ describe('Login Controller', () => {
         expressAplication = await app.create();
     });
 
+    beforeEach(async () => {
+        await app.getConnection().dropDatabase();
+    });
+
     afterAll(async () => {
         await app.disconnect();
     });

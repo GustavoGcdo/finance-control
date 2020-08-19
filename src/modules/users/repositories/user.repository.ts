@@ -5,25 +5,32 @@ import { injectable } from 'inversify';
 
 @injectable()
 export class UserRepository implements IUserRepository {
-    
+  async getById(id: string): Promise<User> {
+    const userFound = await UserModel.findById(id).then((o) => o?.toObject());
+    return userFound;
+  }
 
-    async getById(id: string): Promise<User> {
-        const userFound = await UserModel.findById(id).then(o => o?.toObject());
-        return userFound;
-    }
+  async findByEmail(email: string): Promise<User> {
+    const userFound = await UserModel.findOne({ email }).then((o) =>
+      o?.toObject()
+    );
+    return userFound;
+  }
 
-    async findByEmailAndPassword(email: string, password: string): Promise<User> {
-        const userFound = await UserModel.findOne({email, password}).then(o => o?.toObject());
-        return userFound;
-    }
+  async findByEmailAndPassword(email: string, password: string): Promise<User> {
+    const userFound = await UserModel.findOne({ email, password }).then((o) =>
+      o?.toObject()
+    );
+    return userFound;
+  }
 
-    async create(user: User): Promise<User> {
-        const documentCreated = await UserModel.create(user);
-        const userCreated = documentCreated.toObject();
-        return userCreated;
-    }
+  async create(user: User): Promise<User> {
+    const documentCreated = await UserModel.create(user);
+    const userCreated = documentCreated.toObject();
+    return userCreated;
+  }
 
-    async updateBalance(userId: string, value: number): Promise<void> {
-        await UserModel.updateOne({ _id: userId }, { balance: value });
-    }
+  async updateBalance(userId: string, value: number): Promise<void> {
+    await UserModel.updateOne({ _id: userId }, { balance: value });
+  }
 }

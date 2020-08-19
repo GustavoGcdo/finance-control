@@ -45,6 +45,11 @@ export class SignupHandler implements ISignupHandler {
 
         const encriptedPassword = await this._encriptService.encript(signupDto.password);
         
+        const userFound = await this._userRepository.findByEmail(signupDto.email);
+        if(userFound){
+            throw new ValidationFailedError('fail to register user', { name: 'email', message: 'email already registered' });
+        }
+        
         const newUser = {
             email: signupDto.email,
             name: signupDto.name,

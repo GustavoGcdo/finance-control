@@ -12,6 +12,10 @@ describe('Signup Controller', () => {
         expressAplication = await app.create();
     });
 
+    beforeEach(async () => {
+        await app.getConnection().dropDatabase();
+    });
+
     afterAll(async () => {
         await app.disconnect();
     });
@@ -42,5 +46,23 @@ describe('Signup Controller', () => {
         expect(result.status).toEqual(HttpStatus.BAD_REQUEST);
         expect(result.body.message).toEqual('fail to register user');
         expect(result.body.success).toBeFalsy();
+    });
+
+    it('POST - must return fail when trying to register user already registered', async () => {
+    
+        const newUser = {
+            name: 'Gustavo',
+            email: 'gustavo.gcdo@gmail.com',
+            password: 'senha123',
+            confirmPassword: 'senha123'
+        };
+
+        const firstRegisterResult = await request(expressAplication).post('/signup').send(newUser);
+        expect(firstRegisterResult.body.success).toBeTruthy();
+
+        const secondRegisterResult = await request(expressAplication).post('/signup').send(newUser);
+        expect(secondRegisterResult.status).toEqual(HttpStatus.BAD_REQUEST);
+        expect(secondRegisterResult.body.message).toEqual('fail to register user');
+        expect(secondRegisterResult.body.success).toBeFalsy();
     });
 });

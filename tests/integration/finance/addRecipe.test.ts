@@ -15,6 +15,10 @@ describe('Add Recipe a User', () => {
         expressAplication = await app.create();
     });
 
+    beforeEach(async () => {
+        await app.getConnection().dropDatabase();
+    });
+
     afterAll(async () => {
         await app.disconnect();
     });

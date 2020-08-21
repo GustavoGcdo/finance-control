@@ -7,4 +7,5 @@ export interface Operation {
     type: OperationType;
     value: number;
     date: Date;
+    executed: boolean;
 }

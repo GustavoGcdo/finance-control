@@ -54,7 +54,8 @@ export class AddRecipeHandler implements IAddRecipeHandler {
         const newOperation = {
             type: OperationType.RECIPE,
             value: newValue,
-            user: userOperation
+            user: userOperation,
+            executed: true
         } as Operation;
 
         const { balance } = userToAddRecipe;

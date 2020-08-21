@@ -6,7 +6,6 @@ const schema = new Schema(
         email: String,
         password: String,
         balance: Number
-
     },
     {
         timestamps: true,

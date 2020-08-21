@@ -9,6 +9,7 @@ const schema = new Schema(
         },
         type: String,
         value: Number,
+        executed: Boolean
     },
     {
         timestamps: true,

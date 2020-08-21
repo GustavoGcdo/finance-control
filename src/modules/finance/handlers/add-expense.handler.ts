@@ -54,7 +54,8 @@ export class AddExpenseHandler implements IAddExpenseHandler {
         const newOperation = {
             type: OperationType.EXPENSE,
             value: newValue,
-            user: userOperation
+            user: userOperation,
+            executed: paid
         } as Operation;
 
         const { balance } = userToAddExpense;

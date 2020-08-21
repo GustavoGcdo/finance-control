@@ -1,0 +1,22 @@
+@import '../../../assets/scss/colors.scss';
+
+.navbar-container {
+  background: $primary-color;
+
+  color: white;
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    
+    .logo {
+      font-size: 18px;
+      display: block;
+    }
+  }
+}

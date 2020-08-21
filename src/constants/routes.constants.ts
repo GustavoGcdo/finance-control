@@ -1,5 +1,5 @@
 export const mainRoute = '/';
-export const homeRoute = '/home';
+export const myFinancesRoute = '/my-finances';
 
 export const loginRoute = '/login';
 export const signupRoute = '/signup';

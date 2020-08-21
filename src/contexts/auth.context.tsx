@@ -23,7 +23,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     async function loadStorageData() {
-      await new Promise((resolve) => setTimeout(resolve, 900));
+      // await new Promise((resolve) => setTimeout(resolve, 900));
       const { storagedUser, storagedToken } = getAuthItemsFromLocalStorage();
 
       if (storagedUser && storagedToken) {

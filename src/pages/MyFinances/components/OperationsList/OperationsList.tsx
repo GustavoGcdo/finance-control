@@ -1,8 +1,16 @@
 import React from 'react';
 import './OperationsList.scss';
 import Icon from '@material-ui/core/Icon';
+import { Operation } from '../../../../models/operation';
+import { OperationType } from '../../../../models/enums/operation-type.enum';
 
-const OperationsList: React.FC = () => {
+type OperationListProps = {
+  operationList: Operation[];
+};
+
+const OperationsList: React.FC<OperationListProps> = ({ operationList }) => {
+  console.log(operationList);
+
   return (
     <div className="operations-list-container">
       <table className="table-operations">
@@ -16,42 +24,30 @@ const OperationsList: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td className="operation">
-              <Icon color="primary">arrow_upward</Icon>
-            </td>
-            <td className="description">Salario</td>
-            <td>2.500</td>
-            <td>Salario</td>
-            <td>19/08/2020</td>
-          </tr>
-          <tr>
-            <td className="operation">
-              <Icon color="error">arrow_downward</Icon>
-            </td>
-            <td className="description">Salario</td>
-            <td>2.500</td>
-            <td>Salario</td>
-            <td>19/08/2020</td>
-          </tr>
-          <tr>
-            <td className="operation">
-              <Icon color="error">arrow_downward</Icon>
-            </td>
-            <td className="description">Salario</td>
-            <td>2.500</td>
-            <td>Salario</td>
-            <td>19/08/2020</td>
-          </tr>
-          <tr>
-            <td className="operation">
-              <Icon color="error">arrow_downward</Icon>
-            </td>
-            <td className="description">Salario</td>
-            <td>2.500</td>
-            <td>Salario</td>
-            <td>19/08/2020</td>
-          </tr>
+          {operationList.map((operation) => (
+            <tr key={operation._id}>
+              <td className="operation">
+                <Icon
+                  color={
+                    operation.type === OperationType.RECIPE
+                      ? 'primary'
+                      : 'error'
+                  }
+                >
+                  {operation.type === OperationType.RECIPE
+                    ? 'arrow_upward'
+                    : 'arrow_downward'}
+                </Icon>
+              </td>
+              <td className="description">DESCRICAO</td>
+              <td>
+                R$ {operation.type === OperationType.EXPENSE && '-'}
+                {operation.value}
+              </td>
+              <td>CATEGORIA</td>
+              <td>{operation.date}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

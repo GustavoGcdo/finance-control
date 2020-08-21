@@ -1,7 +1,7 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import * as authService from '../services/auth.service';
-import api from '../services/api';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { LoginDto } from '../models/dtos/login.dto';
+import api from '../services/api';
+import * as authService from '../services/auth.service';
 
 type User = {
   email: string;
@@ -27,7 +27,7 @@ export const AuthProvider: React.FC = ({ children }) => {
       const { storagedUser, storagedToken } = getAuthItemsFromLocalStorage();
 
       if (storagedUser && storagedToken) {
-        setDefaulHeaderToken(storagedToken);
+        setDefaulHeaderToken(JSON.parse(storagedToken));
         setUser(JSON.parse(storagedUser));
       }
 
@@ -60,7 +60,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   };
 
   const setDefaulHeaderToken = (token: string) => {
-    api.defaults.headers['Authorizarion'] = `Bearer ${token}`;
+    api.defaults.headers['authorization'] = `Bearer ${token}`;
   };
 
   const saveInLocalStorage = (email: string, token: string) => {
@@ -69,8 +69,9 @@ export const AuthProvider: React.FC = ({ children }) => {
   };
 
   const getAuthItemsFromLocalStorage = () => {
-    const storagedUser = localStorage.getItem('@RJSAuth:user');
-    const storagedToken = localStorage.getItem('@RJSAuth:token');
+    const storagedUser = localStorage.getItem('@RJSAuth:user') || '';
+    const storagedToken = localStorage.getItem('@RJSAuth:token') || '';
+
     return { storagedUser, storagedToken };
   };
 

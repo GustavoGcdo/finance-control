@@ -26,7 +26,7 @@ export class AddOperationHandler implements IAddOperationHandler {
 
     async handle(addOperationDto: AddOperationDto): Promise<Result> {
         await this.validate(addOperationDto);
-        await this.addExpense(addOperationDto);
+        await this.addOperation(addOperationDto);
         const resultSucess = new Result(null, 'operation added successfully', true, []);
         return resultSucess;
     }
@@ -44,11 +44,11 @@ export class AddOperationHandler implements IAddOperationHandler {
         }
     }
 
-    async addExpense(addOperationDto: AddOperationDto) {
+    async addOperation(addOperationDto: AddOperationDto) {
         const { userId, value, executed, type } = addOperationDto;
 
-        const userToAddExpense = await this.findUser(userId);
-        const userOperation = userToAddExpense as UserOperation;
+        const userToAddOperation = await this.findUser(userId);
+        const userOperation = userToAddOperation as UserOperation;
         const newValue = Number(value);
 
         const newOperation = {
@@ -58,7 +58,7 @@ export class AddOperationHandler implements IAddOperationHandler {
             user: userOperation,
         } as Operation;
 
-        const { balance } = userToAddExpense;
+        const { balance } = userToAddOperation;
         let newBalance = balance ? balance : 0;
 
         if (executed && type == OperationType.EXPENSE) {

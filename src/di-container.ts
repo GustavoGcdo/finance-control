@@ -1,6 +1,4 @@
 import { Container } from 'inversify';
-import { IAddExpenseHandler } from './modules/finance/handlers/add-expense-handler.interface';
-import { AddExpenseHandler } from './modules/finance/handlers/add-expense.handler';
 import { IAddOperationHandler } from './modules/finance/handlers/add-operation-handler.interface';
 import { AddOperationHandler } from './modules/finance/handlers/add-operation.handler';
 import { IGetUserOperationsHandler } from './modules/finance/handlers/get-user-operations-handler.interface';
@@ -56,7 +54,6 @@ DIContainer.bind<IAuthService>(SharedTypes.AuthService).to(AuthService);
 DIContainer.bind<ISignupHandler>(LoginTypes.SignupHandler).to(SignupHandler);
 DIContainer.bind<ILoginHandler>(LoginTypes.LoginHandler).to(LoginHandler);
 DIContainer.bind<IAddOperationHandler>(FinanceTypes.AddOperationHandler).to(AddOperationHandler);
-DIContainer.bind<IAddExpenseHandler>(FinanceTypes.AddExpenseHandler).to(AddExpenseHandler);
 DIContainer.bind<IGetUserOperationsHandler>(FinanceTypes.GetUserOperationsHandler).to(GetUserOperationsHandler);
 
 // repositories

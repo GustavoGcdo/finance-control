@@ -9,7 +9,13 @@ const schema = new Schema(
         },
         type: String,
         value: Number,
-        executed: Boolean
+        executed: Boolean,
+        category: {
+            _id: Types.ObjectId,
+            name: String,
+            type: String,
+        },
+        description: String,
     },
     {
         timestamps: true,

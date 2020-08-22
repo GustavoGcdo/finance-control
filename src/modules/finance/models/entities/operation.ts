@@ -1,4 +1,5 @@
 import { OperationType } from '../enums/operation-type.enum';
+import { Category } from './category';
 import { UserOperation } from './user-operation';
 
 export interface Operation {
@@ -8,4 +9,6 @@ export interface Operation {
     value: number;
     date: Date;
     executed: boolean;
+    category: Category;
+    description: string;
 }

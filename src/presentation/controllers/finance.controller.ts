@@ -36,16 +36,7 @@ export class FinanceController {
         }
     }
 
-    public async addRecipe(request: Request, response: Response) {
-        try {
-            const result = await this._addOperationHandler.handle(request.body);
-            return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
-        } catch (error) {
-            return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);
-        }
-    }
-
-    public async addExpense(request: Request, response: Response) {
+    public async addOperation(request: Request, response: Response) {
         try {
             const result = await this._addOperationHandler.handle(request.body);
             return HandleResponse.handle(response, HttpStatus.SUCCESS, result);

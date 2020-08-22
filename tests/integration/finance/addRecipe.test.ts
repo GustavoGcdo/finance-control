@@ -33,7 +33,7 @@ describe('Add Recipe a User', () => {
         } as AddOperationDto;
 
         const result = await request(expressAplication)
-            .post(`/finance/recipes`)
+            .post(`/finance/operations`)
             .send(recipeToAdd)
             .set('Authorization', 'Bearer ' + tokenToTest);
 
@@ -52,7 +52,7 @@ describe('Add Recipe a User', () => {
         } as AddOperationDto;
 
         const result = await request(expressAplication)
-            .post('/finance/recipes')
+            .post('/finance/operations')
             .send(recipeToAdd)
             .set('Authorization', 'Bearer ' + tokenToTest);
         expect(result.status).toEqual(HttpStatus.BAD_REQUEST);
@@ -71,7 +71,7 @@ describe('Add Recipe a User', () => {
         } as AddOperationDto;
 
         const result = await request(expressAplication)
-            .post('/finance/recipes')
+            .post('/finance/operations')
             .send(recipeToAdd)
             .set('Authorization', 'Bearer ' + tokenToTest);
 
@@ -90,7 +90,7 @@ describe('Add Recipe a User', () => {
         } as AddOperationDto;
 
         const result = await request(expressAplication)
-            .post('/finance/recipes')
+            .post('/finance/operations')
             .send(recipeToAdd)
             .set('Authorization', 'Bearer ' + tokenToTest);
 
@@ -112,7 +112,7 @@ describe('Add Recipe a User', () => {
         } as AddOperationDto;
 
         const result = await request(expressAplication)
-            .post('/finance/recipes')
+            .post('/finance/operations')
             .send(recipeToAdd)
             .set('Authorization', 'Bearer ' + tokenToTest);
 

@@ -27,12 +27,8 @@ export class FinanceRoutes {
       (req, res, next) => this._auth.authorize(req, res, next),
       (req, res) => this._controller.getUserOperations(req, res));
     
-      this.router.post('/finance/recipes',
+      this.router.post('/finance/operations',
       (req, res, next) => this._auth.authorize(req, res, next),
-      (req, res) => this._controller.addRecipe(req, res));
-
-    this.router.post('/finance/expenses',
-      (req, res, next) => this._auth.authorize(req, res, next),
-      (req, res) => this._controller.addExpense(req, res));
+      (req, res) => this._controller.addOperation(req, res));
   }
 }

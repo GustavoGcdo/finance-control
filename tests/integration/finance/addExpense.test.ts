@@ -33,7 +33,7 @@ describe('Add Recipe a User', () => {
         } as AddOperationDto;
 
         const result = await request(expressAplication)
-            .post(`/finance/expenses`)
+            .post(`/finance/operations`)
             .send(expenseToAdd)
             .set('Authorization', 'Bearer ' + tokenToTest);
 
@@ -52,7 +52,7 @@ describe('Add Recipe a User', () => {
         } as AddOperationDto;
 
         const result = await request(expressAplication)
-            .post(`/finance/expenses`)
+            .post(`/finance/operations`)
             .send(expenseToAdd)
             .set('Authorization', 'Bearer ' + tokenToTest);
 
@@ -71,7 +71,7 @@ describe('Add Recipe a User', () => {
         } as AddOperationDto;
 
         const result = await request(expressAplication)
-            .post('/finance/expenses')
+            .post('/finance/operations')
             .send(expenseToAdd)
             .set('Authorization', 'Bearer ' + tokenToTest);
 
@@ -91,7 +91,7 @@ describe('Add Recipe a User', () => {
         } as AddOperationDto;
 
         const result = await request(expressAplication)
-            .post('/finance/expenses')
+            .post('/finance/operations')
             .send(expenseToAdd)
             .set('Authorization', 'Bearer ' + tokenToTest);
 
@@ -112,7 +112,7 @@ describe('Add Recipe a User', () => {
         } as AddOperationDto;
 
         const result = await request(expressAplication)
-            .post('/finance/expenses')
+            .post('/finance/operations')
             .send(expenseToAdd)
             .set('Authorization', 'Bearer ' + tokenToTest);
 

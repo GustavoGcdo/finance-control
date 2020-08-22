@@ -1,13 +1,14 @@
 import { Contract } from '../../../infra/models/contract';
 import { Notifiable } from '../../../infra/models/notifiable';
 import { Validator } from '../../../infra/validator/validator';
-import { AddRecipeDto } from '../dtos/add-recipe.dto';
+import { AddExpenseDto } from '../dtos/add-expense.dto';
 
-export class AddRecipeContract extends Notifiable implements Contract {
-    private _dto: AddRecipeDto;
+
+export class AddExpenseContract extends Notifiable implements Contract {
+    private _dto: AddExpenseDto;
     private _validator: Validator;
 
-    constructor(dto: AddRecipeDto) {
+    constructor(dto: AddExpenseDto) {
         super();
         this._dto = dto;
         this._validator = new Validator();

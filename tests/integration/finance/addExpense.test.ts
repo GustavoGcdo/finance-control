@@ -4,7 +4,6 @@ import request from 'supertest';
 import { App } from '../../../src/app';
 import { HttpStatus } from '../../../src/infra/enums/http-status.enum';
 import { AddExpenseDto } from '../../../src/modules/finance/dtos/add-expense.dto';
-import { AddRecipeDto } from '../../../src/modules/finance/dtos/add-recipe.dto';
 import { createAndLoginUser } from '../../helpers/user-functions-default';
 
 describe('Add Recipe a User', () => {
@@ -103,7 +102,7 @@ describe('Add Recipe a User', () => {
         const { tokenToTest } = await createAndLoginUser();
         const idValidUserNonExistent = new Types.ObjectId().toHexString();
 
-        const recipeToAdd: AddRecipeDto = {
+        const recipeToAdd: AddExpenseDto = {
             userId: idValidUserNonExistent,
             value: 50.0
         }

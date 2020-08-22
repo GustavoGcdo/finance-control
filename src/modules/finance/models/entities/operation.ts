@@ -9,6 +9,6 @@ export interface Operation {
     value: number;
     date: Date;
     executed: boolean;
-    category: Category;
+    category: string;
     description: string;
 }

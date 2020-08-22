@@ -3,17 +3,18 @@ import { ValidationFailedError } from '../../../infra/errors/validationFailedErr
 import { Result } from '../../../infra/models/result';
 import { IUserRepository } from '../../users/repositories/user-repository.interface';
 import UserTypes from '../../users/types/user.types';
-import { AddExpenseContract } from '../contracts/add-expense.contract';
-import { AddExpenseDto } from '../dtos/add-expense.dto';
+import { AddOperationContract } from '../contracts/add-operation.contract';
+import { AddOperationDto } from '../dtos/add-operation.dto';
 import { Operation } from '../models/entities/operation';
 import { UserOperation } from '../models/entities/user-operation';
 import { OperationType } from '../models/enums/operation-type.enum';
 import { IOperationRepository } from '../repositories/operation-repository.interface';
 import FinanceTypes from '../types/finance.types';
-import { IAddExpenseHandler } from './add-expense-handler.interface';
+import { IAddOperationHandler } from './add-operation-handler.interface';
+
 
 @injectable()
-export class AddExpenseHandler implements IAddExpenseHandler {
+export class AddOperationHandler implements IAddOperationHandler {
     private _userRepository: IUserRepository;
     private _operationRepository: IOperationRepository;
 
@@ -23,45 +24,49 @@ export class AddExpenseHandler implements IAddExpenseHandler {
         this._operationRepository = operationRepository;
     }
 
-    async handle(addExpenseDto: AddExpenseDto): Promise<Result> {
-        await this.validate(addExpenseDto);
-        await this.addExpense(addExpenseDto);
-        const resultSucess = new Result(null, 'expense added successfully', true, []);
+    async handle(addOperationDto: AddOperationDto): Promise<Result> {
+        await this.validate(addOperationDto);
+        await this.addExpense(addOperationDto);
+        const resultSucess = new Result(null, 'operation added successfully', true, []);
         return resultSucess;
     }
 
-    private async validate(addExpenseDto: AddExpenseDto) {
-        this.validateContract(addExpenseDto);
+    private async validate(addOperationDto: AddOperationDto) {
+        this.validateContract(addOperationDto);
     }
 
-    private validateContract(addExpenseDto: AddExpenseDto) {
-        const contract = new AddExpenseContract(addExpenseDto);
+    private validateContract(addOperationDto: AddOperationDto) {
+        const contract = new AddOperationContract(addOperationDto);
         const isInvalid = !contract.validate();
 
         if (isInvalid) {
-            throw new ValidationFailedError('fail to add expense', ...contract.reports);
+            throw new ValidationFailedError('fail to add operation', ...contract.reports);
         }
     }
 
-    async addExpense(addExpenseDto: AddExpenseDto) {
-        const { userId, value, paid } = addExpenseDto;
+    async addExpense(addOperationDto: AddOperationDto) {
+        const { userId, value, executed, type } = addOperationDto;
 
         const userToAddExpense = await this.findUser(userId);
         const userOperation = userToAddExpense as UserOperation;
         const newValue = Number(value);
 
         const newOperation = {
-            type: OperationType.EXPENSE,
+            type,
+            executed,
             value: newValue,
             user: userOperation,
-            executed: paid
         } as Operation;
 
         const { balance } = userToAddExpense;
         let newBalance = balance ? balance : 0;
 
-        if (paid) {
+        if (executed && type == OperationType.EXPENSE) {
             newBalance -= newValue;
+        }
+
+        if (executed && type == OperationType.RECIPE) {
+            newBalance += newValue;
         }
 
         await this._operationRepository.add(newOperation)
@@ -70,9 +75,9 @@ export class AddExpenseHandler implements IAddExpenseHandler {
 
     private async findUser(userId: string) {
         const userFound = await this._userRepository.getById(userId);
-        
-        if (!userFound) {            
-            throw new ValidationFailedError('fail to add expense', { name: 'user', message: 'non-existent user' });
+
+        if (!userFound) {
+            throw new ValidationFailedError('fail to add operation', { name: 'user', message: 'non-existent user' });
         }
 
         return userFound;

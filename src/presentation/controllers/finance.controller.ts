@@ -2,29 +2,29 @@ import { Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
 import { HttpStatus } from '../../infra/enums/http-status.enum';
 import { HandleResponse } from '../../infra/helper/handleResponse';
-import { IAddRecipeHandler } from '../../modules/finance/handlers/add-recipe-handler.interface';
-import FinanceTypes from '../../modules/finance/types/finance.types';
-import { AddExpenseHandler } from '../../modules/finance/handlers/add-expense.handler';
 import { IAddExpenseHandler } from '../../modules/finance/handlers/add-expense-handler.interface';
+import { IAddOperationHandler } from '../../modules/finance/handlers/add-operation-handler.interface';
 import { IGetUserOperationsHandler } from '../../modules/finance/handlers/get-user-operations-handler.interface';
-import SharedTypes from '../../modules/shared/types/shared.types';
+import FinanceTypes from '../../modules/finance/types/finance.types';
 import { IAuthService } from '../../modules/shared/services/auth-service.interface';
+import SharedTypes from '../../modules/shared/types/shared.types';
 
 @injectable()
 export class FinanceController {
     private _getUserOperations: IGetUserOperationsHandler;
-    private _addRecipeHandler: IAddRecipeHandler;
+    private _addOperationHandler: IAddOperationHandler;    
     private _addExpenseHandler: IAddExpenseHandler;
     private _authService: IAuthService;
 
     constructor(
         @inject(FinanceTypes.GetUserOperationsHandler) getUserOperations: IGetUserOperationsHandler,
-        @inject(FinanceTypes.AddRecipeHandler) addRecipeHandler: IAddRecipeHandler,
+        @inject(FinanceTypes.AddOperationHandler) addOperationHandler: IAddOperationHandler,        
         @inject(FinanceTypes.AddExpenseHandler) addExpenseHandler: IAddExpenseHandler,
         @inject(SharedTypes.AuthService) authService: IAuthService
     ) {
         this._getUserOperations = getUserOperations;
-        this._addRecipeHandler = addRecipeHandler;
+        this._addOperationHandler = addOperationHandler;
+        
         this._addExpenseHandler = addExpenseHandler;
         this._authService = authService;
     }
@@ -42,7 +42,7 @@ export class FinanceController {
 
     public async addRecipe(request: Request, response: Response) {
         try {
-            const result = await this._addRecipeHandler.handle(request.body);
+            const result = await this._addOperationHandler.handle(request.body);
             return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
         } catch (error) {
             return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);

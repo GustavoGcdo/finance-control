@@ -1,6 +1,6 @@
 const FinanceTypes = {
   GetUserOperationsHandler: Symbol.for('GetUserOperationsHandler'),
-  AddRecipeHandler: Symbol.for('AddRecipeHandler'),
+  AddOperationHandler: Symbol.for('AddOperationHandler'),  
   AddExpenseHandler: Symbol.for('AddExpenseHandler'),
   OperationRepository: Symbol.for('OperationRepository'),
 };

@@ -8,4 +8,6 @@ export interface Operation {
     value: number;
     date: Date;
     executed: boolean;
+    category: string;
+    description: string;
 }

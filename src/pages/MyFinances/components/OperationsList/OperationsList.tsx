@@ -39,12 +39,12 @@ const OperationsList: React.FC<OperationListProps> = ({ operationList }) => {
                     : 'arrow_downward'}
                 </Icon>
               </td>
-              <td className="description">DESCRICAO</td>
+              <td className="description">{operation.description}</td>
               <td>
                 R$ {operation.type === OperationType.EXPENSE && '-'}
                 {operation.value}
               </td>
-              <td>CATEGORIA</td>
+              <td>{operation.category?.name}</td>
               <td>{operation.date}</td>
             </tr>
           ))}

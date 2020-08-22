@@ -28,7 +28,7 @@ const Signup: React.FC<RouteComponentProps> = ({ history }) => {
   const handleErrors = (resultError: Result) => {
     console.log(resultError);
 
-    if (resultError.errors) {
+    if (resultError && resultError.errors) {
       const errors = resultError.errors;
       const errorMessagesServer = ErrorHandler.getErrorMessagesByName(
         errors,

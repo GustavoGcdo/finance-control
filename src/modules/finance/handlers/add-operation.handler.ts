@@ -53,7 +53,7 @@ export class AddOperationHandler implements IAddOperationHandler {
 
         const newOperation = {
             type,
-            executed,
+            executed: executed ? executed : false,
             value: newValue,
             user: userOperation,
         } as Operation;

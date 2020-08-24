@@ -73,7 +73,7 @@ export class GetUserExtractHandler implements IGetUserExtractHandler {
 
     private sumOperationsByType(operations: Operation[], type: OperationType): number {
         return operations
-            .filter(operation => operation.type === type)
+            .filter(operation => operation.type === type && operation.executed)
             .map(o => o.value)
             .reduce((acum, item) => item + acum, 0)
     }

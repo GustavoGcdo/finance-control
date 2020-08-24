@@ -8,6 +8,7 @@ import FinanceTypes from '../../modules/finance/types/finance.types';
 import { IAuthService } from '../../modules/shared/services/auth-service.interface';
 import SharedTypes from '../../modules/shared/types/shared.types';
 import { IGetUserExtractHandler } from '../../modules/finance/handlers/get-user-extract-handler.interface';
+import { AddOperationDto } from '../../modules/finance/dtos/add-operation.dto';
 
 @injectable()
 export class FinanceController {
@@ -38,7 +39,7 @@ export class FinanceController {
             return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);
         }
     }
-    
+
     public async getUserExtract(request: Request, response: Response) {
         try {
             const token = request.headers['authorization'];
@@ -52,7 +53,13 @@ export class FinanceController {
 
     public async addOperation(request: Request, response: Response) {
         try {
-            const result = await this._addOperationHandler.handle(request.body);
+            const token = request.headers['authorization'];
+            const data = await this._authService.verifyToken(token || '');
+            const addOperationDto: AddOperationDto = {
+                ...request.body,
+                userId: data._id
+            }
+            const result = await this._addOperationHandler.handle(addOperationDto);
             return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
         } catch (error) {
             return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);

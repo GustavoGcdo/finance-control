@@ -45,8 +45,8 @@ export class GetUserExtractHandler implements IGetUserExtractHandler {
         const userFound = await this.findUser(userId);
         const userOperations = await this._operationRepository.get(userFound._id);
 
-        const totalRecipes = this.sumOperationsByType(userOperations, OperationType.RECIPE);
-        const totalExpenses = this.sumOperationsByType(userOperations, OperationType.EXPENSE);
+        const totalRecipes = this.sumExecutedOperationsByType(userOperations, OperationType.RECIPE);
+        const totalExpenses = this.sumExecutedOperationsByType(userOperations, OperationType.EXPENSE);
 
         const userExtract =
         {
@@ -71,7 +71,7 @@ export class GetUserExtractHandler implements IGetUserExtractHandler {
         return userFound;
     }
 
-    private sumOperationsByType(operations: Operation[], type: OperationType): number {
+    private sumExecutedOperationsByType(operations: Operation[], type: OperationType): number {
         return operations
             .filter(operation => operation.type === type && operation.executed)
             .map(o => o.value)

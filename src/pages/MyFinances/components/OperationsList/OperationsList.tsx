@@ -9,8 +9,7 @@ type OperationListProps = {
 };
 
 const OperationsList: React.FC<OperationListProps> = ({ operationList }) => {
-  console.log(operationList);
-
+  
   return (
     <div className="operations-list-container">
       <table className="table-operations">
@@ -39,13 +38,13 @@ const OperationsList: React.FC<OperationListProps> = ({ operationList }) => {
                     : 'arrow_downward'}
                 </Icon>
               </td>
-              <td className="description">{operation.description}</td>
+              <td className="description">DESCRICAO DO LANCAMENTO</td>
               <td>
                 R$ {operation.type === OperationType.EXPENSE && '-'}
                 {operation.value}
               </td>
-              <td>{operation.category?.name}</td>
-              <td>{operation.date}</td>
+              <td>CETEGORIA</td>
+              <td>22/08/2020</td>
             </tr>
           ))}
         </tbody>

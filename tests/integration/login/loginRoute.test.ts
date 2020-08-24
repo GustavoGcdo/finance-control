@@ -1,30 +1,12 @@
+import { Application } from 'express';
 import request from 'supertest';
 import { App } from '../../../src/app';
-import { Application } from 'express';
 import { HttpStatus } from '../../../src/infra/enums/http-status.enum';
-import DIContainer from '../../../src/di-container';
-import { ISignupHandler } from '../../../src/modules/login/handlers/signup-handler.interface';
-import LoginTypes from '../../../src/modules/login/types/login.types';
-import { User } from '../../../src/modules/users/models/user';
-import { SignupDto } from '../../../src/modules/login/dtos/signup.dto';
+import { createValidUser, validUser } from '../../helpers/user-functions-default';
 
 describe('Login Controller', () => {
     let expressAplication: Application;
     let app: App;
-    let userToTest: User;
-
-    const validUser: SignupDto = {
-        name: 'Gustavo',
-        email: 'gustavo.gcdo@gmail.com',
-        password: 'senha123',
-        confirmPassword: 'senha123'
-    };
-
-    async function createValidUser() {
-        const signupHandler = DIContainer.get<ISignupHandler>(LoginTypes.SignupHandler);
-        const result = await signupHandler.handle(validUser);
-        userToTest = result.data;
-    }
 
     beforeAll(async () => {
         app = new App();

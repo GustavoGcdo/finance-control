@@ -29,7 +29,6 @@ describe('Add Recipe a User', () => {
             .set('Authorization', 'Bearer ' + tokenToTest);
 
         const { status, body } = result;
-        
         expect(status).toBe(HttpStatus.SUCCESS);
         expect(body.data).toBeDefined();
         expect(body.data).toHaveProperty('name');
@@ -37,8 +36,6 @@ describe('Add Recipe a User', () => {
         expect(body.data).toHaveProperty('balance');
         expect(body.data).toHaveProperty('totalRecipes');
         expect(body.data).toHaveProperty('totalExpenses');
-            
-
     });
 
 });

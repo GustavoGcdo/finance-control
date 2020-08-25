@@ -39,14 +39,12 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   const signIn = async (loginDto: LoginDto) => {
     const response = await authService.signIn(loginDto);
-    console.log(response);
-
     const { data } = response;
     const { token } = data;
 
-    setUser(loginDto);
     saveInLocalStorage(loginDto.email, token);
     setDefaulHeaderToken(token);
+    setUser(loginDto);
   };
 
   const signOut = () => {

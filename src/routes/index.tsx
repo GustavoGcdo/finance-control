@@ -1,9 +1,9 @@
 import React from 'react';
 import Loading from '../components/Loading/Loading';
 import { useAuth } from '../contexts/auth.context';
+import MainLayout from '../layouts/MainLayout/MainLayout';
 import AppRoutes from './app.routes';
 import AuthRoutes from './auth.routes';
-import MainLayout from '../layouts/MainLayout/MainLayout';
 
 const Routes: React.FC = () => {
   const { signed, loading } = useAuth();

@@ -33,6 +33,18 @@
     }
   }
 
+  .box.recipes {
+    border: 2px solid #72d762;
+  }
+
+  .box.expenses {
+    border: 2px solid #fd5858;
+  }
+
+  .box.balance {
+    border: 2px solid #f1b317;
+  }
+
   .recipes,
   .expenses,
   .balance {

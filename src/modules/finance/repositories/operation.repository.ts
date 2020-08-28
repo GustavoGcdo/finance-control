@@ -7,7 +7,7 @@ import { injectable } from 'inversify';
 export class OperationRepository implements IOperationRepository {
 
     async get(userId: string): Promise<Operation[]> {
-        const documentsOperations = await OperationModel.find({ 'user._id': userId });
+        const documentsOperations = await OperationModel.find({ 'user._id': userId }).sort({createdAt: -1});
         const operations = documentsOperations.map(o => o.toObject());
         return operations;
     }

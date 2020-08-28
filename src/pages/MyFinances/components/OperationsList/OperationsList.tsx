@@ -29,8 +29,7 @@ const OperationsList: React.FC<OperationListProps> = ({ operationList }) => {
   };
 
   const formatOperationValue = (value: number, type: OperationType) => {
-    let formatedValue = `${type === OperationType.EXPENSE ? '-' : ''}`;
-    formatedValue += formatCurrency(value);
+    const formatedValue = `${type === OperationType.EXPENSE ? '-' : ''} ${formatCurrency(value)}`;    
     return formatedValue;
   };
 

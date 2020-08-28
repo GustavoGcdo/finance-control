@@ -1,5 +1,4 @@
 import { Application } from 'express';
-import { Types } from 'mongoose';
 import request from 'supertest';
 import { App } from '../../../src/app';
 import { HttpStatus } from '../../../src/infra/enums/http-status.enum';
@@ -23,23 +22,60 @@ describe('Add Recipe a User', () => {
         await app.disconnect();
     });
 
-    it('POST - must return success when trying to add recipe to a valid user', async () => {
-        const { userToTest, tokenToTest } = await createAndLoginUser();
+    it('POST - must return the correct balance amount when adding an operation of type recipe performed', async () => {
+        const { tokenToTest } = await createAndLoginUser();
+
+        const VALUE_TO_ADD = 50.0;
 
         const recipeToAdd = {
             type: 'recipe',
-            userId: userToTest._id,
-            value: 50.0
+            value: VALUE_TO_ADD,
+            executed: true,
         } as AddOperationDto;
 
-        const result = await request(expressAplication)
+        const resultAddRecipe = await request(expressAplication)
             .post(`/finance/operations`)
             .send(recipeToAdd)
             .set('Authorization', 'Bearer ' + tokenToTest);
 
-        expect(result.status).toEqual(HttpStatus.SUCCESS);
-        expect(result.body.message).toEqual('operation added successfully');
-        expect(result.body.success).toBeTruthy();
+        expect(resultAddRecipe.status).toEqual(HttpStatus.SUCCESS);
+        expect(resultAddRecipe.body.message).toEqual('operation added successfully');
+        expect(resultAddRecipe.body.success).toBeTruthy();
+
+        const resultExtract = await request(expressAplication)
+            .get(`/finance/extract`)
+            .set('Authorization', 'Bearer ' + tokenToTest);
+
+        expect(resultExtract.status).toEqual(HttpStatus.SUCCESS);
+        expect(resultExtract.body.data.balance).toBe(VALUE_TO_ADD);
     });
-   
+
+    it('POST - must return the correct balance amount when adding an operation of type recipe not performed', async () => {
+        const { tokenToTest } = await createAndLoginUser();
+
+        const VALUE_TO_ADD = 50.0;
+        const recipeToAdd = {
+            type: 'recipe',
+            value: VALUE_TO_ADD,
+            executed: false,
+        } as AddOperationDto;
+
+        const resultAddRecipe = await request(expressAplication)
+            .post(`/finance/operations`)
+            .send(recipeToAdd)
+            .set('Authorization', 'Bearer ' + tokenToTest);
+
+        expect(resultAddRecipe.status).toEqual(HttpStatus.SUCCESS);
+        expect(resultAddRecipe.body.message).toEqual('operation added successfully');
+        expect(resultAddRecipe.body.success).toBeTruthy();
+
+        const resultExtract = await request(expressAplication)
+            .get(`/finance/extract`)
+            .set('Authorization', 'Bearer ' + tokenToTest);
+
+        const EXPECTED_VALUE_BALANCE = 0;
+        expect(resultExtract.status).toEqual(HttpStatus.SUCCESS);
+        expect(resultExtract.body.data.balance).toBe(EXPECTED_VALUE_BALANCE);
+    });
+
 });

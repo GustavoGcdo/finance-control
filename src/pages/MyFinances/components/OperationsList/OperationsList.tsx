@@ -29,7 +29,9 @@ const OperationsList: React.FC<OperationListProps> = ({ operationList }) => {
   };
 
   const formatOperationValue = (value: number, type: OperationType) => {
-    const formatedValue = `${type === OperationType.EXPENSE ? '-' : ''} ${formatCurrency(value)}`;    
+    const formatedValue = `${
+      type === OperationType.EXPENSE ? '-' : ''
+    } ${formatCurrency(value)}`;
     return formatedValue;
   };
 
@@ -57,9 +59,11 @@ const OperationsList: React.FC<OperationListProps> = ({ operationList }) => {
           ))}
 
           {operationList.length === 0 && (
-            <td className="not-results" colSpan={5}>
-              Ops.. não há lançamentos aqui
-            </td>
+            <tr>
+              <td className="not-results" colSpan={5}>
+                Ops.. não há lançamentos aqui
+              </td>
+            </tr>
           )}
         </tbody>
       </table>

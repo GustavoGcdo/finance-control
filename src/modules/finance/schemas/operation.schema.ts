@@ -12,6 +12,7 @@ const schema = new Schema(
         executed: Boolean,
         category: String,
         description: String,
+        date: Date,
     },
     {
         timestamps: true,

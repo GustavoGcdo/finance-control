@@ -5,4 +5,5 @@ export interface AddOperationDto {
   executed: boolean;
   description: string;
   category: string;
+  date: string;
 }

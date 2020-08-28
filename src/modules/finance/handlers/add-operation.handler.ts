@@ -45,7 +45,7 @@ export class AddOperationHandler implements IAddOperationHandler {
     }
 
     async addOperation(addOperationDto: AddOperationDto) {
-        const { userId, value, executed, type, ...rest } = addOperationDto;
+        const { userId, value, executed, type, date, ...rest } = addOperationDto;
 
         const userToAddOperation = await this.findUser(userId);
         const userOperation = userToAddOperation as UserOperation;
@@ -53,10 +53,11 @@ export class AddOperationHandler implements IAddOperationHandler {
 
         const newOperation = {
             type,
-            ...rest,
             value: newValue,
             user: userOperation,
-            executed: executed ? executed : false
+            date: new Date(date),
+            executed: executed ? executed : false,
+            ...rest,
         } as Operation;
 
         const { balance } = userToAddOperation;

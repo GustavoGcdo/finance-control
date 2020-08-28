@@ -67,15 +67,10 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose }) => {
       aria-labelledby="simple-dialog-title"
       open={open}
     >
-      <DialogTitle id="simple-dialog-title">Cadastrar Lançamento</DialogTitle>
+      <DialogTitle id="simple-dialog-title">Adicionar lançamento</DialogTitle>
       <DialogContent>
         <Form ref={formRef} onSubmit={handleSubmit}>
           <div className="form-add-operation">
-            <InputForm name="description" label="Descrição" />
-            <InputForm name="category" label="Categoria" />
-            <InputMaskForm name="value" label="Valor" typeMask="currency" />
-            <CheckBoxForm name="executed" label="Já está pago?" />
-
             <RadioGroupForm
               name="type"
               options={[
@@ -83,6 +78,11 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose }) => {
                 { value: OperationType.RECIPE, label: 'Entrada' },
               ]}
             />
+            <InputForm name="description" label="Descrição" />
+            <InputForm name="category" label="Categoria" />
+            <InputMaskForm name="value" label="Valor" typeMask="currency" />
+            <CheckBoxForm name="executed" label="Já está pago?" />
+
           </div>
         </Form>
 
@@ -92,7 +92,7 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
-          Cancel
+          Cancelar
         </Button>
         <Button onClick={handleConfirm} color="primary">
           Cadastrar

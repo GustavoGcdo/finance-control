@@ -4,8 +4,19 @@
 
 .operations-area {
   margin-top: 50px;
-  h2 {
+
+  .operation-header {
+    background-color: white;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;        
+    justify-content: space-between;
+    margin: 30px 0;    
+    padding: 15px;
+  }
+
+  h2 {           
     font-size: 20px;
-    margin-bottom: 30px;
+    font-weight: 300;
   }
 }

@@ -9,6 +9,16 @@ type OperationListProps = {
 };
 
 const OperationsList: React.FC<OperationListProps> = ({ operationList }) => {
+  const getIconByType = (operationType: OperationType) => {
+    switch (operationType) {
+      case OperationType.EXPENSE:
+        return <Icon color="error">arrow_downward</Icon>;
+
+      case OperationType.RECIPE:
+        return <Icon color="primary">arrow_upward</Icon>;
+    }
+  };
+
   return (
     <div className="operations-list-container">
       <table className="table-operations">
@@ -24,19 +34,7 @@ const OperationsList: React.FC<OperationListProps> = ({ operationList }) => {
         <tbody>
           {operationList.map((operation) => (
             <tr key={operation._id}>
-              <td className="operation">
-                <Icon
-                  color={
-                    operation.type === OperationType.RECIPE
-                      ? 'primary'
-                      : 'error'
-                  }
-                >
-                  {operation.type === OperationType.RECIPE
-                    ? 'arrow_upward'
-                    : 'arrow_downward'}
-                </Icon>
-              </td>
+              <td className="operation">{getIconByType(operation.type)}</td>
               <td className="description">{operation.description}</td>
               <td>
                 R$ {operation.type === OperationType.EXPENSE && '-'}
@@ -46,6 +44,10 @@ const OperationsList: React.FC<OperationListProps> = ({ operationList }) => {
               <td>--/--/----</td>
             </tr>
           ))}
+
+          {operationList.length === 0 && (
+            <td className="not-results" colSpan={5}>Ops.. não há lançamentos aqui</td>
+          )}
         </tbody>
       </table>
     </div>

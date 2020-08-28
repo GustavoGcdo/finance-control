@@ -40,7 +40,8 @@
   }
 
   tbody td {
-    padding: 15px;
+    padding: 15px;    
+    vertical-align: middle;    
   }
 
   th.description,
@@ -50,5 +51,14 @@
 
   tbody td.operation {
     width: 60px;
+  }
+
+  td.not-results {
+    padding: 20px;
+    font-weight: 500;
+    font-size: 17px;
+    background: #eaeaea;
+    border-radius: 6px;
+    color: #909090;
   }
 }

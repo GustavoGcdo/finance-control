@@ -56,9 +56,9 @@ const MyFinances: React.FC = () => {
       </div>
 
       <div className="operations-area">
-        <div>
+        <div className="operation-header">
           <h2>Meus lançamentos</h2>
-          <Button onClick={handleOpenDialog}>Adicionar lançamento</Button>
+          <Button variant="contained" color="primary" disableElevation onClick={handleOpenDialog}>Adicionar lançamento</Button>
         </div>
         <OperationsList operationList={operationsList} />
       </div>

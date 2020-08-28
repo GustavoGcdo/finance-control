@@ -55,7 +55,7 @@ export class AddOperationHandler implements IAddOperationHandler {
             type,
             value: newValue,
             user: userOperation,
-            date: new Date(date),
+            date: date ? new Date(date) : null,
             executed: executed ? executed : false,
             ...rest,
         } as Operation;

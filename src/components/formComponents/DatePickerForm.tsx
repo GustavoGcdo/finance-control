@@ -1,5 +1,5 @@
-import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
+import ptBrLocale from "date-fns/locale/pt-BR";
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { useField } from '@unform/core';
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
@@ -33,7 +33,7 @@ const DatePickerForm: FunctionComponent<DatePickerProps> = ({ name, label, ...re
   }, [fieldName, registerField, selectedDate]);
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBrLocale}>
       <KeyboardDatePicker
         disableToolbar
         defaultValue={defaultValue}

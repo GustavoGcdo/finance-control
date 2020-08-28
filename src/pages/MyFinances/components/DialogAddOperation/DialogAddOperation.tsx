@@ -8,6 +8,7 @@ import { Form } from '@unform/web';
 import React, { useRef, useState } from 'react';
 import AlertErrorMessage from '../../../../components/AlertErrorMessage/AlertErrorMessage';
 import CheckBoxForm from '../../../../components/formComponents/CheckboxForm';
+import DatePickerForm from '../../../../components/formComponents/DatePickerForm';
 import InputForm from '../../../../components/formComponents/InputForm';
 import InputMaskForm from '../../../../components/formComponents/InputMaskForm';
 import RadioGroupForm from '../../../../components/formComponents/RadioGroupForm';
@@ -81,6 +82,7 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose }) => {
             <InputForm name="description" label="Descrição" />
             <InputForm name="category" label="Categoria" />
             <InputMaskForm name="value" label="Valor" typeMask="currency" />
+            <DatePickerForm name="date" label="Data"/>
             <CheckBoxForm name="executed" label="Já está pago?" />
 
           </div>

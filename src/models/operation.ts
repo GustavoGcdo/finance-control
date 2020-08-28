@@ -6,8 +6,8 @@ export interface Operation {
     user: UserOperation;
     type: OperationType;
     value: number;
-    date: Date;
+    date: string;
     executed: boolean;
     category: string;
-    description: string;
+    description: string;    
 }

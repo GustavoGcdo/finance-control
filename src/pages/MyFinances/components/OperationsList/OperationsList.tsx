@@ -19,6 +19,14 @@ const OperationsList: React.FC<OperationListProps> = ({ operationList }) => {
     }
   };
 
+  const formatDateString = (dateString: string) => {
+    const date = new Date(dateString).toLocaleDateString();
+    if (date === 'Invalid Date') {
+      return '--/--/----';
+    }
+    return date;
+  };
+
   return (
     <div className="operations-list-container">
       <table className="table-operations">
@@ -41,12 +49,14 @@ const OperationsList: React.FC<OperationListProps> = ({ operationList }) => {
                 {operation.value}
               </td>
               <td>{operation.category}</td>
-              <td>--/--/----</td>
+              <td>{formatDateString(operation.date)}</td>
             </tr>
           ))}
 
           {operationList.length === 0 && (
-            <td className="not-results" colSpan={5}>Ops.. não há lançamentos aqui</td>
+            <td className="not-results" colSpan={5}>
+              Ops.. não há lançamentos aqui
+            </td>
           )}
         </tbody>
       </table>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatCurrency } from '../../../../infra/formatCurrency';
 import { UserExtract } from '../../../../models/user-extract';
 import './PersonInfo.scss';
 
@@ -15,15 +16,19 @@ const PersonInfo: React.FC<PersonInfoProps> = ({ userExtract }) => {
       </div>
       <div className="box recipes">
         <span className="title">Entradas</span>
-        <span className="value">R$ {userExtract.totalRecipes}</span>
+        <span className="value">
+          {formatCurrency(userExtract.totalRecipes)}
+        </span>
       </div>
       <div className="box expenses">
         <span className="title">Saidas</span>
-        <span className="value">R$ {userExtract.totalExpenses}</span>
+        <span className="value">
+          {formatCurrency(userExtract.totalExpenses)}
+        </span>
       </div>
       <div className="box balance">
         <span className="title">Saldo atual</span>
-        <span className="value">R$ {userExtract.balance}</span>
+        <span className="value">{formatCurrency(userExtract.balance)}</span>
       </div>
     </div>
   );

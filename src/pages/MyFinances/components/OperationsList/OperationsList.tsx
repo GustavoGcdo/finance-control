@@ -3,6 +3,7 @@ import './OperationsList.scss';
 import Icon from '@material-ui/core/Icon';
 import { Operation } from '../../../../models/operation';
 import { OperationType } from '../../../../models/enums/operation-type.enum';
+import { formatCurrency } from '../../../../infra/formatCurrency';
 
 type OperationListProps = {
   operationList: Operation[];
@@ -27,6 +28,12 @@ const OperationsList: React.FC<OperationListProps> = ({ operationList }) => {
     return date;
   };
 
+  const formatOperationValue = (value: number, type: OperationType) => {
+    let formatedValue = `${type === OperationType.EXPENSE && '-'}`;    
+    formatedValue += formatCurrency(value);
+    return formatedValue;
+  };
+
   return (
     <div className="operations-list-container">
       <table className="table-operations">
@@ -44,10 +51,7 @@ const OperationsList: React.FC<OperationListProps> = ({ operationList }) => {
             <tr key={operation._id}>
               <td className="operation">{getIconByType(operation.type)}</td>
               <td className="description">{operation.description}</td>
-              <td>
-                R$ {operation.type === OperationType.EXPENSE && '-'}
-                {operation.value}
-              </td>
+              <td>{formatOperationValue(operation.value, operation.type)}</td>
               <td>{operation.category}</td>
               <td>{formatDateString(operation.date)}</td>
             </tr>

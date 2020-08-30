@@ -7,7 +7,7 @@ import {
 import AppLoading from 'expo/build/launch/AppLoading';
 import React from 'react';
 import { StatusBar } from 'react-native';
-import Home from './src/pages/Home/index';
+import Routes from './src/routes';
 
 export default function App() {
   const [fontLoaded] = useFonts({
@@ -28,7 +28,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      <Home />
+      <Routes />
     </>
   );
 }

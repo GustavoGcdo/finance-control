@@ -1,25 +1,26 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {
-  Button,
-  StatusBar,
   StyleSheet,
   Text,
   TextInput,
-  View,
+  View
 } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 
 const Home = () => {
+  const navigation = useNavigation();
+
   const handleLogin = () => {
-    console.log('clicou em ');
+    navigation.navigate('MyFinances');
   };
+  
+  const handleNavigateToSignup = () => {
+    navigation.navigate('Signup');
+  };
+
   return (
     <>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor="transparent"
-        translucent
-      />
       <View style={styles.container}>
         <Text style={styles.title}>Login</Text>
         <TextInput
@@ -35,7 +36,7 @@ const Home = () => {
           secureTextEntry
         />
 
-        <RectButton style={styles.button} onPress={() => {}}>
+        <RectButton style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>ENTRAR</Text>
         </RectButton>
 
@@ -43,7 +44,7 @@ const Home = () => {
 
         <View style={styles.register}>
           <Text style={styles.registerText}>Não tem conta?</Text>
-          <RectButton style={styles.registerButton} onPress={() => {}}>
+          <RectButton style={styles.registerButton} onPress={handleNavigateToSignup}>
             <Text style={styles.registerButtonText}>Registrar-se</Text>
           </RectButton>
         </View>
@@ -59,7 +60,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     justifyContent: 'center',
-    // alignItems: 'center',
     padding: 28,
   },
   title: {

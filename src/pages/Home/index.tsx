@@ -7,6 +7,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
 
 const Home = () => {
   const handleLogin = () => {
@@ -20,7 +21,7 @@ const Home = () => {
         translucent
       />
       <View style={styles.container}>
-        <Text style={styles.title}>Entrar</Text>
+        <Text style={styles.title}>Login</Text>
         <TextInput
           style={styles.input}
           placeholder="E-mail"
@@ -34,8 +35,17 @@ const Home = () => {
           secureTextEntry
         />
 
-        <View style={styles.button}>
-          <Button color="#73D762" title="Entrar" onPress={handleLogin} />
+        <RectButton style={styles.button} onPress={() => {}}>
+          <Text style={styles.buttonText}>ENTRAR</Text>
+        </RectButton>
+
+        <View style={styles.divider} />
+
+        <View style={styles.register}>
+          <Text style={styles.registerText}>Não tem conta?</Text>
+          <RectButton style={styles.registerButton} onPress={() => {}}>
+            <Text style={styles.registerButtonText}>Registrar-se</Text>
+          </RectButton>
         </View>
       </View>
     </>
@@ -49,14 +59,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     justifyContent: 'center',
+    // alignItems: 'center',
     padding: 28,
   },
-  title: {    
+  title: {
     fontSize: 18,
     marginBottom: 26,
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontFamily: 'Montserrat_500Medium'
+    alignSelf: 'flex-start',
+    fontFamily: 'Montserrat_500Medium',
   },
   input: {
     padding: 10,
@@ -69,9 +79,48 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat_400Regular',
     marginBottom: 15,
   },
-  button: {    
-    marginTop: 10,
+  button: {
+    backgroundColor: '#73D762',
+    marginTop: 5,
+    padding: 15,
+    borderRadius: 3,
     alignSelf: 'flex-end',
     width: '100%',
+  },
+  buttonText: {
+    fontFamily: 'Montserrat_500Medium',
+    color: '#fff',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  divider: {
+    marginTop: 30,
+    marginBottom: 20,
+    borderWidth: 0.9,
+    borderColor: '#e6e6e6',
+    width: '80%',
+    alignSelf: 'center',
+  },
+  register: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+  },
+  registerText: {
+    fontFamily: 'Montserrat_400Regular',
+    paddingVertical: 5,
+    fontSize: 16,
+  },
+  registerButton: {
+    marginLeft: 5,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+    borderRadius: 3,
+  },
+  registerButtonText: {
+    fontFamily: 'Montserrat_500Medium',
+    fontSize: 16,
+    marginLeft: 5,
+    fontWeight: 'bold',
+    color: '#73D762',
   },
 });

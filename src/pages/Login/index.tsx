@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 
-const Home = () => {
+const Login = () => {
   const navigation = useNavigation();
 
   const handleLogin = () => {
@@ -53,7 +53,7 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Login;
 
 const styles = StyleSheet.create({
   container: {

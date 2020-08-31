@@ -1,20 +1,21 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View
-} from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
+import { useAuth } from '../../contexts/auth.context';
 
 const Login = () => {
+  const { signIn } = useAuth();
   const navigation = useNavigation();
 
   const handleLogin = () => {
-    navigation.navigate('MyFinances');
+    signIn({ email: 'gustavo@email.com', password: 'senha123' }).catch(
+      (resultError) => {
+        console.log(resultError);
+      }
+    );
   };
-  
+
   const handleNavigateToSignup = () => {
     navigation.navigate('Signup');
   };
@@ -44,7 +45,10 @@ const Login = () => {
 
         <View style={styles.register}>
           <Text style={styles.registerText}>Não tem conta?</Text>
-          <RectButton style={styles.registerButton} onPress={handleNavigateToSignup}>
+          <RectButton
+            style={styles.registerButton}
+            onPress={handleNavigateToSignup}
+          >
             <Text style={styles.registerButtonText}>Registrar-se</Text>
           </RectButton>
         </View>

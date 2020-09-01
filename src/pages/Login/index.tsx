@@ -1,15 +1,24 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import { FormHandles } from '@unform/core';
+import { Form } from '@unform/mobile';
+import React, { useRef } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
+import InputForm from '../../components/formComponents/InputForm';
 import { useAuth } from '../../contexts/auth.context';
+import { LoginDto } from '../../models/dtos/login.dto';
 
 const Login = () => {
+  const formRef = useRef<FormHandles>(null);
   const { signIn } = useAuth();
   const navigation = useNavigation();
 
-  const handleLogin = () => {
-    signIn({ email: 'gustavo@email.com', password: 'senha123' }).catch(
+  const handleSubmit = (formData: LoginDto) => {
+    handleLogin(formData);
+  };
+
+  const handleLogin = (loginDto: LoginDto) => {
+    signIn(loginDto).catch(
       (resultError) => {
         console.log(resultError);
       }
@@ -24,22 +33,30 @@ const Login = () => {
     <>
       <View style={styles.container}>
         <Text style={styles.title}>Login</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="E-mail"
-          keyboardType="email-address"
-          importantForAutofill="no"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Senha"
-          autoCompleteType="password"
-          secureTextEntry
-        />
+        <Form ref={formRef} onSubmit={handleSubmit}>
+          <InputForm
+            name="email"
+            style={styles.input}
+            placeholder="E-mail"
+            keyboardType="email-address"
+            importantForAutofill="no"
+          />
 
-        <RectButton style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>ENTRAR</Text>
-        </RectButton>
+          <InputForm
+            name="password"
+            style={styles.input}
+            placeholder="Senha"
+            autoCompleteType="password"
+            secureTextEntry
+          />
+
+          <RectButton
+            style={styles.button}
+            onPress={() => formRef.current?.submitForm()}
+          >
+            <Text style={styles.buttonText}>ENTRAR</Text>
+          </RectButton>
+        </Form>
 
         <View style={styles.divider} />
 

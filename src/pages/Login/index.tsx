@@ -1,14 +1,19 @@
 import { useNavigation } from '@react-navigation/native';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/mobile';
-import React, { useRef } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
+import { Snackbar } from 'react-native-paper';
+import AlertErrorMessage from '../../components/AlertErrorMessage/AlertErrorMessage';
 import InputForm from '../../components/formComponents/InputForm';
 import { useAuth } from '../../contexts/auth.context';
+import { ErrorHandler } from '../../infra/errorHandler';
+import { Result } from '../../infra/models/result';
 import { LoginDto } from '../../models/dtos/login.dto';
 
 const Login = () => {
+  const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const formRef = useRef<FormHandles>(null);
   const { signIn } = useAuth();
   const navigation = useNavigation();
@@ -17,12 +22,27 @@ const Login = () => {
     handleLogin(formData);
   };
 
-  const handleLogin = (loginDto: LoginDto) => {
-    signIn(loginDto).catch(
-      (resultError) => {
-        console.log(resultError);
-      }
-    );
+  const handleLogin = async (loginDto: LoginDto) => {
+    setErrorMessages([]);
+    signIn(loginDto).catch((resultError) => {
+      handleErrors(resultError.response?.data);
+    });
+  };
+
+  const handleErrors = (resultError: Result) => {
+    if (resultError && resultError.errors) {
+      const errors = resultError.errors;
+      const fieldErrors = ErrorHandler.getFieldErrors(errors);
+      formRef.current?.setErrors(fieldErrors);
+
+      const errorMessagesServer = ErrorHandler.getErrorMessagesByName(
+        errors,
+        'login'
+      );
+      setErrorMessages(errorMessagesServer);
+    } else {
+      setErrorMessages(['Falha ao se conectar ao servidor']);
+    }
   };
 
   const handleNavigateToSignup = () => {
@@ -33,10 +53,15 @@ const Login = () => {
     <>
       <View style={styles.container}>
         <Text style={styles.title}>Login</Text>
+        <View>
+          {errorMessages.map((error: string, index: number) => (
+            <AlertErrorMessage key={index} message={error} />
+          ))}
+        </View>
         <Form ref={formRef} onSubmit={handleSubmit}>
           <InputForm
             name="email"
-            style={styles.input}
+            label="E-mail"
             placeholder="E-mail"
             keyboardType="email-address"
             importantForAutofill="no"
@@ -44,7 +69,7 @@ const Login = () => {
 
           <InputForm
             name="password"
-            style={styles.input}
+            label="Senha"
             placeholder="Senha"
             autoCompleteType="password"
             secureTextEntry
@@ -89,17 +114,6 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     fontFamily: 'Montserrat_500Medium',
   },
-  input: {
-    padding: 10,
-    fontSize: 16,
-    backgroundColor: '#fff',
-    width: '100%',
-    borderRadius: 3,
-    borderWidth: 1,
-    borderColor: '#73D762',
-    fontFamily: 'Montserrat_400Regular',
-    marginBottom: 15,
-  },
   button: {
     backgroundColor: '#73D762',
     marginTop: 5,
@@ -143,5 +157,9 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontWeight: 'bold',
     color: '#73D762',
+  },
+  snackbar: {
+    width: '100%',
+    alignSelf: 'center',
   },
 });

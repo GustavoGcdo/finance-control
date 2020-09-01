@@ -3,13 +3,25 @@ import {
   Montserrat_400Regular,
   Montserrat_500Medium,
   Montserrat_600SemiBold,
-  useFonts,
+  useFonts
 } from '@expo-google-fonts/montserrat';
 import AppLoading from 'expo/build/launch/AppLoading';
 import React from 'react';
 import { StatusBar } from 'react-native';
-import Routes from './src/routes';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { AuthProvider } from './src/contexts/auth.context';
+import Routes from './src/routes';
+
+const theme = {
+  ...DefaultTheme,
+  roundness: 2,
+  colors: {
+    ...DefaultTheme.colors,
+    error: '#ff4545',
+    primary: '#73D762',
+    accent: '#73D762',
+  },
+};
 
 export default function App() {
   const [fontLoaded] = useFonts({
@@ -31,7 +43,9 @@ export default function App() {
           backgroundColor="transparent"
           translucent
         />
-        <Routes />
+        <PaperProvider theme={theme}>
+          <Routes />
+        </PaperProvider>
       </AuthProvider>
     </>
   );

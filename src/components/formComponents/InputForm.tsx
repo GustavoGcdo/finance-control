@@ -1,17 +1,24 @@
 import { useField } from '@unform/core';
 import React, { useEffect, useRef } from 'react';
-import { TextInput, TextInputProps } from 'react-native';
+import { StyleSheet, Text, TextInputProps, View } from 'react-native';
+import { HelperText, TextInput } from 'react-native-paper';
 
 type InputFormProps = {
   name: string;
+  label?: string;
 };
 
 type Props = InputFormProps & TextInputProps;
 
-const InputForm: React.FC<Props> = ({ name, ...rest }) => {
+const InputForm: React.FC<Props> = ({ name, label, ...rest }) => {
   const inputRef = useRef<any>(null);
-  const { fieldName, registerField, defaultValue } = useField(name);
-  
+  const {
+    fieldName,
+    registerField,
+    defaultValue,
+    error,
+    clearError,
+  } = useField(name);
 
   useEffect(() => {
     inputRef.current.value = defaultValue;
@@ -29,22 +36,46 @@ const InputForm: React.FC<Props> = ({ name, ...rest }) => {
         ref.setNativeProps({ text: value });
         inputRef.current.value = value;
       },
-      getValue: (ref: any) => {        
+      getValue: (ref: any) => {
         return ref.value;
       },
     });
   }, [fieldName, registerField]);
   return (
-    <TextInput
-      ref={inputRef}
-      defaultValue={defaultValue}
-      onChangeText={(value) => {
-        if (inputRef.current) {
-          inputRef.current.value = value;
-        }
-      }}
-      {...rest}
-    />
+    <View style={styles.container}>
+      <TextInput
+        ref={inputRef}
+        mode="outlined"
+        label={label}
+        style={styles.input}
+        error={!!error}
+        defaultValue={defaultValue}
+        onChangeText={(value) => {
+          clearError();
+          if (inputRef.current) {
+            inputRef.current.value = value;
+          }
+        }}
+        {...rest}
+      />
+
+      <HelperText type="error" visible={!!error}>
+        {error}
+      </HelperText>
+    </View>
   );
 };
 export default InputForm;
+
+const styles = StyleSheet.create({
+  container: {
+    marginBottom: 15,
+  },
+  input: {
+    fontSize: 16,
+    backgroundColor: '#fff',
+    width: '100%',
+    fontFamily: 'Montserrat_400Regular',
+    marginBottom: 0,
+  },
+});

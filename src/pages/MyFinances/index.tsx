@@ -29,7 +29,7 @@ const MyFinances = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Minhas finanças</Text>
-        <RectButton style={styles.signOutButton} onPress={() => {}}>
+        <RectButton style={styles.signOutButton} onPress={signOut}>
           <Text style={styles.signOutText}>Sair</Text>
         </RectButton>
       </View>

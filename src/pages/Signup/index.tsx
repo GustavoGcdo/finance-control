@@ -27,12 +27,12 @@ const Signup = () => {
   const handleLogin = async (signupDtp: SignupDto) => {
     setErrorMessages([]);
     signup(signupDtp)
-    .then(() => {
-      navigation.goBack();
-    })
-    .catch((resultError) => {
-      handleErrors(resultError.response?.data);
-    });
+      .then(() => {
+        navigation.goBack();
+      })
+      .catch((resultError) => {
+        handleErrors(resultError.response?.data);
+      });
   };
 
   const handleErrors = (resultError: Result) => {
@@ -58,9 +58,12 @@ const Signup = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={handleNavigateBack}>
-          <Icon name="arrow-back" size={16} color="#73D762" />
-        </TouchableOpacity>
+        <RectButton
+          style={{ padding: 5, borderRadius: 5 }}
+          onPress={handleNavigateBack}
+        >
+          <Icon name="arrow-back" size={20} color="#73D762" />
+        </RectButton>
         <Text style={styles.title}>Cadastrar-se</Text>
       </View>
       <View>
@@ -112,16 +115,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 28,
   },
-  header: {
+  header: {    
     flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
+    alignItems: 'center',    
     marginBottom: 26,
   },
   title: {
     marginLeft: 10,
     fontSize: 18,
-    alignSelf: 'flex-start',
     fontFamily: 'Montserrat_500Medium',
   },
   button: {

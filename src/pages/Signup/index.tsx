@@ -1,18 +1,17 @@
+import { MaterialIcons as Icon } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/mobile';
 import React, { useRef, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import AlertErrorMessage from '../../components/AlertErrorMessage/AlertErrorMessage';
 import InputForm from '../../components/formComponents/InputForm';
 import { useAuth } from '../../contexts/auth.context';
 import { ErrorHandler } from '../../infra/errorHandler';
 import { Result } from '../../infra/models/result';
-import { LoginDto } from '../../models/dtos/login.dto';
-import { MaterialIcons as Icon } from '@expo/vector-icons';
-import { signup } from '../../services/auth.service';
 import { SignupDto } from '../../models/dtos/signup.dto';
+import { signup } from '../../services/auth.service';
 
 const Signup = () => {
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
@@ -113,7 +112,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     justifyContent: 'center',
-    padding: 28,
+    padding: 20,
   },
   header: {    
     flexDirection: 'row',

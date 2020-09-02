@@ -42,7 +42,7 @@ const InputForm: React.FC<Props> = ({ name, label, ...rest }) => {
     });
   }, [fieldName, registerField]);
   return (
-    <View style={styles.container}>
+    <>
       <TextInput
         ref={inputRef}
         mode="outlined"
@@ -62,20 +62,17 @@ const InputForm: React.FC<Props> = ({ name, label, ...rest }) => {
       <HelperText type="error" visible={!!error}>
         {error}
       </HelperText>
-    </View>
+    </>
   );
 };
 export default InputForm;
 
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 15,
-  },
+const styles = StyleSheet.create({  
   input: {
     fontSize: 16,
     backgroundColor: '#fff',
     width: '100%',
     fontFamily: 'Montserrat_400Regular',
-    marginBottom: 0,
+    marginVertical: 0,
   },
 });

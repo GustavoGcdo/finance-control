@@ -158,8 +158,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#73D762',
   },
-  snackbar: {
-    width: '100%',
-    alignSelf: 'center',
-  },
 });

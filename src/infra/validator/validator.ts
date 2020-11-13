@@ -45,8 +45,8 @@ export class Validator {
   }
 
   public isValidEmail(value: string, name: string, message: string) {
-    const reg = new RegExp(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
-    if (!reg.test(value)) {
+    const REGULAR_EXPRESSION = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+    if (!REGULAR_EXPRESSION.test(value)) {
       this.reports.push({ name, message });
     }
   }

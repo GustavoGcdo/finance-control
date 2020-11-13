@@ -16,8 +16,8 @@ export abstract class HandleResponse {
       .status(HttpStatus.INTERNAL_ERROR)
       .send(
         new Result(null, error.message, false, [
-          { name: 'server', message: 'internal server error' },
-        ]),
+          { name: 'server', message: 'internal server error' }
+        ])
       );
   }
 }

@@ -13,7 +13,6 @@ import { User } from '../../users/models/user';
 
 @injectable()
 export class LoginHandler implements ILoginHandler {
-
     private _userRepository: IUserRepository;
     private _encriptService: IEncriptService;
     private _authService: IAuthService;
@@ -21,42 +20,42 @@ export class LoginHandler implements ILoginHandler {
     constructor(@inject(UserTypes.UserRepository) userRepository: IUserRepository,
         @inject(SharedTypes.EncriptService) encriptService: IEncriptService,
         @inject(SharedTypes.AuthService) authService: IAuthService) {
-        this._userRepository = userRepository;
-        this._encriptService = encriptService;
-        this._authService = authService;
+      this._userRepository = userRepository;
+      this._encriptService = encriptService;
+      this._authService = authService;
     }
 
     async handle(loginDto: LoginDto): Promise<Result> {
-        this.validateContract(loginDto);
-        const user = await this.findUser(loginDto);
-        const token = await this.generateToken(user);
-        return new Result({ token }, 'user successfully logged', true, []);
+      this.validateContract(loginDto);
+      const user = await this.findUser(loginDto);
+      const token = await this.generateToken(user);
+      return new Result({ token }, 'user successfully logged', true, []);
     }
 
     private validateContract(loginDto: LoginDto) {
-        const contract = new LoginContract(loginDto);
-        const isInvalid = !contract.validate();
+      const contract = new LoginContract(loginDto);
+      const isInvalid = !contract.validate();
 
-        if (isInvalid) {
-            throw new ValidationFailedError('fail to user login', ...contract.reports);
-        }
+      if (isInvalid) {
+        throw new ValidationFailedError('fail to user login', ...contract.reports);
+      }
     }
 
     private async findUser(loginDto: LoginDto) {
-        const { email, password } = loginDto;
-        const encriptedPassword = await this._encriptService.encript(password);
+      const { email, password } = loginDto;
+      const encriptedPassword = await this._encriptService.encript(password);
 
-        const userFound = await this._userRepository.findByEmailAndPassword(email, encriptedPassword);
-        if (!userFound) {
-            throw new ValidationFailedError('fail to user login',
-                { name: 'login', message: 'invalid email or password' });
-        }
+      const userFound = await this._userRepository.findByEmailAndPassword(email, encriptedPassword);
+      if (!userFound) {
+        throw new ValidationFailedError('fail to user login',
+          { name: 'login', message: 'invalid email or password' });
+      }
 
-        return userFound;
+      return userFound;
     }
 
     private async generateToken(user: User) {
-        const token = await this._authService.generateToken(user);
-        return token;
+      const token = await this._authService.generateToken(user);
+      return token;
     }
 }

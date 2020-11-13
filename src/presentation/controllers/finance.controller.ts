@@ -23,46 +23,46 @@ export class FinanceController {
         @inject(FinanceTypes.AddOperationHandler) addOperationHandler: IAddOperationHandler,
         @inject(SharedTypes.AuthService) authService: IAuthService
     ) {
-        this._getUserOperations = getUserOperations;
-        this._getUserExtract = getUserExtract;
-        this._addOperationHandler = addOperationHandler;
-        this._authService = authService;
+      this._getUserOperations = getUserOperations;
+      this._getUserExtract = getUserExtract;
+      this._addOperationHandler = addOperationHandler;
+      this._authService = authService;
     }
 
     public async getUserOperations(request: Request, response: Response) {
-        try {
-            const token = request.headers['authorization'];
-            const data = await this._authService.verifyToken(token || '');
-            const result = await this._getUserOperations.handle({ userId: data._id });
-            return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
-        } catch (error) {
-            return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);
-        }
+      try {
+        const token = request.headers.authorization;
+        const data = await this._authService.verifyToken(token || '');
+        const result = await this._getUserOperations.handle({ userId: data._id });
+        return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
+      } catch (error) {
+        return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);
+      }
     }
 
     public async getUserExtract(request: Request, response: Response) {
-        try {
-            const token = request.headers['authorization'];
-            const data = await this._authService.verifyToken(token || '');
-            const result = await this._getUserExtract.handle({ userId: data._id });
-            return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
-        } catch (error) {
-            return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);
-        }
+      try {
+        const token = request.headers.authorization;
+        const data = await this._authService.verifyToken(token || '');
+        const result = await this._getUserExtract.handle({ userId: data._id });
+        return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
+      } catch (error) {
+        return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);
+      }
     }
 
     public async addOperation(request: Request, response: Response) {
-        try {
-            const token = request.headers['authorization'];
-            const data = await this._authService.verifyToken(token || '');
-            const addOperationDto: AddOperationDto = {
-                ...request.body,
-                userId: data._id
-            }
-            const result = await this._addOperationHandler.handle(addOperationDto);
-            return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
-        } catch (error) {
-            return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);
-        }
+      try {
+        const token = request.headers.authorization;
+        const data = await this._authService.verifyToken(token || '');
+        const addOperationDto: AddOperationDto = {
+          ...request.body,
+          userId: data._id
+        };
+        const result = await this._addOperationHandler.handle(addOperationDto);
+        return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
+      } catch (error) {
+        return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);
+      }
     }
 }

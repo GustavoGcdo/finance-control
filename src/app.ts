@@ -40,7 +40,7 @@ export class App {
   private async connectToDatabase() {
     return mongoose.connect(config.DB_URI, {
       useNewUrlParser: true,
-      useUnifiedTopology: true,
+      useUnifiedTopology: true
     });
   }
 

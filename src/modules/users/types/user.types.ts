@@ -1,5 +1,5 @@
 const UserTypes = {
-    UserRepository: Symbol.for('UserRepository'),
+  UserRepository: Symbol.for('UserRepository')
 };
 
 export default UserTypes;

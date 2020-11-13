@@ -1,5 +1,5 @@
 const InfoTypes = {
-  InfoService: Symbol.for('InfoService'),
+  InfoService: Symbol.for('InfoService')
 };
 
 export default InfoTypes;

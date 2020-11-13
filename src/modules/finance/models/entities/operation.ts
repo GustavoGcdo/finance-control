@@ -1,5 +1,4 @@
 import { OperationType } from '../enums/operation-type.enum';
-import { Category } from './category';
 import { UserOperation } from './user-operation';
 
 export interface Operation {

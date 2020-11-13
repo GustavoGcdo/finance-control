@@ -18,45 +18,45 @@ export class GetUserOperationsHandler implements IGetUserOperationsHandler {
         @inject(FinanceTypes.OperationRepository) operationRepository: IOperationRepository,
         @inject(UserTypes.UserRepository) userRepository: IUserRepository
     ) {
-        this._operationRepository = operationRepository;
-        this._userRepository = userRepository;
+      this._operationRepository = operationRepository;
+      this._userRepository = userRepository;
     }
 
     async handle(getUserOperationsDto: GetUserOperationsDto): Promise<Result> {
-        this.validate(getUserOperationsDto);
-        const operations = await this.getOperations(getUserOperationsDto);
-        const returnObject = { results: operations };
-        const resultSuccess = new Result(returnObject, 'success on fetch user operations', true, []);
-        return resultSuccess;
+      this.validate(getUserOperationsDto);
+      const operations = await this.getOperations(getUserOperationsDto);
+      const returnObject = { results: operations };
+      const resultSuccess = new Result(returnObject, 'success on fetch user operations', true, []);
+      return resultSuccess;
     }
 
     private validate(getUserOperationsDto: GetUserOperationsDto) {
-        this.validateContract(getUserOperationsDto);
+      this.validateContract(getUserOperationsDto);
     }
 
     private validateContract(getUserOperationsDto: GetUserOperationsDto) {
-        const contract = new GetUserOperationsContract(getUserOperationsDto);
-        const isInvalid = !contract.validate();
+      const contract = new GetUserOperationsContract(getUserOperationsDto);
+      const isInvalid = !contract.validate();
 
-        if (isInvalid) {
-            throw new ValidationFailedError('fail to get operations', ...contract.reports);
-        }
+      if (isInvalid) {
+        throw new ValidationFailedError('fail to get operations', ...contract.reports);
+      }
     }
 
     private async getOperations(getUserOperationsDto: GetUserOperationsDto) {
-        const { userId } = getUserOperationsDto;
-        const userFound = await this.findUser(userId);
-        const userOperations = await this._operationRepository.get(userFound._id);
-        return userOperations;
+      const { userId } = getUserOperationsDto;
+      const userFound = await this.findUser(userId);
+      const userOperations = await this._operationRepository.get(userFound._id);
+      return userOperations;
     }
 
     private async findUser(userId: string) {
-        const userFound = await this._userRepository.getById(userId);
+      const userFound = await this._userRepository.getById(userId);
 
-        if (!userFound) {
-            throw new ValidationFailedError('fail to get operations', { name: 'user', message: 'non-existent user' });
-        }
+      if (!userFound) {
+        throw new ValidationFailedError('fail to get operations', { name: 'user', message: 'non-existent user' });
+      }
 
-        return userFound;
+      return userFound;
     }
 }

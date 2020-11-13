@@ -17,7 +17,7 @@ switch (NODE_ENV) {
 }
 
 export default {
-  DB_URI: process.env.DB_URI || 'mongodb://localhost/finance-controll-db',    
+  DB_URI: process.env.DB_URI || 'mongodb://localhost/finance-controll-db',
   PORT: process.env.PORT || 3000,
-  SALT_KEY: process.env.SALT_KEY || 'salt-key',
+  SALT_KEY: process.env.SALT_KEY || 'salt-key'
 };

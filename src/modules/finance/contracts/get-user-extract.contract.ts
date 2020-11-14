@@ -3,7 +3,7 @@ import { Notifiable } from '../../../infra/models/notifiable';
 import { Validator } from '../../../infra/validator/validator';
 import { GetUserExtractDto } from '../dtos/get-user-extract.dto';
 
-export class GetUserExtractContract extends Notifiable implements Contract {
+export class GetUserExtractContract extends Notifiable implements Contract<GetUserExtractDto> {
   private _dto: GetUserExtractDto;
   private _validator: Validator;
 

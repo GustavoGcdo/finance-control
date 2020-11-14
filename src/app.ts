@@ -4,9 +4,9 @@ import mongoose from 'mongoose';
 import 'reflect-metadata';
 import config from './config';
 import DIContainer from './di-container';
+import { FinanceRoutes } from './presentation/routes/finance.routes';
 import { InfoRoutes } from './presentation/routes/info.routes';
 import { LoginRoutes } from './presentation/routes/login.routes';
-import { FinanceRoutes } from './presentation/routes/finance.routes';
 
 export class App {
   private app: Application;

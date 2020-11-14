@@ -17,10 +17,9 @@ describe('Info Controller', () => {
   });
 
   it('GET - shold be return info api', async () => {
-   
     const expectedResult = {
       name: 'finance-control-api',
-      version: '1.0.0',
+      version: '1.0.0'
     };
 
     const result = await request(expressAplication).get('/');

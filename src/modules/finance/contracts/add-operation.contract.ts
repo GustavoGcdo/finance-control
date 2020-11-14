@@ -4,7 +4,7 @@ import { Validator } from '../../../infra/validator/validator';
 import { AddOperationDto } from '../dtos/add-operation.dto';
 import { OperationType } from '../models/enums/operation-type.enum';
 
-export class AddOperationContract extends Notifiable implements Contract {
+export class AddOperationContract extends Notifiable implements Contract<AddOperationDto> {
   private _dto: AddOperationDto;
   private _validator: Validator;
 

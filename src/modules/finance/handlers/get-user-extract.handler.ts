@@ -5,6 +5,7 @@ import { IUserRepository } from '../../users/repositories/user-repository.interf
 import UserTypes from '../../users/types/user.types';
 import { GetUserExtractContract } from '../contracts/get-user-extract.contract';
 import { GetUserExtractDto } from '../dtos/get-user-extract.dto';
+import { UserExtractDto } from '../dtos/user-extract.dto';
 import { Operation } from '../models/entities/operation';
 import { OperationType } from '../models/enums/operation-type.enum';
 import { IOperationRepository } from '../repositories/operation-repository.interface';
@@ -24,7 +25,7 @@ export class GetUserExtractHandler implements IGetUserExtractHandler {
       this._userRepository = userRepository;
     }
 
-    async handle(getUserExtractDto: GetUserExtractDto): Promise<Result> {
+    async handle(getUserExtractDto: GetUserExtractDto): Promise<Result<UserExtractDto>> {
       this.validate(getUserExtractDto);
       const userExtract = await this.getUserExtract(getUserExtractDto);
       const resultSuccess = new Result(userExtract, 'successful search for user statement', true, []);
@@ -48,7 +49,7 @@ export class GetUserExtractHandler implements IGetUserExtractHandler {
       const totalRecipes = this.sumExecutedOperationsByType(userOperations, OperationType.RECIPE);
       const totalExpenses = this.sumExecutedOperationsByType(userOperations, OperationType.EXPENSE);
 
-      const userExtract =
+      const userExtract: UserExtractDto =
         {
           name: userFound.name,
           email: userFound.email,

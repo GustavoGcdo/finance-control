@@ -1,13 +1,14 @@
 import { inject, injectable } from 'inversify';
-import { Result } from '../../../infra/models/result';
-import { GetUserOperationsDto } from '../dtos/get-user-operations.dto';
-import { IGetUserOperationsHandler } from './get-user-operations-handler.interface';
-import FinanceTypes from '../types/finance.types';
-import { IOperationRepository } from '../repositories/operation-repository.interface';
-import { GetUserOperationsContract } from '../contracts/get-user-operations.contract';
 import { ValidationFailedError } from '../../../infra/errors/validationFailedError';
+import { Result } from '../../../infra/models/result';
 import { IUserRepository } from '../../users/repositories/user-repository.interface';
 import UserTypes from '../../users/types/user.types';
+import { GetUserOperationsContract } from '../contracts/get-user-operations.contract';
+import { GetUserOperationsDto } from '../dtos/get-user-operations.dto';
+import { PaginateOperationsDto } from '../dtos/pagintate-operations.dto';
+import { IOperationRepository } from '../repositories/operation-repository.interface';
+import FinanceTypes from '../types/finance.types';
+import { IGetUserOperationsHandler } from './get-user-operations-handler.interface';
 
 @injectable()
 export class GetUserOperationsHandler implements IGetUserOperationsHandler {
@@ -22,7 +23,7 @@ export class GetUserOperationsHandler implements IGetUserOperationsHandler {
       this._userRepository = userRepository;
     }
 
-    async handle(getUserOperationsDto: GetUserOperationsDto): Promise<Result> {
+    async handle(getUserOperationsDto: GetUserOperationsDto): Promise<Result<PaginateOperationsDto>> {
       this.validate(getUserOperationsDto);
       const operations = await this.getOperations(getUserOperationsDto);
       const returnObject = { results: operations };

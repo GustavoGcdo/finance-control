@@ -23,7 +23,7 @@ export class AddOperationHandler implements IAddOperationHandler {
       this._operationRepository = operationRepository;
     }
 
-    async handle(addOperationDto: AddOperationDto): Promise<Result> {
+    async handle(addOperationDto: AddOperationDto): Promise<Result<null>> {
       await this.validate(addOperationDto);
       await this.addOperation(addOperationDto);
       const resultSucess = new Result(null, 'operation added successfully', true, []);

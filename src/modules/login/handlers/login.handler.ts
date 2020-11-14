@@ -1,15 +1,15 @@
 import { inject, injectable } from 'inversify';
-import { Result } from '../../../infra/models/result';
-import { LoginDto } from '../dtos/login.dto';
-import { ILoginHandler } from './login-handler.interface';
-import { LoginContract } from '../contracts/login.contract';
 import { ValidationFailedError } from '../../../infra/errors/validationFailedError';
+import { Result } from '../../../infra/models/result';
+import { IAuthService } from '../../shared/services/auth-service.interface';
+import { IEncriptService } from '../../shared/services/encript-service.interface';
+import SharedTypes from '../../shared/types/shared.types';
+import { User } from '../../users/models/user';
 import { IUserRepository } from '../../users/repositories/user-repository.interface';
 import UserTypes from '../../users/types/user.types';
-import SharedTypes from '../../shared/types/shared.types';
-import { IEncriptService } from '../../shared/services/encript-service.interface';
-import { IAuthService } from '../../shared/services/auth-service.interface';
-import { User } from '../../users/models/user';
+import { LoginContract } from '../contracts/login.contract';
+import { LoginDto } from '../dtos/login.dto';
+import { ILoginHandler } from './login-handler.interface';
 
 @injectable()
 export class LoginHandler implements ILoginHandler {
@@ -25,7 +25,7 @@ export class LoginHandler implements ILoginHandler {
       this._authService = authService;
     }
 
-    async handle(loginDto: LoginDto): Promise<Result> {
+    async handle(loginDto: LoginDto): Promise<Result<{token: string}>> {
       this.validateContract(loginDto);
       const user = await this.findUser(loginDto);
       const token = await this.generateToken(user);

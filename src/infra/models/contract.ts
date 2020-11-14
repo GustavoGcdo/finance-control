@@ -1,5 +1,3 @@
-import { Dto } from './dto';
-
-export interface Contract {
-    validate(dto: Dto): boolean;
+export interface Contract<T> {
+  validate(dto: T): boolean;
 }

@@ -1,14 +1,14 @@
 import { inject, injectable } from 'inversify';
 import { ValidationFailedError } from '../../../infra/errors/validationFailedError';
 import { Result } from '../../../infra/models/result';
+import { IEncriptService } from '../../shared/services/encript-service.interface';
+import SharedTypes from '../../shared/types/shared.types';
+import { User } from '../../users/models/user';
 import { IUserRepository } from '../../users/repositories/user-repository.interface';
 import UserTypes from '../../users/types/user.types';
 import { SignupContract } from '../contracts/signup.contract';
 import { SignupDto } from '../dtos/signup.dto';
 import { ISignupHandler } from './signup-handler.interface';
-import SharedTypes from '../../shared/types/shared.types';
-import { IEncriptService } from '../../shared/services/encript-service.interface';
-import { User } from '../../users/models/user';
 
 @injectable()
 export class SignupHandler implements ISignupHandler {
@@ -21,7 +21,7 @@ export class SignupHandler implements ISignupHandler {
       this._encriptService = encriptService;
     }
 
-    async handle(signupDto: SignupDto): Promise<Result> {
+    async handle(signupDto: SignupDto): Promise<Result<User>> {
       await this.validate(signupDto);
       const userCreated = await this.createUser(signupDto);
       const resultSucess = new Result(userCreated, 'user successfully registered', true, []);
@@ -55,7 +55,15 @@ export class SignupHandler implements ISignupHandler {
         password: encriptedPassword
       } as User;
 
-      const { password, ...userCreated } = await this._userRepository.create(newUser);
-      return userCreated;
+      const userCreated = await this._userRepository.create(newUser);
+
+      const returnObject = {
+        _id: userCreated._id,
+        name: userCreated.name,
+        email: userCreated.email,
+        balance: userCreated.balance
+      } as User;
+
+      return returnObject;
     }
 }

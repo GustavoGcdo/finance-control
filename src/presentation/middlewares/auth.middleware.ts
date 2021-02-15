@@ -1,16 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
-import { inject, injectable } from 'inversify';
 import { HttpStatus } from '../../infra/enums/http-status.enum';
 import { ValidationFailedError } from '../../infra/errors/validationFailedError';
 import { HandleResponse } from '../../infra/helper/handleResponse';
 import { IAuthService } from '../../modules/shared/services/auth-service.interface';
-import SharedTypes from '../../modules/shared/types/shared.types';
 
-@injectable()
 export class AuthMiddleware {
     private _authService: IAuthService;
 
-    constructor(@inject(SharedTypes.AuthService) authService: IAuthService) {
+    constructor(authService: IAuthService) {
       this._authService = authService;
     }
 

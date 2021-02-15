@@ -1,22 +1,18 @@
-import { inject, injectable } from 'inversify';
 import { ValidationFailedError } from '../../../infra/errors/validationFailedError';
 import { Result } from '../../../infra/models/result';
 import { IEncriptService } from '../../shared/services/encript-service.interface';
-import SharedTypes from '../../shared/types/shared.types';
 import { User } from '../../users/models/user';
 import { IUserRepository } from '../../users/repositories/user-repository.interface';
-import UserTypes from '../../users/types/user.types';
 import { SignupContract } from '../contracts/signup.contract';
 import { SignupDto } from '../dtos/signup.dto';
 import { ISignupHandler } from './signup-handler.interface';
 
-@injectable()
 export class SignupHandler implements ISignupHandler {
     private _userRepository: IUserRepository;
     private _encriptService: IEncriptService;
 
-    constructor(@inject(UserTypes.UserRepository) userRepository: IUserRepository,
-        @inject(SharedTypes.EncriptService) encriptService: IEncriptService) {
+    constructor(userRepository: IUserRepository,
+      encriptService: IEncriptService) {
       this._userRepository = userRepository;
       this._encriptService = encriptService;
     }

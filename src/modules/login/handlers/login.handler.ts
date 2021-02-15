@@ -1,25 +1,21 @@
-import { inject, injectable } from 'inversify';
 import { ValidationFailedError } from '../../../infra/errors/validationFailedError';
 import { Result } from '../../../infra/models/result';
 import { IAuthService } from '../../shared/services/auth-service.interface';
 import { IEncriptService } from '../../shared/services/encript-service.interface';
-import SharedTypes from '../../shared/types/shared.types';
 import { User } from '../../users/models/user';
 import { IUserRepository } from '../../users/repositories/user-repository.interface';
-import UserTypes from '../../users/types/user.types';
 import { LoginContract } from '../contracts/login.contract';
 import { LoginDto } from '../dtos/login.dto';
 import { ILoginHandler } from './login-handler.interface';
 
-@injectable()
 export class LoginHandler implements ILoginHandler {
     private _userRepository: IUserRepository;
     private _encriptService: IEncriptService;
     private _authService: IAuthService;
 
-    constructor(@inject(UserTypes.UserRepository) userRepository: IUserRepository,
-        @inject(SharedTypes.EncriptService) encriptService: IEncriptService,
-        @inject(SharedTypes.AuthService) authService: IAuthService) {
+    constructor(userRepository: IUserRepository,
+      encriptService: IEncriptService,
+      authService: IAuthService) {
       this._userRepository = userRepository;
       this._encriptService = encriptService;
       this._authService = authService;

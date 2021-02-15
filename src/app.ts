@@ -1,12 +1,10 @@
 import cors from 'cors';
 import express, { Application } from 'express';
 import mongoose from 'mongoose';
-import 'reflect-metadata';
 import config from './config';
-import DIContainer from './di-container';
-import { FinanceRoutes } from './presentation/routes/finance.routes';
-import { InfoRoutes } from './presentation/routes/info.routes';
-import { LoginRoutes } from './presentation/routes/login.routes';
+import { makeFinanceRoutes } from './factories/finance-routes.factory';
+import { makeInfoRoutes } from './factories/info-routes.factory';
+import { makeLoginRoutes } from './factories/login-routes.factory';
 
 export class App {
   private app: Application;
@@ -28,13 +26,9 @@ export class App {
   }
 
   private configureRoutes() {
-    const indexRoutes = DIContainer.resolve<InfoRoutes>(InfoRoutes);
-    const loginRoutes = DIContainer.resolve<LoginRoutes>(LoginRoutes);
-    const finaceRoutes = DIContainer.resolve<FinanceRoutes>(FinanceRoutes);
-
-    this.app.use(indexRoutes.getRoutes());
-    this.app.use(loginRoutes.getRoutes());
-    this.app.use(finaceRoutes.getRoutes());
+    this.app.use(makeInfoRoutes().getRoutes());
+    this.app.use(makeLoginRoutes().getRoutes());
+    this.app.use(makeFinanceRoutes().getRoutes());
   }
 
   private async connectToDatabase() {

@@ -1,13 +1,11 @@
 import { Router } from 'express';
-import { inject, injectable } from 'inversify';
 import { InfoController } from '../controllers/info.controller';
 
-@injectable()
 export class InfoRoutes {
   private router: Router;
   private _controller: InfoController;
 
-  constructor(@inject(InfoController) controller: InfoController) {
+  constructor(controller: InfoController) {
     this.router = Router();
     this._controller = controller;
   }

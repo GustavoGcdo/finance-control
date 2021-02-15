@@ -1,5 +1,4 @@
 import { mock } from 'jest-mock-extended';
-import 'reflect-metadata';
 import { ValidationFailedError } from '../../src/infra/errors/validationFailedError';
 import { LoginHandler } from '../../src/modules/login/handlers/login.handler';
 import { IAuthService } from '../../src/modules/shared/services/auth-service.interface';

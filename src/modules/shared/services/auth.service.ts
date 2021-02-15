@@ -1,11 +1,9 @@
-import { injectable } from 'inversify';
 import { sign, verify } from 'jsonwebtoken';
 import config from '../../../config';
 import { User } from '../../users/models/user';
 import { Payload } from '../models/payload';
 import { IAuthService } from './auth-service.interface';
 
-@injectable()
 export class AuthService implements IAuthService {
   async generateToken(user: User): Promise<string> {
     const dataToken: Payload = {

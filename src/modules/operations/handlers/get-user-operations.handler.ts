@@ -1,23 +1,19 @@
-import { inject, injectable } from 'inversify';
 import { ValidationFailedError } from '../../../infra/errors/validationFailedError';
 import { Result } from '../../../infra/models/result';
 import { IUserRepository } from '../../users/repositories/user-repository.interface';
-import UserTypes from '../../users/types/user.types';
 import { GetUserOperationsContract } from '../contracts/get-user-operations.contract';
 import { GetUserOperationsDto } from '../dtos/get-user-operations.dto';
 import { PaginateOperationsDto } from '../dtos/pagintate-operations.dto';
 import { IOperationRepository } from '../repositories/operation-repository.interface';
-import OperationTypes from '../types/operation.types';
 import { IGetUserOperationsHandler } from './get-user-operations-handler.interface';
 
-@injectable()
 export class GetUserOperationsHandler implements IGetUserOperationsHandler {
     private _operationRepository: IOperationRepository;
     private _userRepository: IUserRepository;
 
     constructor(
-        @inject(OperationTypes.OperationRepository) operationRepository: IOperationRepository,
-        @inject(UserTypes.UserRepository) userRepository: IUserRepository
+      operationRepository: IOperationRepository,
+      userRepository: IUserRepository
     ) {
       this._operationRepository = operationRepository;
       this._userRepository = userRepository;

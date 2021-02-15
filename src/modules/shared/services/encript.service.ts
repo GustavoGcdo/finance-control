@@ -1,9 +1,7 @@
-import { injectable } from 'inversify';
 import md5 from 'md5';
 import config from '../../../config';
 import { IEncriptService } from './encript-service.interface';
 
-@injectable()
 export class EncriptService implements IEncriptService {
   async encript(text: string): Promise<string> {
     const { SALT_KEY } = config;

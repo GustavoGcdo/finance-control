@@ -1,17 +1,15 @@
 import { Router } from 'express';
-import { inject, injectable } from 'inversify';
 import { FinanceController } from '../controllers/finance.controller';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
 
-@injectable()
 export class FinanceRoutes {
   private router: Router;
   private _controller: FinanceController;
   private _auth: AuthMiddleware;
 
   constructor(
-    @inject(AuthMiddleware) auth: AuthMiddleware,
-    @inject(FinanceController) controller: FinanceController) {
+    auth: AuthMiddleware,
+    controller: FinanceController) {
     this.router = Router();
     this._controller = controller;
     this._auth = auth;

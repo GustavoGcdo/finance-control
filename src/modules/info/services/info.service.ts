@@ -1,8 +1,6 @@
-import { injectable } from 'inversify';
 import { Info } from '../models/info';
 import { IInfoService } from './info-service.interface';
 
-@injectable()
 export class InfoService implements IInfoService {
   getInfo(): Info {
     const { npm_package_name: packageName, npm_package_version: packageVersion } = process.env;

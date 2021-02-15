@@ -1,10 +1,10 @@
 import { Response } from 'express';
-import { Result } from '../models/result';
 import { HttpStatus } from '../enums/http-status.enum';
 import { ValidationFailedError } from '../errors/validationFailedError';
+import { Result } from '../models/result';
 
 export abstract class HandleResponse {
-  public static handle(response: Response, status: HttpStatus, result: Result) {
+  public static handle(response: Response, status: HttpStatus, result: Result<never>) {
     return response.status(status).send(result);
   }
 

@@ -2,7 +2,7 @@ import { Application } from 'express';
 import request from 'supertest';
 import { App } from '../../../src/app';
 import { HttpStatus } from '../../../src/infra/enums/http-status.enum';
-import { AddOperationDto } from '../../../src/modules/finance/dtos/add-operation.dto';
+import { AddOperationDto } from '../../../src/modules/operations/dtos/add-operation.dto';
 import { createAndLoginUser } from '../../helpers/user-functions-default';
 
 describe('Add Recipe a User', () => {
@@ -22,53 +22,52 @@ describe('Add Recipe a User', () => {
     await app.disconnect();
   });
 
-  it('POST - must return the correct balance amount when adding an operation of type expense performed', async () => {
+  it('POST - must return the correct balance amount when adding an operation of type recipe performed', async () => {
     const { tokenToTest } = await createAndLoginUser();
 
     const VALUE_TO_ADD = 50.0;
 
-    const expenseToAdd = {
-      type: 'expense',
+    const recipeToAdd = {
+      type: 'recipe',
       value: VALUE_TO_ADD,
       executed: true
     } as AddOperationDto;
 
-    const resultAddExpense = await request(expressAplication)
+    const resultAddRecipe = await request(expressAplication)
       .post('/finance/operations')
-      .send(expenseToAdd)
+      .send(recipeToAdd)
       .set('Authorization', 'Bearer ' + tokenToTest);
 
-    expect(resultAddExpense.status).toEqual(HttpStatus.SUCCESS);
-    expect(resultAddExpense.body.message).toEqual('operation added successfully');
-    expect(resultAddExpense.body.success).toBeTruthy();
+    expect(resultAddRecipe.status).toEqual(HttpStatus.SUCCESS);
+    expect(resultAddRecipe.body.message).toEqual('operation added successfully');
+    expect(resultAddRecipe.body.success).toBeTruthy();
 
     const resultExtract = await request(expressAplication)
       .get('/finance/extract')
       .set('Authorization', 'Bearer ' + tokenToTest);
 
-    const EXPECTED_VALUE_BALANCE = 0 - VALUE_TO_ADD;
     expect(resultExtract.status).toEqual(HttpStatus.SUCCESS);
-    expect(resultExtract.body.data.balance).toBe(EXPECTED_VALUE_BALANCE);
+    expect(resultExtract.body.data.balance).toBe(VALUE_TO_ADD);
   });
 
-  it('POST - must return the correct balance amount when adding an operation of type expense not performed', async () => {
+  it('POST - must return the correct balance amount when adding an operation of type recipe not performed', async () => {
     const { tokenToTest } = await createAndLoginUser();
 
     const VALUE_TO_ADD = 50.0;
-    const expenseToAdd = {
-      type: 'expense',
+    const recipeToAdd = {
+      type: 'recipe',
       value: VALUE_TO_ADD,
       executed: false
     } as AddOperationDto;
 
-    const resultAddExpense = await request(expressAplication)
+    const resultAddRecipe = await request(expressAplication)
       .post('/finance/operations')
-      .send(expenseToAdd)
+      .send(recipeToAdd)
       .set('Authorization', 'Bearer ' + tokenToTest);
 
-    expect(resultAddExpense.status).toEqual(HttpStatus.SUCCESS);
-    expect(resultAddExpense.body.message).toEqual('operation added successfully');
-    expect(resultAddExpense.body.success).toBeTruthy();
+    expect(resultAddRecipe.status).toEqual(HttpStatus.SUCCESS);
+    expect(resultAddRecipe.body.message).toEqual('operation added successfully');
+    expect(resultAddRecipe.body.success).toBeTruthy();
 
     const resultExtract = await request(expressAplication)
       .get('/finance/extract')

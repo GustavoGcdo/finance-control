@@ -7,7 +7,7 @@ import { GetUserOperationsContract } from '../contracts/get-user-operations.cont
 import { GetUserOperationsDto } from '../dtos/get-user-operations.dto';
 import { PaginateOperationsDto } from '../dtos/pagintate-operations.dto';
 import { IOperationRepository } from '../repositories/operation-repository.interface';
-import FinanceTypes from '../types/finance.types';
+import OperationTypes from '../types/operation.types';
 import { IGetUserOperationsHandler } from './get-user-operations-handler.interface';
 
 @injectable()
@@ -16,7 +16,7 @@ export class GetUserOperationsHandler implements IGetUserOperationsHandler {
     private _userRepository: IUserRepository;
 
     constructor(
-        @inject(FinanceTypes.OperationRepository) operationRepository: IOperationRepository,
+        @inject(OperationTypes.OperationRepository) operationRepository: IOperationRepository,
         @inject(UserTypes.UserRepository) userRepository: IUserRepository
     ) {
       this._operationRepository = operationRepository;

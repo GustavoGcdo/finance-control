@@ -4,7 +4,7 @@ import { ValidationFailedError } from '../errors/validationFailedError';
 import { Result } from '../models/result';
 
 export abstract class HandleResponse {
-  public static handle(response: Response, status: HttpStatus, result: Result<never>) {
+  public static handle(response: Response, status: HttpStatus, result: Result<any>) {
     return response.status(status).send(result);
   }
 

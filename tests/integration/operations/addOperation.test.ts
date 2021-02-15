@@ -2,7 +2,7 @@ import { Application } from 'express';
 import request from 'supertest';
 import { App } from '../../../src/app';
 import { HttpStatus } from '../../../src/infra/enums/http-status.enum';
-import { AddOperationDto } from '../../../src/modules/finance/dtos/add-operation.dto';
+import { AddOperationDto } from '../../../src/modules/operations/dtos/add-operation.dto';
 import { createAndLoginUser } from '../../helpers/user-functions-default';
 
 describe('Add Operation a User', () => {

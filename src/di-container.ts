@@ -1,13 +1,7 @@
 import { Container } from 'inversify';
-import { IAddOperationHandler } from './modules/finance/handlers/add-operation-handler.interface';
-import { AddOperationHandler } from './modules/finance/handlers/add-operation.handler';
-import { IGetUserExtractHandler } from './modules/finance/handlers/get-user-extract-handler.interface';
-import { GetUserExtractHandler } from './modules/finance/handlers/get-user-extract.handler';
-import { IGetUserOperationsHandler } from './modules/finance/handlers/get-user-operations-handler.interface';
-import { GetUserOperationsHandler } from './modules/finance/handlers/get-user-operations.handler';
-import { IOperationRepository } from './modules/finance/repositories/operation-repository.interface';
-import { OperationRepository } from './modules/finance/repositories/operation.repository';
-import FinanceTypes from './modules/finance/types/finance.types';
+import { IGetUserExtractHandler } from './modules/extract/handlers/get-user-extract-handler.interface';
+import { GetUserExtractHandler } from './modules/extract/handlers/get-user-extract.handler';
+import ExtractTypes from './modules/extract/types/extract.types';
 import { IInfoService } from './modules/info/services/info-service.interface';
 import { InfoService } from './modules/info/services/info.service';
 import InfoTypes from './modules/info/types/info.types';
@@ -16,6 +10,13 @@ import { LoginHandler } from './modules/login/handlers/login.handler';
 import { ISignupHandler } from './modules/login/handlers/signup-handler.interface';
 import { SignupHandler } from './modules/login/handlers/signup.handler';
 import LoginTypes from './modules/login/types/login.types';
+import { IAddOperationHandler } from './modules/operations/handlers/add-operation-handler.interface';
+import { AddOperationHandler } from './modules/operations/handlers/add-operation.handler';
+import { IGetUserOperationsHandler } from './modules/operations/handlers/get-user-operations-handler.interface';
+import { GetUserOperationsHandler } from './modules/operations/handlers/get-user-operations.handler';
+import { IOperationRepository } from './modules/operations/repositories/operation-repository.interface';
+import { OperationRepository } from './modules/operations/repositories/operation.repository';
+import OperationTypes from './modules/operations/types/operation.types';
 import { IAuthService } from './modules/shared/services/auth-service.interface';
 import { AuthService } from './modules/shared/services/auth.service';
 import { IEncriptService } from './modules/shared/services/encript-service.interface';
@@ -55,12 +56,12 @@ DIContainer.bind<IAuthService>(SharedTypes.AuthService).to(AuthService);
 // handlers
 DIContainer.bind<ISignupHandler>(LoginTypes.SignupHandler).to(SignupHandler);
 DIContainer.bind<ILoginHandler>(LoginTypes.LoginHandler).to(LoginHandler);
-DIContainer.bind<IAddOperationHandler>(FinanceTypes.AddOperationHandler).to(AddOperationHandler);
-DIContainer.bind<IGetUserOperationsHandler>(FinanceTypes.GetUserOperationsHandler).to(GetUserOperationsHandler);
-DIContainer.bind<IGetUserExtractHandler>(FinanceTypes.GetUserExtractHandler).to(GetUserExtractHandler);
+DIContainer.bind<IAddOperationHandler>(OperationTypes.AddOperationHandler).to(AddOperationHandler);
+DIContainer.bind<IGetUserOperationsHandler>(OperationTypes.GetUserOperationsHandler).to(GetUserOperationsHandler);
+DIContainer.bind<IGetUserExtractHandler>(ExtractTypes.GetUserExtractHandler).to(GetUserExtractHandler);
 
 // repositories
 DIContainer.bind<IUserRepository>(UserTypes.UserRepository).to(UserRepository);
-DIContainer.bind<IOperationRepository>(FinanceTypes.OperationRepository).to(OperationRepository);
+DIContainer.bind<IOperationRepository>(OperationTypes.OperationRepository).to(OperationRepository);
 
 export default DIContainer;

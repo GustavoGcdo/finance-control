@@ -1,15 +1,15 @@
 import { inject, injectable } from 'inversify';
 import { ValidationFailedError } from '../../../infra/errors/validationFailedError';
 import { Result } from '../../../infra/models/result';
+import { Operation } from '../../operations/models/entities/operation';
+import { OperationType } from '../../operations/models/enums/operation-type.enum';
+import { IOperationRepository } from '../../operations/repositories/operation-repository.interface';
+import OperationTypes from '../../operations/types/operation.types';
 import { IUserRepository } from '../../users/repositories/user-repository.interface';
 import UserTypes from '../../users/types/user.types';
 import { GetUserExtractContract } from '../contracts/get-user-extract.contract';
 import { GetUserExtractDto } from '../dtos/get-user-extract.dto';
 import { UserExtractDto } from '../dtos/user-extract.dto';
-import { Operation } from '../models/entities/operation';
-import { OperationType } from '../models/enums/operation-type.enum';
-import { IOperationRepository } from '../repositories/operation-repository.interface';
-import FinanceTypes from '../types/finance.types';
 import { IGetUserExtractHandler } from './get-user-extract-handler.interface';
 
 @injectable()
@@ -18,7 +18,7 @@ export class GetUserExtractHandler implements IGetUserExtractHandler {
     private _userRepository: IUserRepository;
 
     constructor(
-        @inject(FinanceTypes.OperationRepository) operationRepository: IOperationRepository,
+        @inject(OperationTypes.OperationRepository) operationRepository: IOperationRepository,
         @inject(UserTypes.UserRepository) userRepository: IUserRepository
     ) {
       this._operationRepository = operationRepository;

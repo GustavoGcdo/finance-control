@@ -9,7 +9,7 @@ import { Operation } from '../models/entities/operation';
 import { UserOperation } from '../models/entities/user-operation';
 import { OperationType } from '../models/enums/operation-type.enum';
 import { IOperationRepository } from '../repositories/operation-repository.interface';
-import FinanceTypes from '../types/finance.types';
+import OperationTypes from '../types/operation.types';
 import { IAddOperationHandler } from './add-operation-handler.interface';
 
 @injectable()
@@ -18,7 +18,7 @@ export class AddOperationHandler implements IAddOperationHandler {
     private _operationRepository: IOperationRepository;
 
     constructor(@inject(UserTypes.UserRepository) userRepository: IUserRepository,
-        @inject(FinanceTypes.OperationRepository) operationRepository: IOperationRepository) {
+        @inject(OperationTypes.OperationRepository) operationRepository: IOperationRepository) {
       this._userRepository = userRepository;
       this._operationRepository = operationRepository;
     }

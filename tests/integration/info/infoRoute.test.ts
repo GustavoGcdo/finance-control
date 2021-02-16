@@ -1,7 +1,7 @@
+import { Application } from 'express';
 import request from 'supertest';
 import { App } from '../../../src/app';
-import { Application } from 'express';
-import { HttpStatus } from '../../../src/infra/enums/http-status.enum';
+import { HttpStatus } from '../../../src/presentation/helper/enums/http-status.enum';
 
 describe('Info Controller', () => {
   let expressAplication: Application;

@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { HttpStatus } from '../../infra/enums/http-status.enum';
-import { HandleResponse } from '../../infra/helper/handleResponse';
 import { IGetUserExtractHandler } from '../../modules/extract/handlers/get-user-extract-handler.interface';
 import { AddOperationDto } from '../../modules/operations/dtos/add-operation.dto';
 import { IAddOperationHandler } from '../../modules/operations/handlers/add-operation-handler.interface';
 import { IGetUserOperationsHandler } from '../../modules/operations/handlers/get-user-operations-handler.interface';
 import { IAuthService } from '../../modules/shared/services/auth-service.interface';
+import { HttpStatus } from '../helper/enums/http-status.enum';
+import { HandleResponse } from '../helper/handleResponse';
 
 export class FinanceController {
   private _getUserOperations: IGetUserOperationsHandler;

@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { HttpStatus } from '../../infra/enums/http-status.enum';
 import { ValidationFailedError } from '../../infra/errors/validationFailedError';
-import { HandleResponse } from '../../infra/helper/handleResponse';
 import { IAuthService } from '../../modules/shared/services/auth-service.interface';
+import { HttpStatus } from '../helper/enums/http-status.enum';
+import { HandleResponse } from '../helper/handleResponse';
 
 export class AuthMiddleware {
     private _authService: IAuthService;

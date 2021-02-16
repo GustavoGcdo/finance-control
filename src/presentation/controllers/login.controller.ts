@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { HttpStatus } from '../../infra/enums/http-status.enum';
-import { HandleResponse } from '../../infra/helper/handleResponse';
 import { ILoginHandler } from '../../modules/login/handlers/login-handler.interface';
 import { ISignupHandler } from '../../modules/login/handlers/signup-handler.interface';
+import { HttpStatus } from '../helper/enums/http-status.enum';
+import { HandleResponse } from '../helper/handleResponse';
 
 export class LoginController {
     private _signupHandler: ISignupHandler;

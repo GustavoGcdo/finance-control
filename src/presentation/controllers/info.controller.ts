@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { HttpStatus } from '../../infra/enums/http-status.enum';
-import { HandleResponse } from '../../infra/helper/handleResponse';
 import { Result } from '../../infra/models/result';
 import { IInfoService } from '../../modules/info/services/info-service.interface';
+import { HttpStatus } from '../helper/enums/http-status.enum';
+import { HandleResponse } from '../helper/handleResponse';
 
 export class InfoController {
   private _infoService: IInfoService;

@@ -1,7 +1,7 @@
 import { Response } from 'express';
-import { HttpStatus } from '../enums/http-status.enum';
-import { ValidationFailedError } from '../errors/validationFailedError';
-import { Result } from '../models/result';
+import { ValidationFailedError } from '../../infra/errors/validationFailedError';
+import { Result } from '../../infra/models/result';
+import { HttpStatus } from './enums/http-status.enum';
 
 export abstract class HandleResponse {
   public static handle(response: Response, status: HttpStatus, result: Result<any>) {

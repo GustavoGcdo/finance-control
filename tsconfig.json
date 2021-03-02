@@ -1,11 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2017",
     "module": "commonjs",
-    "lib": [
-      "es6",
-      "dom"
-    ],
+    "lib": ["es6"],
     "outDir": "./dist",
     "strict": true,
     "removeComments":true,

@@ -1,82 +1,76 @@
 import { ValidationFailedError } from '../../../infra/errors/validationFailedError';
 import { Result } from '../../../infra/models/result';
+import { Either, left, right } from '../../shared/models/either';
 import { IUserRepository } from '../../users/repositories/user-repository.interface';
 import { AddOperationContract } from '../contracts/add-operation.contract';
+import { Operation } from '../domain/entities/operation';
 import { AddOperationDto } from '../dtos/add-operation.dto';
-import { Operation } from '../models/entities/operation';
-import { UserOperation } from '../models/entities/user-operation';
-import { OperationType } from '../models/enums/operation-type.enum';
 import { IOperationRepository } from '../repositories/operation-repository.interface';
 import { IAddOperationHandler } from './add-operation-handler.interface';
 
 export class AddOperationHandler implements IAddOperationHandler {
-    private _userRepository: IUserRepository;
-    private _operationRepository: IOperationRepository;
+  private _userRepository: IUserRepository;
+  private _operationRepository: IOperationRepository;
 
-    constructor(userRepository: IUserRepository,
-      operationRepository: IOperationRepository) {
-      this._userRepository = userRepository;
-      this._operationRepository = operationRepository;
+  constructor(userRepository: IUserRepository,
+    operationRepository: IOperationRepository) {
+    this._userRepository = userRepository;
+    this._operationRepository = operationRepository;
+  }
+
+  async handle(addOperationDto: AddOperationDto): Promise<Result<null>> {
+    await this.validate(addOperationDto);
+    await this.addOperation(addOperationDto);
+    const resultSucess = new Result(null, 'operation added successfully', true, []);
+    return resultSucess;
+  }
+
+  private async validate(addOperationDto: AddOperationDto) {
+    this.validateContract(addOperationDto);
+  }
+
+  private validateContract(addOperationDto: AddOperationDto) {
+    const contract = new AddOperationContract(addOperationDto);
+    const isInvalid = !contract.validate();
+
+    if (isInvalid) {
+      throw new ValidationFailedError('fail to add operation', ...contract.reports);
+    }
+  }
+
+  async addOperation(addOperationDto: AddOperationDto): Promise<Either<ValidationFailedError, Operation>> {
+    const { userId } = addOperationDto;
+    const userToAddOperation = await this.findUser(userId);
+
+    const operationOrError = Operation.create({
+      category: addOperationDto.category,
+      date: addOperationDto.date,
+      description: addOperationDto.description,
+      executed: addOperationDto.executed,
+      type: addOperationDto.type,
+      user: userToAddOperation,
+      value: addOperationDto.value
+    });
+
+    if (operationOrError.isLeft()) {
+      return left(new ValidationFailedError('fail to add operation'));
     }
 
-    async handle(addOperationDto: AddOperationDto): Promise<Result<null>> {
-      await this.validate(addOperationDto);
-      await this.addOperation(addOperationDto);
-      const resultSucess = new Result(null, 'operation added successfully', true, []);
-      return resultSucess;
+    userToAddOperation.addOperation(operationOrError.value);
+
+    await this._operationRepository.add(operationOrError.value);
+    await this._userRepository.updateBalance(userId, userToAddOperation.balance);
+
+    return right(operationOrError.value);
+  }
+
+  private async findUser(userId: string) {
+    const userFound = await this._userRepository.getById(userId);
+
+    if (!userFound) {
+      throw new ValidationFailedError('fail to add operation', { name: 'user', message: 'non-existent user' });
     }
 
-    private async validate(addOperationDto: AddOperationDto) {
-      this.validateContract(addOperationDto);
-    }
-
-    private validateContract(addOperationDto: AddOperationDto) {
-      const contract = new AddOperationContract(addOperationDto);
-      const isInvalid = !contract.validate();
-
-      if (isInvalid) {
-        throw new ValidationFailedError('fail to add operation', ...contract.reports);
-      }
-    }
-
-    async addOperation(addOperationDto: AddOperationDto) {
-      const { userId, value, executed, type, date, ...rest } = addOperationDto;
-
-      const userToAddOperation = await this.findUser(userId);
-      const userOperation = userToAddOperation as UserOperation;
-      const newValue = Number(value);
-
-      const newOperation = {
-        type,
-        value: newValue,
-        user: userOperation,
-        date: date ? new Date(date) : null,
-        executed: executed || false,
-        ...rest
-      } as Operation;
-
-      const { balance } = userToAddOperation;
-      let newBalance = balance || 0;
-
-      if (executed && type === OperationType.EXPENSE) {
-        newBalance -= newValue;
-      }
-
-      if (executed && type === OperationType.RECIPE) {
-        newBalance += newValue;
-      }
-
-      await this._operationRepository.add(newOperation);
-      await this._userRepository.updateBalance(userId, newBalance);
-    }
-
-    private async findUser(userId: string) {
-      const userFound = await this._userRepository.getById(userId);
-
-      if (!userFound) {
-        throw new ValidationFailedError('fail to add operation', { name: 'user', message: 'non-existent user' });
-      }
-
-      return userFound;
-    }
+    return userFound;
+  }
 }

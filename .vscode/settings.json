@@ -7,5 +7,7 @@
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
-  "eslint.format.enable": true
+  "eslint.format.enable": true,
+  "editor.rulers": [100],
+  "typescript.preferences.quoteStyle": "single"
 }

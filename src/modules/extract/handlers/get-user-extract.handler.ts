@@ -1,7 +1,7 @@
 import { ValidationFailedError } from '../../../infra/errors/validationFailedError';
 import { Result } from '../../../infra/models/result';
-import { Operation } from '../../operations/models/entities/operation';
-import { OperationType } from '../../operations/models/enums/operation-type.enum';
+import { Operation } from '../../operations/domain/entities/operation';
+import { EOperationType } from '../../operations/domain/enums/operation-type.enum';
 import { IOperationRepository } from '../../operations/repositories/operation-repository.interface';
 import { IUserRepository } from '../../users/repositories/user-repository.interface';
 import { GetUserExtractContract } from '../contracts/get-user-extract.contract';
@@ -42,8 +42,8 @@ export class GetUserExtractHandler implements IGetUserExtractHandler {
       const userFound = await this.findUser(userId);
       const userOperations = await this._operationRepository.get(userFound._id);
 
-      const totalRecipes = this.sumExecutedOperationsByType(userOperations, OperationType.RECIPE);
-      const totalExpenses = this.sumExecutedOperationsByType(userOperations, OperationType.EXPENSE);
+      const totalRecipes = this.sumExecutedOperationsByType(userOperations, EOperationType.RECIPE);
+      const totalExpenses = this.sumExecutedOperationsByType(userOperations, EOperationType.EXPENSE);
 
       const userExtract: UserExtractDto =
         {
@@ -68,7 +68,7 @@ export class GetUserExtractHandler implements IGetUserExtractHandler {
       return userFound;
     }
 
-    private sumExecutedOperationsByType(operations: Operation[], type: OperationType): number {
+    private sumExecutedOperationsByType(operations: Operation[], type: EOperationType): number {
       return operations
         .filter(operation => operation.type === type && operation.executed)
         .map(o => o.value)

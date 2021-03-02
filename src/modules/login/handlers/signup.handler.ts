@@ -45,13 +45,17 @@ export class SignupHandler implements ISignupHandler {
         throw new ValidationFailedError('fail to register user', { name: 'email', message: 'email already registered' });
       }
 
-      const newUser = {
+      const newUserOrError = User.create({
         email: signupDto.email,
         name: signupDto.name,
         password: encriptedPassword
-      } as User;
+      });
 
-      const userCreated = await this._userRepository.create(newUser);
+      if (newUserOrError.isLeft()) {
+        throw new ValidationFailedError('fail to register user');
+      }
+
+      const userCreated = await this._userRepository.create(newUserOrError.value);
 
       const returnObject = {
         _id: userCreated._id,

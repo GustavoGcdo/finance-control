@@ -2,13 +2,13 @@ import { ValidationFailedError } from '../../../infra/errors/validationFailedErr
 import { Result } from '../../../infra/models/result';
 import { IAuthService } from '../../shared/services/auth-service.interface';
 import { IEncriptService } from '../../shared/services/encript-service.interface';
-import { User } from '../../users/models/user';
-import { IUserRepository } from '../../users/repositories/user-repository.interface';
 import { LoginContract } from '../contracts/login.contract';
 import { LoginDto } from '../dtos/login.dto';
-import { Login } from './login';
+import { User } from '../models/user';
+import { IUserRepository } from '../repositories/user-repository.interface';
+import { ILogin } from './login.interface';
 
-export class JWTLogin implements Login {
+export class Login implements ILogin {
     private _userRepository: IUserRepository;
     private _encriptService: IEncriptService;
     private _authService: IAuthService;

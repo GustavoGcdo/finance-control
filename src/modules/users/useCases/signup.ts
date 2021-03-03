@@ -1,13 +1,13 @@
 import { ValidationFailedError } from '../../../infra/errors/validationFailedError';
 import { Result } from '../../../infra/models/result';
 import { IEncriptService } from '../../shared/services/encript-service.interface';
-import { User } from '../../users/models/user';
-import { IUserRepository } from '../../users/repositories/user-repository.interface';
 import { SignupContract } from '../contracts/signup.contract';
 import { SignupDto } from '../dtos/signup.dto';
-import { Signup } from './signup';
+import { User } from '../models/user';
+import { IUserRepository } from '../repositories/user-repository.interface';
+import { ISignup } from './signup.interface';
 
-export class SimpleSignup implements Signup {
+export class Signup implements ISignup {
     private _userRepository: IUserRepository;
     private _encriptService: IEncriptService;
 

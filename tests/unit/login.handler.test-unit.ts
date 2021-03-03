@@ -1,10 +1,10 @@
 import { mock } from 'jest-mock-extended';
 import { ValidationFailedError } from '../../src/infra/errors/validationFailedError';
-import { JWTLogin } from '../../src/modules/login/useCases/jwt-login';
 import { IAuthService } from '../../src/modules/shared/services/auth-service.interface';
 import { IEncriptService } from '../../src/modules/shared/services/encript-service.interface';
 import { User } from '../../src/modules/users/models/user';
 import { IUserRepository } from '../../src/modules/users/repositories/user-repository.interface';
+import { Login } from '../../src/modules/users/useCases/login';
 
 describe('UseCase login', () => {
   const mockUserRepository = mock<IUserRepository>();
@@ -12,7 +12,7 @@ describe('UseCase login', () => {
   const mockAuthService = mock<IAuthService>();
 
   it('deve falhar ao fazer login com senha vazia', async () => {
-    const login = new JWTLogin(mockUserRepository, mockEncriptService, mockAuthService);
+    const login = new Login(mockUserRepository, mockEncriptService, mockAuthService);
     const invalidLogin = { email: '', password: '' };
     await expect(login.handle(invalidLogin)).rejects.toThrow(ValidationFailedError);
   });
@@ -21,7 +21,7 @@ describe('UseCase login', () => {
     mockUserRepository.findByEmailAndPassword.mockReturnValue(Promise.resolve({} as User));
     mockAuthService.generateToken.mockReturnValue(Promise.resolve('fakeToken'));
 
-    const login = new JWTLogin(mockUserRepository, mockEncriptService, mockAuthService);
+    const login = new Login(mockUserRepository, mockEncriptService, mockAuthService);
     const validLogin = { email: 'email@email.com', password: 'senha123' };
     const result = await login.handle(validLogin);
 
@@ -34,7 +34,7 @@ describe('UseCase login', () => {
     const mockUserReturn = new Promise<User>((resolve) => resolve(undefined));
     mockUserRepository.findByEmailAndPassword.mockReturnValue(mockUserReturn);
 
-    const login = new JWTLogin(mockUserRepository, mockEncriptService, mockAuthService);
+    const login = new Login(mockUserRepository, mockEncriptService, mockAuthService);
     const validLogin = { email: 'email@email.com', password: 'senha123' };
     await expect(login.handle(validLogin)).rejects.toThrow(ValidationFailedError);
   });

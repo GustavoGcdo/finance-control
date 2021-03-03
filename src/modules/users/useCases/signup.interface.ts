@@ -1,7 +1,7 @@
 import { Result } from '../../../infra/models/result';
-import { User } from '../../users/models/user';
 import { SignupDto } from '../dtos/signup.dto';
+import { User } from '../models/user';
 
-export interface Signup {
+export interface ISignup {
     handle(signupDto: SignupDto): Promise<Result<User>>;
 }

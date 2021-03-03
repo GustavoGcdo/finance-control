@@ -1,16 +1,16 @@
 import { Request, Response } from 'express';
-import { Login } from '../../modules/login/useCases/login';
-import { Signup } from '../../modules/login/useCases/signup';
+import { ILogin } from '../../modules/users/useCases/login.interface';
+import { ISignup } from '../../modules/users/useCases/signup.interface';
 import { HttpStatus } from '../helper/enums/http-status.enum';
 import { HandleResponse } from '../helper/handleResponse';
 
 export class LoginController {
-    private _signup: Signup;
-    private _login: Login;
+    private _signup: ISignup;
+    private _login: ILogin;
 
     constructor(
-      signup: Signup,
-      login: Login
+      signup: ISignup,
+      login: ILogin
     ) {
       this._signup = signup;
       this._login = login;

@@ -1,4 +1,4 @@
-import { User } from '../models/user';
+import { User } from '../domain/entities/user';
 
 export class UserMap {
   public static toDomain(raw: any): User {

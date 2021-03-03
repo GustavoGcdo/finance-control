@@ -1,6 +1,6 @@
 
-import { Either, left, right } from '../../shared/models/either';
-import { UserErrors } from '../errors/user.errors';
+import { Either, left, right } from '../../../shared/models/either';
+import { UserErrors } from '../../errors/user.errors';
 
 export class Email {
   private readonly email: string

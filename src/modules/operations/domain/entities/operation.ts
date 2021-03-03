@@ -1,5 +1,5 @@
 import { Either, left, right } from '../../../shared/models/either';
-import { User } from '../../../users/models/user';
+import { User } from '../../../users/domain/entities/user';
 import { OperationErrors } from '../../errors/operation.errors';
 import { OperationType } from '../valueObjects/operation-type';
 

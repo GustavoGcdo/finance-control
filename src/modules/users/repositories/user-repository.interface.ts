@@ -1,4 +1,4 @@
-import { User } from '../models/user';
+import { User } from '../domain/entities/user';
 
 export interface IUserRepository {
     getById(id: string): Promise<User | null>;

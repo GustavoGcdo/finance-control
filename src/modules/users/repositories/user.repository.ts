@@ -1,5 +1,5 @@
+import { User } from '../domain/entities/user';
 import { UserMap } from '../mappers/user-map';
-import { User } from '../models/user';
 import UserModel from '../schemas/user.schema';
 import { IUserRepository } from './user-repository.interface';
 

@@ -3,8 +3,8 @@ import { Result } from '../../../infra/models/result';
 import { IAuthService } from '../../shared/services/auth-service.interface';
 import { IEncriptService } from '../../shared/services/encript-service.interface';
 import { LoginContract } from '../contracts/login.contract';
+import { User } from '../domain/entities/user';
 import { LoginDto } from '../dtos/login.dto';
-import { User } from '../models/user';
 import { IUserRepository } from '../repositories/user-repository.interface';
 import { ILogin } from './login.interface';
 

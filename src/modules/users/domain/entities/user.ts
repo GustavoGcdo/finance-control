@@ -1,7 +1,7 @@
-import { Operation } from '../../operations/domain/entities/operation';
-import { EOperationType } from '../../operations/domain/enums/operation-type.enum';
-import { Either, left, right } from '../../shared/models/either';
-import { UserErrors } from '../errors/user.errors';
+import { Operation } from '../../../operations/domain/entities/operation';
+import { EOperationType } from '../../../operations/domain/enums/operation-type.enum';
+import { Either, left, right } from '../../../shared/models/either';
+import { UserErrors } from '../../errors/user.errors';
 import { Email } from '../valueObjects/email';
 
 type UserProps = {

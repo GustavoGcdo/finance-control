@@ -2,8 +2,8 @@ import { ValidationFailedError } from '../../../infra/errors/validationFailedErr
 import { Result } from '../../../infra/models/result';
 import { IEncriptService } from '../../shared/services/encript-service.interface';
 import { SignupContract } from '../contracts/signup.contract';
+import { User } from '../domain/entities/user';
 import { SignupDto } from '../dtos/signup.dto';
-import { User } from '../models/user';
 import { IUserRepository } from '../repositories/user-repository.interface';
 import { ISignup } from './signup.interface';
 

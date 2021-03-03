@@ -48,7 +48,7 @@ export class GetUserExtractHandler implements IGetUserExtractHandler {
       const userExtract: UserExtractDto =
         {
           name: userFound.name,
-          email: userFound.email,
+          email: userFound.email.value,
           balance: userFound.balance || 0,
           totalRecipes,
           totalExpenses: totalExpenses
@@ -70,7 +70,7 @@ export class GetUserExtractHandler implements IGetUserExtractHandler {
 
     private sumExecutedOperationsByType(operations: Operation[], type: EOperationType): number {
       return operations
-        .filter(operation => operation.type === type && operation.executed)
+        .filter(operation => operation.type.value === type && operation.executed)
         .map(o => o.value)
         .reduce((acum, item) => item + acum, 0);
     }

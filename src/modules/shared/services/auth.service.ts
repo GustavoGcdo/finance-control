@@ -9,7 +9,7 @@ export class AuthService implements IAuthService {
     const dataToken: Payload = {
       _id: user._id,
       name: user.name,
-      email: user.email
+      email: user.email.value
     };
 
     const token = await sign(dataToken, config.SALT_KEY);

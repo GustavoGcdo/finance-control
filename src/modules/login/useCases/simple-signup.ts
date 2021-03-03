@@ -5,9 +5,9 @@ import { User } from '../../users/models/user';
 import { IUserRepository } from '../../users/repositories/user-repository.interface';
 import { SignupContract } from '../contracts/signup.contract';
 import { SignupDto } from '../dtos/signup.dto';
-import { ISignupHandler } from './signup-handler.interface';
+import { Signup } from './signup';
 
-export class SignupHandler implements ISignupHandler {
+export class SimpleSignup implements Signup {
     private _userRepository: IUserRepository;
     private _encriptService: IEncriptService;
 

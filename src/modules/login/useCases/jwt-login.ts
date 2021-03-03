@@ -6,9 +6,9 @@ import { User } from '../../users/models/user';
 import { IUserRepository } from '../../users/repositories/user-repository.interface';
 import { LoginContract } from '../contracts/login.contract';
 import { LoginDto } from '../dtos/login.dto';
-import { ILoginHandler } from './login-handler.interface';
+import { Login } from './login';
 
-export class LoginHandler implements ILoginHandler {
+export class JWTLogin implements Login {
     private _userRepository: IUserRepository;
     private _encriptService: IEncriptService;
     private _authService: IAuthService;

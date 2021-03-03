@@ -1,7 +1,7 @@
 import { GetSimpleUserExtract } from '../modules/extract/useCases/get-simple-user-extract';
-import { AddOperationHandler } from '../modules/operations/handlers/add-operation.handler';
-import { GetUserOperationsHandler } from '../modules/operations/handlers/get-user-operations.handler';
 import { OperationRepository } from '../modules/operations/repositories/operation.repository';
+import { AddOperationToUser } from '../modules/operations/useCases/add-operation';
+import { GetUserOperations } from '../modules/operations/useCases/get-user-operations';
 import { AuthService } from '../modules/shared/services/auth.service';
 import { UserRepository } from '../modules/users/repositories/user.repository';
 import { FinanceController } from '../presentation/controllers/finance.controller';
@@ -13,10 +13,10 @@ export const makeFinanceRoutes = (): FinanceRoutes => {
   const authMiddleware = new AuthMiddleware(authService);
   const operationsRepository = new OperationRepository();
   const userRepository = new UserRepository();
-  const getOperationsHandler = new GetUserOperationsHandler(operationsRepository, userRepository);
-  const getUserExtractHandler = new GetSimpleUserExtract(operationsRepository, userRepository);
-  const addOperationHandler = new AddOperationHandler(userRepository, operationsRepository);
-  const financeController = new FinanceController(getOperationsHandler, getUserExtractHandler, addOperationHandler, authService);
+  const getOperations = new GetUserOperations(operationsRepository, userRepository);
+  const getUserExtract = new GetSimpleUserExtract(operationsRepository, userRepository);
+  const addOperation = new AddOperationToUser(userRepository, operationsRepository);
+  const financeController = new FinanceController(getOperations, getUserExtract, addOperation, authService);
   const financeRoutes = new FinanceRoutes(authMiddleware, financeController);
   return financeRoutes;
 };

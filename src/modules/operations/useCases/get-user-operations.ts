@@ -5,9 +5,9 @@ import { GetUserOperationsContract } from '../contracts/get-user-operations.cont
 import { GetUserOperationsDto } from '../dtos/get-user-operations.dto';
 import { PaginateOperationsDto } from '../dtos/pagintate-operations.dto';
 import { IOperationRepository } from '../repositories/operation-repository.interface';
-import { IGetUserOperationsHandler } from './get-user-operations-handler.interface';
+import { IGetUserOperations } from './get-user-operations.interface';
 
-export class GetUserOperationsHandler implements IGetUserOperationsHandler {
+export class GetUserOperations implements IGetUserOperations {
     private _operationRepository: IOperationRepository;
     private _userRepository: IUserRepository;
 

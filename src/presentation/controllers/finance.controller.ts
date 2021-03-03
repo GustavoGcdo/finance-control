@@ -1,27 +1,27 @@
 import { Request, Response } from 'express';
 import { GetUserExtract } from '../../modules/extract/useCases/get-user-extract';
 import { AddOperationDto } from '../../modules/operations/dtos/add-operation.dto';
-import { IAddOperationHandler } from '../../modules/operations/handlers/add-operation-handler.interface';
-import { IGetUserOperationsHandler } from '../../modules/operations/handlers/get-user-operations-handler.interface';
+import { IAddOperation } from '../../modules/operations/useCases/add-operation.interface';
+import { IGetUserOperations } from '../../modules/operations/useCases/get-user-operations.interface';
 import { IAuthService } from '../../modules/shared/services/auth-service.interface';
 import { HttpStatus } from '../helper/enums/http-status.enum';
 import { HandleResponse } from '../helper/handleResponse';
 
 export class FinanceController {
-  private _getUserOperations: IGetUserOperationsHandler;
+  private _getUserOperations: IGetUserOperations;
   private _getUserExtract: GetUserExtract;
-  private _addOperationHandler: IAddOperationHandler;
+  private _addOperation: IAddOperation;
   private _authService: IAuthService;
 
   constructor(
-    getUserOperations: IGetUserOperationsHandler,
+    getUserOperations: IGetUserOperations,
     getUserExtract: GetUserExtract,
-    addOperationHandler: IAddOperationHandler,
+    addOperation: IAddOperation,
     authService: IAuthService
   ) {
     this._getUserOperations = getUserOperations;
     this._getUserExtract = getUserExtract;
-    this._addOperationHandler = addOperationHandler;
+    this._addOperation = addOperation;
     this._authService = authService;
   }
 
@@ -55,7 +55,7 @@ export class FinanceController {
         ...request.body,
         userId: data._id
       };
-      const result = await this._addOperationHandler.handle(addOperationDto);
+      const result = await this._addOperation.handle(addOperationDto);
       return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
     } catch (error) {
       return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);

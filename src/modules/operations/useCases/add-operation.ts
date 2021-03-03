@@ -6,9 +6,9 @@ import { AddOperationContract } from '../contracts/add-operation.contract';
 import { Operation } from '../domain/entities/operation';
 import { AddOperationDto } from '../dtos/add-operation.dto';
 import { IOperationRepository } from '../repositories/operation-repository.interface';
-import { IAddOperationHandler } from './add-operation-handler.interface';
+import { IAddOperation } from './add-operation.interface';
 
-export class AddOperationHandler implements IAddOperationHandler {
+export class AddOperationToUser implements IAddOperation {
   private _userRepository: IUserRepository;
   private _operationRepository: IOperationRepository;
 

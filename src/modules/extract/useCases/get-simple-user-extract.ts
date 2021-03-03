@@ -7,9 +7,9 @@ import { IUserRepository } from '../../users/repositories/user-repository.interf
 import { GetUserExtractContract } from '../contracts/get-user-extract.contract';
 import { GetUserExtractDto } from '../dtos/get-user-extract.dto';
 import { UserExtractDto } from '../dtos/user-extract.dto';
-import { IGetUserExtractHandler } from './get-user-extract-handler.interface';
+import { GetUserExtract } from './get-user-extract';
 
-export class GetUserExtractHandler implements IGetUserExtractHandler {
+export class GetSimpleUserExtract implements GetUserExtract {
     private _operationRepository: IOperationRepository;
     private _userRepository: IUserRepository;
 

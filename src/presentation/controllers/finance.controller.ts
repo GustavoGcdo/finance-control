@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { IGetUserExtractHandler } from '../../modules/extract/handlers/get-user-extract-handler.interface';
+import { GetUserExtract } from '../../modules/extract/useCases/get-user-extract';
 import { AddOperationDto } from '../../modules/operations/dtos/add-operation.dto';
 import { IAddOperationHandler } from '../../modules/operations/handlers/add-operation-handler.interface';
 import { IGetUserOperationsHandler } from '../../modules/operations/handlers/get-user-operations-handler.interface';
@@ -9,13 +9,13 @@ import { HandleResponse } from '../helper/handleResponse';
 
 export class FinanceController {
   private _getUserOperations: IGetUserOperationsHandler;
-  private _getUserExtract: IGetUserExtractHandler;
+  private _getUserExtract: GetUserExtract;
   private _addOperationHandler: IAddOperationHandler;
   private _authService: IAuthService;
 
   constructor(
     getUserOperations: IGetUserOperationsHandler,
-    getUserExtract: IGetUserExtractHandler,
+    getUserExtract: GetUserExtract,
     addOperationHandler: IAddOperationHandler,
     authService: IAuthService
   ) {

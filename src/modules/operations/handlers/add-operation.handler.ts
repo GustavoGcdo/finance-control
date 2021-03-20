@@ -19,10 +19,10 @@ export class AddOperationHandler implements IAddOperationHandler {
       this._operationRepository = operationRepository;
     }
 
-    async handle(addOperationDto: AddOperationDto): Promise<Result<null>> {
+    async handle(addOperationDto: AddOperationDto): Promise<Result<Operation>> {
       await this.validate(addOperationDto);
-      await this.addOperation(addOperationDto);
-      const resultSucess = new Result(null, 'operation added successfully', true, []);
+      const operationCreated = await this.addOperation(addOperationDto);
+      const resultSucess = new Result(operationCreated, 'operation added successfully', true, []);
       return resultSucess;
     }
 
@@ -66,8 +66,10 @@ export class AddOperationHandler implements IAddOperationHandler {
         newBalance += newValue;
       }
 
-      await this._operationRepository.add(newOperation);
+      const operationCreated = await this._operationRepository.add(newOperation);
       await this._userRepository.updateBalance(userId, newBalance);
+
+      return operationCreated;
     }
 
     private async findUser(userId: string) {

@@ -44,12 +44,13 @@ export class GetUserExtractHandler implements IGetUserExtractHandler {
 
       const totalRecipes = this.sumExecutedOperationsByType(userOperations, OperationType.RECIPE);
       const totalExpenses = this.sumExecutedOperationsByType(userOperations, OperationType.EXPENSE);
+      const actualBalance = totalRecipes - totalExpenses;
 
       const userExtract: UserExtractDto =
         {
           name: userFound.name,
           email: userFound.email,
-          balance: userFound.balance || 0,
+          balance: actualBalance,
           totalRecipes,
           totalExpenses: totalExpenses
         };

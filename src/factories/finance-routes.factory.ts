@@ -1,6 +1,7 @@
 import { GetUserExtractHandler } from '../modules/extract/handlers/get-user-extract.handler';
 import { AddOperationHandler } from '../modules/operations/handlers/add-operation.handler';
 import { GetUserOperationsHandler } from '../modules/operations/handlers/get-user-operations.handler';
+import { UpdateOperationHandler } from '../modules/operations/handlers/update-operation.handler';
 import { OperationRepository } from '../modules/operations/repositories/operation.repository';
 import { AuthService } from '../modules/shared/services/auth.service';
 import { UserRepository } from '../modules/users/repositories/user.repository';
@@ -16,7 +17,8 @@ export const makeFinanceRoutes = (): FinanceRoutes => {
   const getOperationsHandler = new GetUserOperationsHandler(operationsRepository, userRepository);
   const getUserExtractHandler = new GetUserExtractHandler(operationsRepository, userRepository);
   const addOperationHandler = new AddOperationHandler(userRepository, operationsRepository);
-  const financeController = new FinanceController(getOperationsHandler, getUserExtractHandler, addOperationHandler, authService);
+  const updateOperationHandler = new UpdateOperationHandler(userRepository, operationsRepository);
+  const financeController = new FinanceController(getOperationsHandler, getUserExtractHandler, addOperationHandler, updateOperationHandler, authService);
   const financeRoutes = new FinanceRoutes(authMiddleware, financeController);
   return financeRoutes;
 };

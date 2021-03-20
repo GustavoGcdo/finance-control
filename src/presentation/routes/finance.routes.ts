@@ -32,5 +32,9 @@ export class FinanceRoutes {
     this.router.post('/finance/operations',
       (req, res, next) => this._auth.authorize(req, res, next),
       (req, res) => this._controller.addOperation(req, res));
+
+    this.router.put('/finance/operations/:id',
+      (req, res, next) => this._auth.authorize(req, res, next),
+      (req, res) => this._controller.updateOperation(req, res));
   }
 }

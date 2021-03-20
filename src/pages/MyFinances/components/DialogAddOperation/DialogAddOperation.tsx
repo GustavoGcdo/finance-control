@@ -5,7 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import AlertErrorMessage from '../../../../components/AlertErrorMessage/AlertErrorMessage';
 import CheckBoxForm from '../../../../components/formComponents/CheckboxForm';
 import DatePickerForm from '../../../../components/formComponents/DatePickerForm';
@@ -15,20 +15,37 @@ import RadioGroupForm from '../../../../components/formComponents/RadioGroupForm
 import { ErrorHandler } from '../../../../infra/errorHandler';
 import { Result } from '../../../../infra/models/result';
 import { OperationType } from '../../../../models/enums/operation-type.enum';
-import { addOperation } from '../../../../services/finances.service';
+import { Operation } from '../../../../models/operation';
+import { addOperation, updateOperation } from '../../../../services/finances.service';
 import './DialogAddOperation.scss';
 
-type DialogProps = { open: boolean; onClose: (confirm: boolean) => void };
+type DialogProps = {
+  open: boolean;
+  onClose: (confirm: boolean) => void;
+  objectToEdit?: Operation;
+};
 
-const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose }) => {
+const DialogAddOperation: React.FC<DialogProps> = ({
+  open,
+  onClose,
+  objectToEdit,
+}) => {
   const formRef = useRef<FormHandles>(null);
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (open && objectToEdit) {
+      setTimeout(() => {
+        formRef.current?.setData(objectToEdit);
+      }, 200);
+    }
+  }, [objectToEdit, open]);
 
   const handleClose = () => {
     onClose(false);
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = () => {   
     const dataForm = formRef.current?.getData();
     handleSubmit(dataForm);
   };
@@ -36,14 +53,26 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose }) => {
   const handleSubmit = (formData: any) => {
     setErrorMessages([]);
     const newOperation = formData;
-    addOperation(newOperation)
-      .then((result) => {
-        onClose(true);
-        console.log('result deu bom', result);
-      })
-      .catch((resultError) => {
-        handleErrors(resultError.response?.data);
-      });
+
+    if (objectToEdit) {
+      updateOperation(objectToEdit._id, newOperation)
+        .then((result) => {
+          onClose(true);
+          console.log('result deu bom', result);
+        })
+        .catch((resultError) => {
+          handleErrors(resultError.response?.data);
+        });
+    } else {
+      addOperation(newOperation)
+        .then((result) => {
+          onClose(true);
+          console.log('result deu bom', result);
+        })
+        .catch((resultError) => {
+          handleErrors(resultError.response?.data);
+        });
+    }
   };
 
   const handleErrors = (resultError: Result) => {
@@ -82,9 +111,8 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose }) => {
             <InputForm name="description" label="Descrição" />
             <InputForm name="category" label="Categoria" />
             <InputMaskForm name="value" label="Valor" typeMask="currency" />
-            <DatePickerForm name="date" label="Data"/>
+            <DatePickerForm name="date" label="Data" />
             <CheckBoxForm name="executed" label="Já está pago?" />
-
           </div>
         </Form>
 

@@ -1,15 +1,17 @@
-import React from 'react';
-import './OperationsList.scss';
 import Icon from '@material-ui/core/Icon';
-import { Operation } from '../../../../models/operation';
-import { OperationType } from '../../../../models/enums/operation-type.enum';
+import React from 'react';
 import { formatCurrency } from '../../../../infra/formatCurrency';
+import { OperationType } from '../../../../models/enums/operation-type.enum';
+import { Operation } from '../../../../models/operation';
+import './OperationsList.scss';
 
 type OperationListProps = {
   operationList: Operation[];
+  onItemSelected?: (operation: Operation) => void
 };
 
-const OperationsList: React.FC<OperationListProps> = ({ operationList }) => {
+const OperationsList: React.FC<OperationListProps> = ({ operationList, onItemSelected }) => {
+  
   const getIconByType = (operationType: OperationType) => {
     switch (operationType) {
       case OperationType.EXPENSE:
@@ -35,6 +37,12 @@ const OperationsList: React.FC<OperationListProps> = ({ operationList }) => {
     return formatedValue;
   };
 
+  const handleItemSelected = (operation: Operation) => {
+    if(onItemSelected) {
+      onItemSelected(operation);
+    }
+  }
+
   return (
     <div className="operations-list-container">
       <table className="table-operations">
@@ -49,7 +57,7 @@ const OperationsList: React.FC<OperationListProps> = ({ operationList }) => {
         </thead>
         <tbody>
           {operationList.map((operation) => (
-            <tr key={operation._id}>
+            <tr key={operation._id} onClick={() => handleItemSelected(operation)}>
               <td className="operation">{getIconByType(operation.type)}</td>
               <td className="description">{operation.description}</td>
               <td>{formatOperationValue(operation.value, operation.type)}</td>

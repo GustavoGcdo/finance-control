@@ -68,7 +68,7 @@ export class UpdateOperationHandler implements IUpdateOperationHandler {
     }
 
     if (value) {
-      operationUpdated.value = value;
+      operationUpdated.value = Number(value);
     }
 
     if (type) {

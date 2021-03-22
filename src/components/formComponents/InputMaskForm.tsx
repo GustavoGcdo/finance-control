@@ -13,7 +13,7 @@ type TypeMasks = 'currency';
 
 const InputMaskForm: FunctionComponent<InputMaskProps> = ({ name, label, typeMask }) => {
   const { fieldName, defaultValue, registerField, error } = useField(name);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(defaultValue);
 
   useEffect(() => {
     registerField({
@@ -52,7 +52,6 @@ const InputMaskForm: FunctionComponent<InputMaskProps> = ({ name, label, typeMas
       onChange={handleChange}
       error={error != null}
       helperText={error}
-      defaultValue={defaultValue}      
       InputLabelProps={{
         shrink: true,
       }}

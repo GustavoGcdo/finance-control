@@ -31,7 +31,7 @@ type InputProps = Props & CheckboxProps;
 const CheckBoxForm: FunctionComponent<InputProps> = ({ name, label }) => {
   const inputRef = useRef(null);
   const { fieldName, defaultValue, registerField } = useField(name);
-  const [value, setValue] = useState(false);
+  const [value, setValue] = useState(defaultValue);
 
   const handleChange = (event: any) => {
     setValue(event.target.checked);

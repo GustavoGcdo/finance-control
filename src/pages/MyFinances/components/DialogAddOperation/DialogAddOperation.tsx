@@ -5,7 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import AlertErrorMessage from '../../../../components/AlertErrorMessage/AlertErrorMessage';
 import CheckBoxForm from '../../../../components/formComponents/CheckboxForm';
 import DatePickerForm from '../../../../components/formComponents/DatePickerForm';
@@ -25,27 +25,15 @@ type DialogProps = {
   objectToEdit?: Operation;
 };
 
-const DialogAddOperation: React.FC<DialogProps> = ({
-  open,
-  onClose,
-  objectToEdit,
-}) => {
+const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit }) => {
   const formRef = useRef<FormHandles>(null);
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (open && objectToEdit) {
-      setTimeout(() => {
-        formRef.current?.setData(objectToEdit);
-      }, 200);
-    }
-  }, [objectToEdit, open]);
 
   const handleClose = () => {
     onClose(false);
   };
 
-  const handleConfirm = () => {   
+  const handleConfirm = () => {
     const dataForm = formRef.current?.getData();
     handleSubmit(dataForm);
   };
@@ -78,10 +66,7 @@ const DialogAddOperation: React.FC<DialogProps> = ({
   const handleErrors = (resultError: Result) => {
     if (resultError && resultError.errors) {
       const errors = resultError.errors;
-      const errorMessagesServer = ErrorHandler.getErrorMessagesByName(
-        errors,
-        'type'
-      );
+      const errorMessagesServer = ErrorHandler.getErrorMessagesByName(errors, 'type');
       setErrorMessages(errorMessagesServer);
 
       const fieldErrors = ErrorHandler.getFieldErrors(errors);
@@ -92,20 +77,16 @@ const DialogAddOperation: React.FC<DialogProps> = ({
   };
 
   return (
-    <Dialog
-      onClose={handleClose}
-      aria-labelledby="simple-dialog-title"
-      open={open}
-    >
+    <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogTitle id="simple-dialog-title">Adicionar lançamento</DialogTitle>
       <DialogContent>
-        <Form ref={formRef} onSubmit={handleSubmit}>
+        <Form ref={formRef} onSubmit={handleSubmit} initialData={objectToEdit}>
           <div className="form-add-operation">
             <RadioGroupForm
               name="type"
               options={[
                 { value: OperationType.EXPENSE, label: 'Saída' },
-                { value: OperationType.RECIPE, label: 'Entrada' },
+                { value: OperationType.RECIPE, label: 'Entrada' }
               ]}
             />
             <InputForm name="description" label="Descrição" />

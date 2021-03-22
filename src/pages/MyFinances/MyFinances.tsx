@@ -9,7 +9,7 @@ import PersonInfo from './components/PersonInfo/PersonInfo';
 import './MyFinances.scss';
 
 const userExtractInit = {} as UserExtract
-const MyFinances: React.FC = () => {
+const MyFinances: React.FC = () => {  
   const [operationsList, setOperationsList] = useState<Operation[]>([]);
   const [userExtract, setUserExtract] = useState<UserExtract>(userExtractInit);
   const [openDialog, setOpenDialog] = useState(false);
@@ -53,8 +53,12 @@ const MyFinances: React.FC = () => {
   };
 
   const handleItemSelected = (operation: Operation) => {    
-    setItemSelected(operation);
     setOpenDialog(true);
+    setItemSelected(operation);
+  }
+
+  const showModal = () => {
+    return <DialogAddOperation open={openDialog} onClose={handleOnCloseDialog} objectToEdit={itemSelected}/>
   }
 
   return (
@@ -71,7 +75,8 @@ const MyFinances: React.FC = () => {
         <OperationsList operationList={operationsList} onItemSelected={handleItemSelected}/>
       </div>
 
-      <DialogAddOperation open={openDialog} onClose={handleOnCloseDialog} objectToEdit={itemSelected}/>
+      {openDialog && showModal()}
+      
     </div>
   );
 };

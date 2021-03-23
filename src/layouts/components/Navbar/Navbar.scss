@@ -2,18 +2,23 @@
 
 .navbar-container {
   background: $primary-color;
-
   color: white;
   width: 100%;
-  padding: 15px;
-  display: flex;
-  align-content: center;
-  justify-content: space-between;
+  
+
+  .navbar-content {
+    padding: 15px;
+    max-width: 1200px;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    margin: 0 auto;
+  }
 
   .logo-container {
     display: flex;
     align-items: center;
-    
+
     .logo {
       font-size: 18px;
       display: block;

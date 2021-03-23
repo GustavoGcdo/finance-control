@@ -12,13 +12,15 @@ const Navbar: React.FC = () => {
 
   return (
     <div className="navbar-container">
-      <div className="logo-container">
-        <span className="logo">Finance Control</span>
-      </div>
+      <div className="navbar-content">
+        <div className="logo-container">
+          <span className="logo">Finance Control</span>
+        </div>
 
-      <Button onClick={handleSignOut} color="inherit">
-        Sair
-      </Button>
+        <Button onClick={handleSignOut} color="inherit">
+          Sair
+        </Button>
+      </div>
     </div>
   );
 };

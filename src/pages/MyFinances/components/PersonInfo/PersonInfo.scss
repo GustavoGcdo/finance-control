@@ -2,9 +2,6 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
-  //   background: green;
-
-  //   align-items: center;
 
   .box {
     border-radius: 3px;
@@ -17,7 +14,7 @@
     grid-column-end: 3;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    padding: 20px;
 
     .name {
       font-size: 20px;
@@ -28,6 +25,7 @@
     }
 
     .action-edit {
+      margin-top: 10px;
       font-size: 13px;
       font-weight: 500;
     }
@@ -59,5 +57,27 @@
     .value {
       display: block;
     }
+  }
+
+  @media screen and (max-width: 800px) {
+    grid-template-columns: repeat(3, 1fr);
+
+    .person-info {
+      grid-column-start: 1;
+      grid-column-end: 4;
+    }
+
+  }
+
+  
+  @media screen and (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+
+    .person-info {
+      grid-column-start: 1;
+      grid-column-end: 4;
+    }
+
   }
 }

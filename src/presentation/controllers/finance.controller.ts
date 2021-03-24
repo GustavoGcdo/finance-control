@@ -34,7 +34,12 @@ export class FinanceController {
     try {
       const token = request.headers.authorization;
       const data = await this._authService.verifyToken(token || '');
-      const result = await this._getUserOperations.handle({ userId: data._id });
+      const { page, limit } = request.query;
+      const result = await this._getUserOperations.handle({
+        userId: data._id,
+        page: page?.toString(),
+        limit: limit?.toString()
+      });
       return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
     } catch (error) {
       return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);

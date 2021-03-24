@@ -64,6 +64,9 @@
     justify-content: center;
 
     .pagination {
+      li {
+        font-size: 13pt;
+      }
       > li.normal {
         display: none;
       }

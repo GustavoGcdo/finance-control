@@ -6,11 +6,11 @@ import './OperationsList.scss';
 import TableView from './TableView/TableView';
 
 type OperationListProps = {
-  operationList: Operation[];
+  operationList?: Operation[];
   onItemSelected?: (operation: Operation) => void;
 };
 
-const OperationsList: React.FC<OperationListProps> = ({ operationList, onItemSelected }) => {
+const OperationsList: React.FC<OperationListProps> = ({ operationList = [], onItemSelected }) => {
   const { isMobile } = useResponsive();
 
   const renderViewList = () => {

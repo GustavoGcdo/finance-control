@@ -78,7 +78,9 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit
 
   return (
     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-      <DialogTitle id="simple-dialog-title">Adicionar lançamento</DialogTitle>
+      <DialogTitle id="simple-dialog-title">
+        {objectToEdit ? 'Alterar' : 'Adicionar'} lançamento
+      </DialogTitle>
       <DialogContent>
         <Form ref={formRef} onSubmit={handleSubmit} initialData={objectToEdit}>
           <div className="form-add-operation">
@@ -106,7 +108,7 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit
           Cancelar
         </Button>
         <Button onClick={handleConfirm} color="primary">
-          Cadastrar
+          {objectToEdit ? 'Salvar' : 'Cadastrar'}
         </Button>
       </DialogActions>
     </Dialog>

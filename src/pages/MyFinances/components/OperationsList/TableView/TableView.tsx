@@ -49,16 +49,18 @@ const TableView: React.FC<OperationListProps> = ({ operationList, onItemSelected
           <th>Valor</th>
           <th>Categoria</th>
           <th>Data</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         {operationList.map((operation) => (
-          <tr key={operation._id} onClick={() => handleItemSelected(operation)}>
+          <tr key={operation._id}>
             <td className="operation">{getIconByType(operation.type)}</td>
             <td className="description">{operation.description}</td>
             <td>{formatOperationValue(operation.value, operation.type)}</td>
             <td>{operation.category}</td>
             <td>{formatDateString(operation.date)}</td>
+            <td className="actions" onClick={() => handleItemSelected(operation)}><Icon>edit</Icon></td>
           </tr>
         ))}
       </tbody>

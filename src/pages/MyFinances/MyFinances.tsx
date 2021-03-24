@@ -1,16 +1,20 @@
 import Button from '@material-ui/core/Button';
 import React, { useEffect, useState } from 'react';
+import Pagination from '../../components/Pagination/Pagination';
+import { DEFAULT_LIMIT } from '../../constants/paginate.constants';
 import { Operation } from '../../models/operation';
 import { UserExtract } from '../../models/user-extract';
 import { getOperations, getUserExtract } from '../../services/finances.service';
+import { PaginateResult } from '../../types/PaginateResult';
 import DialogAddOperation from './components/DialogAddOperation/DialogAddOperation';
 import OperationsList from './components/OperationsList/OperationsList';
 import PersonInfo from './components/PersonInfo/PersonInfo';
 import './MyFinances.scss';
 
-const userExtractInit = {} as UserExtract
+const userExtractInit = {} as UserExtract;
+
 const MyFinances: React.FC = () => {  
-  const [operationsList, setOperationsList] = useState<Operation[]>([]);
+  const [paginateResult, setPaginateResult] = useState<PaginateResult<Operation> | undefined>();  
   const [userExtract, setUserExtract] = useState<UserExtract>(userExtractInit);
   const [openDialog, setOpenDialog] = useState(false);
   const [itemSelected, setItemSelected] = useState<Operation | undefined>();
@@ -20,10 +24,10 @@ const MyFinances: React.FC = () => {
     getUserExtractData();
   }, []);
 
-  const getOperationsList = async () => {
+  const getOperationsList = async (page?: number) => {
     try {
-      const result = await getOperations();
-      setOperationsList(result.data.results);
+      const result = await getOperations(page);
+      setPaginateResult(result.data);
     } catch (error) {
       console.log(error);
     }
@@ -61,6 +65,10 @@ const MyFinances: React.FC = () => {
     return <DialogAddOperation open={openDialog} onClose={handleOnCloseDialog} objectToEdit={itemSelected}/>
   }
 
+  const handleChangePage = (page: number) => {
+    getOperationsList(page);
+  }
+
   return (
     <div className="my-finances-container">
       <div className="person-info-area">
@@ -72,7 +80,9 @@ const MyFinances: React.FC = () => {
           <h2>Meus lançamentos</h2>
           <Button variant="contained" color="primary" disableElevation onClick={handleOpenDialog}>Adicionar lançamento</Button>
         </div>
-        <OperationsList operationList={operationsList} onItemSelected={handleItemSelected}/>
+        <OperationsList operationList={paginateResult?.results} onItemSelected={handleItemSelected}/>
+
+        <Pagination totalItems={paginateResult?.total} onChangePage={handleChangePage} pageSize={DEFAULT_LIMIT} />
       </div>
 
       {openDialog && showModal()}

@@ -1,3 +1,5 @@
+import { stringify } from 'querystring';
+import { DEFAULT_LIMIT, DEFAULT_PAGE } from '../constants/paginate.constants';
 import { Result } from '../infra/models/result';
 import { Operation } from '../models/operation';
 import api from './api';
@@ -10,9 +12,10 @@ export function getUserExtract(): Promise<Result> {
     .then((response) => response.data);
 }
 
-export function getOperations(): Promise<Result> {
+export function getOperations(page: number = DEFAULT_PAGE, limit: number = DEFAULT_LIMIT): Promise<Result> {
+  const queryString = stringify({ page, limit })
   return api
-    .get(`${URL_SERVICE_BASE}/operations`)
+    .get(`${URL_SERVICE_BASE}/operations?${queryString}`)
     .then((response) => response.data);
 }
 
@@ -22,7 +25,7 @@ export function addOperation(operation: Operation): Promise<Result> {
     .then((response) => response.data);
 }
 
-export function updateOperation(id:string, operationToUpdate: Operation): Promise<Result> {
+export function updateOperation(id: string, operationToUpdate: Operation): Promise<Result> {
   return api
     .put(`${URL_SERVICE_BASE}/operations/${id}`, operationToUpdate)
     .then((response) => response.data);

@@ -12,7 +12,7 @@ export class OperationRepository implements IOperationRepository {
 
   async get(userId: string): Promise<Operation[]> {
     const documentsOperations = await OperationModel.find({ 'user._id': userId }).sort({ createdAt: -1 });
-    const operations = documentsOperations.map(o => OperationMap.toDomain(o)) as Operation[];
+    const operations = documentsOperations.map((o: any) => OperationMap.toDomain(o)) as Operation[];
     return operations;
   }
 
@@ -25,7 +25,7 @@ export class OperationRepository implements IOperationRepository {
     const documentsOperations = await OperationModel.find(query)
       .skip(skip).limit(limit).sort({ createdAt: -1 });
 
-    const operations = documentsOperations.map(o => OperationMap.toDomain(o));
+    const operations = documentsOperations.map((o: any) => OperationMap.toDomain(o));
 
     const paginateResult: PaginateResult<Operation> = {
       results: operations,

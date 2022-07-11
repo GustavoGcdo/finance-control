@@ -1,8 +1,8 @@
 import { Contract } from '../../../infra/models/contract';
 import { Notifiable } from '../../../infra/models/notifiable';
 import { Validator } from '../../../infra/validator/validator';
+import { EOperationType } from '../domain/enums/operation-type.enum';
 import { AddOperationDto } from '../dtos/add-operation.dto';
-import { OperationType } from '../models/enums/operation-type.enum';
 
 export class AddOperationContract extends Notifiable implements Contract<AddOperationDto> {
   private _dto: AddOperationDto;
@@ -29,7 +29,7 @@ export class AddOperationContract extends Notifiable implements Contract<AddOper
   }
 
   private validateOperationType() {
-    const isNotValidOperationType = !Object.values(OperationType).some((v) => v === this._dto.type);
+    const isNotValidOperationType = !Object.values(EOperationType).some((v) => v === this._dto.type);
     if (isNotValidOperationType) {
       this.addReport({ name: 'type', message: 'operation invalid' });
     }

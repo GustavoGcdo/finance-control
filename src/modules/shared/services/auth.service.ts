@@ -1,6 +1,6 @@
 import { sign, verify } from 'jsonwebtoken';
 import config from '../../../config';
-import { User } from '../../users/models/user';
+import { User } from '../../users/domain/entities/user';
 import { Payload } from '../models/payload';
 import { IAuthService } from './auth-service.interface';
 
@@ -9,7 +9,7 @@ export class AuthService implements IAuthService {
     const dataToken: Payload = {
       _id: user._id,
       name: user.name,
-      email: user.email
+      email: user.email.value
     };
 
     const token = await sign(dataToken, config.SALT_KEY);

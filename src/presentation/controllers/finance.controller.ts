@@ -1,33 +1,35 @@
 import { Request, Response } from 'express';
-import { IGetUserExtractHandler } from '../../modules/extract/handlers/get-user-extract-handler.interface';
+import { GetUserExtract } from '../../modules/extract/useCases/get-user-extract';
 import { AddOperationDto } from '../../modules/operations/dtos/add-operation.dto';
 import { UpdateOperationDto } from '../../modules/operations/dtos/update-operation.dto';
-import { IAddOperationHandler } from '../../modules/operations/handlers/add-operation-handler.interface';
-import { IGetUserOperationsHandler } from '../../modules/operations/handlers/get-user-operations-handler.interface';
-import { IUpdateOperationHandler } from '../../modules/operations/handlers/update-operation-handler.interface';
+import { IAddOperation } from '../../modules/operations/useCases/add-operation.interface';
+import { IGetUserOperations } from '../../modules/operations/useCases/get-user-operations.interface';
+import { IUpdateOperationHandler } from '../../modules/operations/useCases/update-operation-handler.interface';
 import { IAuthService } from '../../modules/shared/services/auth-service.interface';
 import { HttpStatus } from '../helper/enums/http-status.enum';
 import { HandleResponse } from '../helper/handleResponse';
 
 export class FinanceController {
-  private _getUserOperations: IGetUserOperationsHandler;
-  private _getUserExtract: IGetUserExtractHandler;
-  private _addOperationHandler: IAddOperationHandler;
   private _updateOperationHandler: IUpdateOperationHandler;
+  private _getUserOperations: IGetUserOperations;
+  private _getUserExtract: GetUserExtract;
+  private _addOperation: IAddOperation;
   private _authService: IAuthService;
 
   constructor(
-    getUserOperations: IGetUserOperationsHandler,
-    getUserExtract: IGetUserExtractHandler,
-    addOperationHandler: IAddOperationHandler,
+    getUserOperations: IGetUserOperations,
+    getUserExtract: GetUserExtract,
+    addOperation: IAddOperation,
     updateOperationHandler: IUpdateOperationHandler,
     authService: IAuthService
   ) {
     this._getUserOperations = getUserOperations;
     this._getUserExtract = getUserExtract;
-    this._addOperationHandler = addOperationHandler;
+    this._addOperation = addOperation;
     this._updateOperationHandler = updateOperationHandler;
+    this._addOperation = addOperation;
     this._authService = authService;
+
   }
 
   public async getUserOperations(request: Request, response: Response) {
@@ -65,7 +67,7 @@ export class FinanceController {
         ...request.body,
         userId: data._id
       };
-      const result = await this._addOperationHandler.handle(addOperationDto);
+      const result = await this._addOperation.handle(addOperationDto);
       return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
     } catch (error) {
       return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);

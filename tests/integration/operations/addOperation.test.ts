@@ -77,7 +77,7 @@ describe('Add Operation a User', () => {
 
     expect(resultAddOperation.body.success).toBeTruthy();
 
-    const createdOperationId = resultAddOperation.body.data._id;
+    const createdOperationId = resultAddOperation.body.data.id;
 
     const updateRecipe = {
       ...recipeToAdd,
@@ -119,7 +119,7 @@ describe('Add Operation a User', () => {
 
     expect(resultAddOperation.body.success).toBeTruthy();
 
-    const createdOperationId = resultAddOperation.body.data._id;
+    const createdOperationId = resultAddOperation.body.data.id;
 
     const VALUE_TO_UPDATE = 100;
     const updateRecipe = {
@@ -144,7 +144,7 @@ describe('Add Operation a User', () => {
     expect(resultExtract.body.data.balance).toBe(VALUE_TO_UPDATE);
   });
 
-  it('PUT - must return success when trying to unperform an existing operation', async () => {
+  it.only('PUT - must return success when trying to unperform an existing operation', async () => {
     const { tokenToTest } = await createAndLoginUser();
 
     const VALUE_TO_ADD = 50.0;
@@ -162,7 +162,7 @@ describe('Add Operation a User', () => {
 
     expect(resultAddOperation.body.success).toBeTruthy();
 
-    const createdOperationId = resultAddOperation.body.data._id;
+    const createdOperationId = resultAddOperation.body.data.id;
     const updateRecipe = {
       ...recipeToAdd,
       executed: false
@@ -204,7 +204,7 @@ describe('Add Operation a User', () => {
 
     expect(resultAddOperation.body.success).toBeTruthy();
 
-    const createdOperationId = resultAddOperation.body.data._id;
+    const createdOperationId = resultAddOperation.body.data.id;
     const updateRecipe = {
       ...recipeToAdd,
       type: 'expense'

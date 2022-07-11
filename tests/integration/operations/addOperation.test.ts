@@ -144,7 +144,7 @@ describe('Add Operation a User', () => {
     expect(resultExtract.body.data.balance).toBe(VALUE_TO_UPDATE);
   });
 
-  it.only('PUT - must return success when trying to unperform an existing operation', async () => {
+  it('PUT - must return success when trying to unperform an existing operation', async () => {
     const { tokenToTest } = await createAndLoginUser();
 
     const VALUE_TO_ADD = 50.0;

@@ -1,24 +1,24 @@
 import { Request, Response } from 'express';
-import { ILoginHandler } from '../../modules/login/handlers/login-handler.interface';
-import { ISignupHandler } from '../../modules/login/handlers/signup-handler.interface';
+import { ILogin } from '../../modules/users/useCases/login.interface';
+import { ISignup } from '../../modules/users/useCases/signup.interface';
 import { HttpStatus } from '../helper/enums/http-status.enum';
 import { HandleResponse } from '../helper/handleResponse';
 
 export class LoginController {
-    private _signupHandler: ISignupHandler;
-    private _loginHandler: ILoginHandler;
+    private _signup: ISignup;
+    private _login: ILogin;
 
     constructor(
-      signupHandler: ISignupHandler,
-      loginHandler: ILoginHandler
+      signup: ISignup,
+      login: ILogin
     ) {
-      this._signupHandler = signupHandler;
-      this._loginHandler = loginHandler;
+      this._signup = signup;
+      this._login = login;
     }
 
     public async signup(request: Request, response: Response) {
       try {
-        const result = await this._signupHandler.handle(request.body);
+        const result = await this._signup.handle(request.body);
         return HandleResponse.handle(response, HttpStatus.CREATED, result);
       } catch (error) {
         return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);
@@ -27,7 +27,7 @@ export class LoginController {
 
     public async login(request: Request, response: Response) {
       try {
-        const result = await this._loginHandler.handle(request.body);
+        const result = await this._login.handle(request.body);
         return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
       } catch (error) {
         return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);

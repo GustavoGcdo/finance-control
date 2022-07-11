@@ -1,4 +1,4 @@
-import { User } from '../../users/models/user';
+import { User } from '../../users/domain/entities/user';
 import { Payload } from '../models/payload';
 
 export interface IAuthService {

@@ -77,7 +77,7 @@ describe('Add Operation a User', () => {
 
     expect(resultAddOperation.body.success).toBeTruthy();
 
-    const createdOperationId = resultAddOperation.body.data._id;
+    const createdOperationId = resultAddOperation.body.data.id;
 
     const updateRecipe = {
       ...recipeToAdd,
@@ -119,7 +119,7 @@ describe('Add Operation a User', () => {
 
     expect(resultAddOperation.body.success).toBeTruthy();
 
-    const createdOperationId = resultAddOperation.body.data._id;
+    const createdOperationId = resultAddOperation.body.data.id;
 
     const VALUE_TO_UPDATE = 100;
     const updateRecipe = {
@@ -162,7 +162,7 @@ describe('Add Operation a User', () => {
 
     expect(resultAddOperation.body.success).toBeTruthy();
 
-    const createdOperationId = resultAddOperation.body.data._id;
+    const createdOperationId = resultAddOperation.body.data.id;
     const updateRecipe = {
       ...recipeToAdd,
       executed: false
@@ -204,7 +204,7 @@ describe('Add Operation a User', () => {
 
     expect(resultAddOperation.body.success).toBeTruthy();
 
-    const createdOperationId = resultAddOperation.body.data._id;
+    const createdOperationId = resultAddOperation.body.data.id;
     const updateRecipe = {
       ...recipeToAdd,
       type: 'expense'

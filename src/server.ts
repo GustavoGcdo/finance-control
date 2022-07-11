@@ -1,9 +1,14 @@
 import { App } from './app';
 
 async function bootstrap() {
-  const application = new App();
-  await application.create();
-  application.start();
+  try {
+    const application = new App();
+    await application.create();
+    application.start();
+  } catch (error) {
+    console.log('[server]: Erro ao configurar aplicação');
+    
+  }
 }
 
 bootstrap();

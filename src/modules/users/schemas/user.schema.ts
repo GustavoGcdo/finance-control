@@ -1,11 +1,10 @@
-import { Schema, model } from 'mongoose';
+import { model, Schema } from 'mongoose';
 
 const schema = new Schema(
   {
     name: String,
     email: String,
-    password: String,
-    balance: Number
+    password: String
   },
   {
     timestamps: true

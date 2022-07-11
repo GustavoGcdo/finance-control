@@ -24,8 +24,7 @@ export class FinanceController {
     authService: IAuthService
   ) {
     this._getUserOperations = getUserOperations;
-    this._getUserExtract = getUserExtract;
-    this._addOperation = addOperation;
+    this._getUserExtract = getUserExtract;    
     this._updateOperationHandler = updateOperationHandler;
     this._addOperation = addOperation;
     this._authService = authService;

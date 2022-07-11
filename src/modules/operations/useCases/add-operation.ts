@@ -56,11 +56,7 @@ export class AddOperationToUser implements IAddOperation {
       return left(new ValidationFailedError('fail to add operation'));
     }
 
-    userToAddOperation.addOperation(operationOrError.value);
-
-    const operationCreated = await this._operationRepository.add(operationOrError.value) as Operation;    
-    await this._userRepository.updateBalance(userId, userToAddOperation.balance);
-
+    const operationCreated = await this._operationRepository.add(operationOrError.value) as Operation;
     return right(operationCreated);
   }
 

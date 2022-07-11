@@ -6,7 +6,6 @@ export class UserMap {
 
     const userOrError = User.create({
       name: raw.name,
-      balance: raw.balance,
       email: raw.email,
       password: raw.password
     }, raw._id);
@@ -24,7 +23,6 @@ export class UserMap {
     return {
       name: user.name,
       email: user.email.value,
-      balance: user.balance,
       password: user.password
     };
   }

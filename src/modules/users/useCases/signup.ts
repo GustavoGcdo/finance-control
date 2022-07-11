@@ -61,7 +61,6 @@ export class Signup implements ISignup {
         _id: userCreated._id,
         name: userCreated.name,
         email: userCreated.email,
-        balance: userCreated.balance
       } as User;
 
       return returnObject;

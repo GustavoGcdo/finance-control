@@ -3,7 +3,6 @@ import { Result } from '../../../infra/models/result';
 import { IUserRepository } from '../../users/repositories/user-repository.interface';
 import { UpdateOperationContract } from '../contracts/update-operation.contract';
 import { Operation } from '../domain/entities/operation';
-import { EOperationType } from '../domain/enums/operation-type.enum';
 import { OperationType } from '../domain/valueObjects/operation-type';
 import { UpdateOperationDto } from '../dtos/update-operation.dto';
 import { IOperationRepository } from '../repositories/operation-repository.interface';
@@ -42,11 +41,8 @@ export class UpdateOperationHandler implements IUpdateOperationHandler {
   async updateOperation(updateOperationDto: UpdateOperationDto) {
     const { operationId } = updateOperationDto;
 
-    const operation = await this.findOperation(operationId);
-    const oldOperation = Object.assign(operation, {});
-    this.getOperationWithNewValues(updateOperationDto, operation);
-
-    await this.updateUserExtract(operation, oldOperation);
+    const operation = await this.findOperation(operationId);    
+    this.getOperationWithNewValues(updateOperationDto, operation);    
     await this._operationRepository.update(operation);
   }
 
@@ -83,55 +79,6 @@ export class UpdateOperationHandler implements IUpdateOperationHandler {
     }
 
     return operationToUpdate;
-  }
-
-  private async updateUserExtract(newOperation: Operation, oldOperation: Operation) {
-    const userToAddOperation = await this.findUser(newOperation.user._id);
-
-    let newBalanceValue = userToAddOperation.balance;
-    newBalanceValue = this.revertBalanceWithOldOperation(oldOperation, userToAddOperation.balance);
-    newBalanceValue = this.getNewBalanceWithNewOperation(newOperation, userToAddOperation.balance);
-
-    await this._userRepository.updateBalance(newOperation.user._id, newBalanceValue);
-  }
-
-  private getNewBalanceWithNewOperation(newOperation: Operation, oldBalance: number) {
-    const { executed, type, value } = newOperation;
-    let newBalance = oldBalance;
-
-    if (executed && type.value === EOperationType.EXPENSE) {
-      newBalance -= value;
-    }
-
-    if (executed && type.value === EOperationType.RECIPE) {
-      newBalance += value;
-    }
-    return newBalance;
-  }
-
-  private revertBalanceWithOldOperation(oldOperation: Operation, oldBalance: number) {
-    const { executed, type, value } = oldOperation;
-    let revertedBalance = oldBalance;
-
-    if (executed && type.value === EOperationType.EXPENSE) {
-      revertedBalance += value;
-    }
-
-    if (executed && type.value === EOperationType.RECIPE) {
-      revertedBalance -= value;
-    }
-
-    return revertedBalance;
-  }
-
-  private async findUser(userId: string) {
-    const userFound = await this._userRepository.getById(userId);
-
-    if (!userFound) {
-      throw new ValidationFailedError('fail to update operation', { name: 'user', message: 'non-existent user' });
-    }
-
-    return userFound;
   }
 
   private async findOperation(id: string) {

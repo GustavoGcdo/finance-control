@@ -2,7 +2,6 @@ import { User } from '../domain/entities/user';
 
 export class UserMap {
   public static toDomain(raw: any): User {
-    // console.log(raw);
 
     const userOrError = User.create({
       name: raw.name,
@@ -18,8 +17,7 @@ export class UserMap {
   }
 
   public static toPersist(user: User): any {
-    // console.log(user);
-
+    
     return {
       name: user.name,
       email: user.email.value,

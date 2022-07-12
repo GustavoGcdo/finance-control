@@ -19,7 +19,7 @@ export class OperationRepository implements IOperationRepository {
   async paginate(userId: string, paginateOptions: PaginateOptions): Promise<PaginateResult<Operation>> {
     const { skip = 0, limit = 10 } = paginateOptions;
 
-    const query = { 'user._id': userId };
+    const query = { 'user._id': userId }; 
 
     const count = await OperationModel.countDocuments(query);
     const documentsOperations = await OperationModel.find(query)
@@ -42,6 +42,7 @@ export class OperationRepository implements IOperationRepository {
   }
 
   async update(operation: Operation): Promise<void> {
-    await OperationModel.updateOne({ _id: operation.id }, OperationMap.toPersist(operation));
+    const operationToDb = OperationMap.toPersist(operation);
+    await OperationModel.updateOne({ _id: operation.id }, operationToDb);
   }
 }

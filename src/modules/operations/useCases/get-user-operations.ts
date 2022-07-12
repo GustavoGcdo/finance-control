@@ -41,6 +41,13 @@ export class GetUserOperations implements IGetUserOperations {
     const userFound = await this.findUser(userId);
     const paginateOptions = this.getPaginateOptions(getUserOperationsDto);
     const resultPaginate = await this._operationRepository.paginate(userFound._id, paginateOptions);
+    const operationsOutput = resultPaginate.results.map(({ type, ...rest }) => ({
+      ...rest,
+      type: type.value
+    }));
+
+    resultPaginate.results = operationsOutput as any[];
+
     return resultPaginate;
   }
 

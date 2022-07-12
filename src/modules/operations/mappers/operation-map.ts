@@ -1,6 +1,7 @@
+import { UserMap } from '../../users/mappers/user-map';
 import { Operation } from '../domain/entities/operation';
 export class OperationMap {
-  public static toPersist(operation: Operation): any {
+  public static toPersist(operation: Operation): any {    
     return {
       ...operation,
       user: {
@@ -13,6 +14,7 @@ export class OperationMap {
   }
 
   public static toDomain(rawOperation: any): Operation {
+
     const operationOrError = Operation.create({
       category: rawOperation.category,
       description: rawOperation.description,
@@ -20,8 +22,7 @@ export class OperationMap {
       date: rawOperation.date,
       executed: rawOperation.executed,
       type: rawOperation.type,
-      user: rawOperation.user
-
+      user: UserMap.toDomain(rawOperation.user),
     }, rawOperation._id);
 
     if (operationOrError.isLeft()) {

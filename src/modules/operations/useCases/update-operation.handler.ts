@@ -41,8 +41,8 @@ export class UpdateOperationHandler implements IUpdateOperationHandler {
   async updateOperation(updateOperationDto: UpdateOperationDto) {
     const { operationId } = updateOperationDto;
 
-    const operation = await this.findOperation(operationId);    
-    this.getOperationWithNewValues(updateOperationDto, operation);    
+    const operation = await this.findOperation(operationId);
+    this.getOperationWithNewValues(updateOperationDto, operation);
     await this._operationRepository.update(operation);
   }
 

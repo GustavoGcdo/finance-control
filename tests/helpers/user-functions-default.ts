@@ -1,7 +1,6 @@
-import { makeLoginUseCase } from '../../src/factories/use-case-login.factory';
-import { makeSignupUseCase } from '../../src/factories/use-case-signup.factory';
-import { User } from '../../src/modules/users/domain/entities/user';
-
+import { User } from '../../src/domain/entities/user';
+import { makeLoginUseCase } from '../../src/infra/factories/use-case-login.factory';
+import { makeSignupUseCase } from '../../src/infra/factories/use-case-signup.factory';
 
 export const validUser = {
   name: 'Gustavo',

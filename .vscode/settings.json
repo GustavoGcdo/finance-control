@@ -9,5 +9,8 @@
   },
   "eslint.format.enable": true,
   "editor.rulers": [100],
-  "typescript.preferences.quoteStyle": "single"
+  "typescript.preferences.quoteStyle": "single",
+  "material-icon-theme.folders.associations": {
+    "@shared": "shared"
+  }
 }

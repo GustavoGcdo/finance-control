@@ -5,20 +5,20 @@ import { HttpStatus } from '../helper/enums/http-status.enum';
 import { HandleResponse } from '../helper/handleResponse';
 
 export class LoginController {
-    private _signup: ISignup;
-    private _login: ILogin;
+    private signupUseCase: ISignup;
+    private loginUseCase: ILogin;
 
     constructor(
       signup: ISignup,
       login: ILogin
     ) {
-      this._signup = signup;
-      this._login = login;
+      this.signupUseCase = signup;
+      this.loginUseCase = login;
     }
 
     public async signup(request: Request, response: Response) {
       try {
-        const result = await this._signup.handle(request.body);
+        const result = await this.signupUseCase.handle(request.body);
         return HandleResponse.handle(response, HttpStatus.CREATED, result);
       } catch (error) {
         return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);
@@ -27,7 +27,7 @@ export class LoginController {
 
     public async login(request: Request, response: Response) {
       try {
-        const result = await this._login.handle(request.body);
+        const result = await this.loginUseCase.handle(request.body);
         return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
       } catch (error) {
         return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);

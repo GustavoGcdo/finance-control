@@ -9,15 +9,15 @@ import { IGetUserOperations } from './get-user-operations.interface';
 import { PaginateOperationsDto } from './pagintate-operations.dto';
 
 export class GetUserOperations implements IGetUserOperations {
-  private _operationRepository: IOperationRepository;
-  private _userRepository: IUserRepository;
+  private operationRepository: IOperationRepository;
+  private userRepository: IUserRepository;
 
   constructor(
     operationRepository: IOperationRepository,
     userRepository: IUserRepository
   ) {
-    this._operationRepository = operationRepository;
-    this._userRepository = userRepository;
+    this.operationRepository = operationRepository;
+    this.userRepository = userRepository;
   }
 
   async handle(getUserOperationsDto: GetUserOperationsDto): Promise<Result<PaginateOperationsDto>> {
@@ -40,7 +40,7 @@ export class GetUserOperations implements IGetUserOperations {
     const { userId } = getUserOperationsDto;
     const userFound = await this.findUser(userId);
     const paginateOptions = this.getPaginateOptions(getUserOperationsDto);
-    const resultPaginate = await this._operationRepository.paginate(userFound._id, paginateOptions);
+    const resultPaginate = await this.operationRepository.paginate(userFound.id, paginateOptions);
     const operationsOutput = resultPaginate.results.map(({ type, ...rest }) => ({
       ...rest,
       type: type.value
@@ -66,7 +66,7 @@ export class GetUserOperations implements IGetUserOperations {
   }
 
   private async findUser(userId: string) {
-    const userFound = await this._userRepository.getById(userId);
+    const userFound = await this.userRepository.getById(userId);
 
     if (!userFound) {
       throw new ValidationFailedError('fail to get operations', { name: 'user', message: 'non-existent user' });

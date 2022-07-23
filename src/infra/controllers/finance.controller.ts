@@ -10,11 +10,11 @@ import { HttpStatus } from '../helper/enums/http-status.enum';
 import { HandleResponse } from '../helper/handleResponse';
 
 export class FinanceController {
-  private _updateOperationHandler: IUpdateOperationHandler;
-  private _getUserOperations: IGetUserOperations;
-  private _getUserExtract: GetUserExtract;
-  private _addOperation: IAddOperation;
-  private _authService: IAuthService;
+  private updateOperationHandler: IUpdateOperationHandler;
+  private getUserOperationsUseCase: IGetUserOperations;
+  private getUserExtractUseCase: GetUserExtract;
+  private addOperationUseCase: IAddOperation;
+  private authServiceUseCase: IAuthService;
 
   constructor(
     getUserOperations: IGetUserOperations,
@@ -23,21 +23,21 @@ export class FinanceController {
     updateOperationHandler: IUpdateOperationHandler,
     authService: IAuthService
   ) {
-    this._getUserOperations = getUserOperations;
-    this._getUserExtract = getUserExtract;
-    this._updateOperationHandler = updateOperationHandler;
-    this._addOperation = addOperation;
-    this._authService = authService;
+    this.getUserOperationsUseCase = getUserOperations;
+    this.getUserExtractUseCase = getUserExtract;
+    this.updateOperationHandler = updateOperationHandler;
+    this.addOperationUseCase = addOperation;
+    this.authServiceUseCase = authService;
 
   }
 
   public async getUserOperations(request: Request, response: Response) {
     try {
       const token = request.headers.authorization;
-      const data = await this._authService.verifyToken(token || '');
+      const data = await this.authServiceUseCase.verifyToken(token || '');
       const { page, limit } = request.query;
-      const result = await this._getUserOperations.handle({
-        userId: data._id,
+      const result = await this.getUserOperationsUseCase.handle({
+        userId: data.id,
         page: page?.toString(),
         limit: limit?.toString()
       });
@@ -50,8 +50,8 @@ export class FinanceController {
   public async getUserExtract(request: Request, response: Response) {
     try {
       const token = request.headers.authorization;
-      const data = await this._authService.verifyToken(token || '');
-      const result = await this._getUserExtract.handle({ userId: data._id });
+      const data = await this.authServiceUseCase.verifyToken(token || '');
+      const result = await this.getUserExtractUseCase.handle({ userId: data.id });
       return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
     } catch (error) {
       return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);
@@ -61,12 +61,12 @@ export class FinanceController {
   public async addOperation(request: Request, response: Response) {
     try {
       const token = request.headers.authorization;
-      const data = await this._authService.verifyToken(token || '');
+      const data = await this.authServiceUseCase.verifyToken(token || '');
       const addOperationDto: AddOperationDto = {
         ...request.body,
-        userId: data._id
+        userId: data.id
       };
-      const result = await this._addOperation.handle(addOperationDto);
+      const result = await this.addOperationUseCase.handle(addOperationDto);
       return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
     } catch (error) {
       return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);
@@ -76,15 +76,15 @@ export class FinanceController {
   public async updateOperation(request: Request, response: Response) {
     try {
       const token = request.headers.authorization;
-      const data = await this._authService.verifyToken(token || '');
+      const data = await this.authServiceUseCase.verifyToken(token || '');
 
       const addOperationDto: UpdateOperationDto = {
         ...request.body,
-        userId: data._id,
+        userId: data.id,
         operationId: request.params.id
       };
 
-      const result = await this._updateOperationHandler.handle(addOperationDto);
+      const result = await this.updateOperationHandler.handle(addOperationDto);
       return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
     } catch (error) {
       return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);

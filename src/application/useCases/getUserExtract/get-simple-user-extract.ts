@@ -10,15 +10,15 @@ import { GetUserExtractDto } from './get-user-extract.dto';
 import { UserExtractDto } from './user-extract.dto';
 
 export class GetSimpleUserExtract implements GetUserExtract {
-    private _operationRepository: IOperationRepository;
-    private _userRepository: IUserRepository;
+    private operationRepository: IOperationRepository;
+    private userRepository: IUserRepository;
 
     constructor(
       operationRepository: IOperationRepository,
       userRepository: IUserRepository
     ) {
-      this._operationRepository = operationRepository;
-      this._userRepository = userRepository;
+      this.operationRepository = operationRepository;
+      this.userRepository = userRepository;
     }
 
     async handle(getUserExtractDto: GetUserExtractDto): Promise<Result<UserExtractDto>> {
@@ -40,7 +40,7 @@ export class GetSimpleUserExtract implements GetUserExtract {
     private async getUserExtract(getUserExtractDto: GetUserExtractDto) {
       const { userId } = getUserExtractDto;
       const userFound = await this.findUser(userId);
-      const userOperations = await this._operationRepository.get(userFound._id);
+      const userOperations = await this.operationRepository.get(userFound.id);
 
       const totalRecipes = this.sumExecutedOperationsByType(userOperations, EOperationType.RECIPE);
       const totalExpenses = this.sumExecutedOperationsByType(userOperations, EOperationType.EXPENSE);
@@ -58,7 +58,7 @@ export class GetSimpleUserExtract implements GetUserExtract {
     }
 
     private async findUser(userId: string) {
-      const userFound = await this._userRepository.getById(userId);
+      const userFound = await this.userRepository.getById(userId);
 
       if (!userFound) {
         throw new ValidationFailedError('failed to get user statement',

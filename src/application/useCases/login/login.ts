@@ -9,16 +9,16 @@ import { LoginDto } from './login.dto';
 import { ILogin } from './login.interface';
 
 export class Login implements ILogin {
-    private _userRepository: IUserRepository;
-    private _encriptService: IEncriptService;
-    private _authService: IAuthService;
+    private userRepository: IUserRepository;
+    private encriptService: IEncriptService;
+    private authService: IAuthService;
 
     constructor(userRepository: IUserRepository,
       encriptService: IEncriptService,
       authService: IAuthService) {
-      this._userRepository = userRepository;
-      this._encriptService = encriptService;
-      this._authService = authService;
+      this.userRepository = userRepository;
+      this.encriptService = encriptService;
+      this.authService = authService;
     }
 
     async handle(loginDto: LoginDto): Promise<Result<{token: string}>> {
@@ -39,9 +39,9 @@ export class Login implements ILogin {
 
     private async findUser(loginDto: LoginDto) {
       const { email, password } = loginDto;
-      const encriptedPassword = await this._encriptService.encript(password);
+      const encriptedPassword = await this.encriptService.encript(password);
 
-      const userFound = await this._userRepository.findByEmailAndPassword(email, encriptedPassword);
+      const userFound = await this.userRepository.findByEmailAndPassword(email, encriptedPassword);
       if (!userFound) {
         throw new ValidationFailedError('fail to user login',
           { name: 'login', message: 'invalid email or password' });
@@ -51,7 +51,7 @@ export class Login implements ILogin {
     }
 
     private async generateToken(user: User) {
-      const token = await this._authService.generateToken(user);
+      const token = await this.authService.generateToken(user);
       return token;
     }
 }

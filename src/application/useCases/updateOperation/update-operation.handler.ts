@@ -9,13 +9,13 @@ import { IUpdateOperationHandler } from './update-operation-handler.interface';
 import { UpdateOperationDto } from './update-operation.dto';
 
 export class UpdateOperationHandler implements IUpdateOperationHandler {
-  private _userRepository: IUserRepository;
-  private _operationRepository: IOperationRepository;
+  private userRepository: IUserRepository;
+  private operationRepository: IOperationRepository;
 
   constructor(userRepository: IUserRepository,
     operationRepository: IOperationRepository) {
-    this._userRepository = userRepository;
-    this._operationRepository = operationRepository;
+    this.userRepository = userRepository;
+    this.operationRepository = operationRepository;
   }
 
   async handle(updateOperationDto: UpdateOperationDto): Promise<Result<null>> {
@@ -43,7 +43,7 @@ export class UpdateOperationHandler implements IUpdateOperationHandler {
 
     const operation = await this.findOperation(operationId);
     this.getOperationWithNewValues(updateOperationDto, operation);
-    await this._operationRepository.update(operation);
+    await this.operationRepository.update(operation);
   }
 
   private getOperationWithNewValues(updateOperationDto: UpdateOperationDto, operationToUpdate: Operation): Operation {
@@ -82,7 +82,7 @@ export class UpdateOperationHandler implements IUpdateOperationHandler {
   }
 
   private async findOperation(id: string) {
-    const operationFound = await this._operationRepository.getById(id);
+    const operationFound = await this.operationRepository.getById(id);
 
     if (!operationFound) {
       throw new ValidationFailedError('fail to update operation', { name: 'user', message: 'non-existent operation' });

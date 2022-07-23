@@ -2,7 +2,6 @@
 import { Either, left, right } from '../../@shared/either';
 import { UserErrors } from '../errors/user.errors';
 import { Email } from '../valueObjects/email';
-import { Operation } from './operation';
 
 type UserProps = {
   name: string;
@@ -17,18 +16,16 @@ type UserData = {
 }
 
 export class User {
-  public readonly _id!: string;
+  public readonly id!: string;
   public readonly name: string;
   public readonly email: Email;
-  public readonly password: string;
-  private _operations: Operation[];
+  public readonly password: string;  
 
   private constructor(userProps: UserProps, id?: string) {
     this.name = userProps.name;
     this.email = userProps.email;
-    this.password = userProps.password;
-    this._operations = [];
-    if (id) this._id = id;
+    this.password = userProps.password;    
+    if (id) this.id = id;
   }
 
   public static create(userData: UserData, id?: string): Either<UserErrors.InvalidEmailError, User> {

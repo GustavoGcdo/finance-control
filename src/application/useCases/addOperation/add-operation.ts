@@ -9,13 +9,13 @@ import { AddOperationDto } from './add-operation.dto';
 import { IAddOperation } from './add-operation.interface';
 
 export class AddOperationToUser implements IAddOperation {
-  private _userRepository: IUserRepository;
-  private _operationRepository: IOperationRepository;
+  private userRepository: IUserRepository;
+  private operationRepository: IOperationRepository;
 
   constructor(userRepository: IUserRepository,
     operationRepository: IOperationRepository) {
-    this._userRepository = userRepository;
-    this._operationRepository = operationRepository;
+    this.userRepository = userRepository;
+    this.operationRepository = operationRepository;
   }
 
   async handle(addOperationDto: AddOperationDto): Promise<Result<Operation>> {
@@ -56,12 +56,12 @@ export class AddOperationToUser implements IAddOperation {
       return left(new ValidationFailedError('fail to add operation'));
     }
 
-    const operationCreated = await this._operationRepository.add(operationOrError.value) as Operation;
+    const operationCreated = await this.operationRepository.add(operationOrError.value) as Operation;
     return right(operationCreated);
   }
 
   private async findUser(userId: string) {
-    const userFound = await this._userRepository.getById(userId);
+    const userFound = await this.userRepository.getById(userId);
 
     if (!userFound) {
       throw new ValidationFailedError('fail to add operation', { name: 'user', message: 'non-existent user' });

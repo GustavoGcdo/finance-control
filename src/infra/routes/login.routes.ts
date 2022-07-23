@@ -3,11 +3,11 @@ import { LoginController } from '../controllers/login.controller';
 
 export class LoginRoutes {
   private router: Router;
-  private _controller: LoginController;
+  private controller: LoginController;
 
   constructor(controller: LoginController) {
     this.router = Router();
-    this._controller = controller;
+    this.controller = controller;
   }
 
   getRoutes() {
@@ -16,7 +16,7 @@ export class LoginRoutes {
   }
 
   private mapRoutes() {
-    this.router.post('/signup', (req, res) => this._controller.signup(req, res));
-    this.router.post('/login', (req, res) => this._controller.login(req, res));
+    this.router.post('/signup', (req, res) => this.controller.signup(req, res));
+    this.router.post('/login', (req, res) => this.controller.login(req, res));
   }
 }

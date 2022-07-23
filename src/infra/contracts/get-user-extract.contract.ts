@@ -4,24 +4,24 @@ import { Contract } from '../models/contract';
 import { Notifiable } from '../models/notifiable';
 
 export class GetUserExtractContract extends Notifiable implements Contract<GetUserExtractDto> {
-  private _dto: GetUserExtractDto;
-  private _validator: Validator;
+  private dto: GetUserExtractDto;
+  private validator: Validator;
 
   constructor(dto: GetUserExtractDto) {
     super();
-    this._dto = dto;
-    this._validator = new Validator();
+    this.dto = dto;
+    this.validator = new Validator();
   }
 
   validate(): boolean {
     this.validateUserId();
 
-    this.addReports(this._validator.reports);
+    this.addReports(this.validator.reports);
     return this.isValid();
   }
 
   private validateUserId() {
-    this._validator.isRequired(this._dto.userId, 'userId', 'userId is required');
-    this._validator.isValidObjectId(this._dto.userId, 'userId', 'userId invalid');
+    this.validator.isRequired(this.dto.userId, 'userId', 'userId is required');
+    this.validator.isValidObjectId(this.dto.userId, 'userId', 'userId invalid');
   }
 }

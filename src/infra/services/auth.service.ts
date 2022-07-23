@@ -7,7 +7,7 @@ import { User } from '../../domain/entities/user';
 export class AuthService implements IAuthService {
   async generateToken(user: User): Promise<string> {
     const dataToken: Payload = {
-      _id: user._id,
+      id: user.id,
       name: user.name,
       email: user.email.value
     };

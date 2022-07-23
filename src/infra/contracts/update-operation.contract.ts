@@ -4,15 +4,14 @@ import { EOperationType } from '../../domain/enums/operation-type.enum';
 import { Contract } from '../models/contract';
 import { Notifiable } from '../models/notifiable';
 
-
 export class UpdateOperationContract extends Notifiable implements Contract<UpdateOperationDto> {
-  private _dto: UpdateOperationDto;
-  private _validator: Validator;
+  private dto: UpdateOperationDto;
+  private validator: Validator;
 
   constructor(dto: UpdateOperationDto) {
     super();
-    this._dto = dto;
-    this._validator = new Validator();
+    this.dto = dto;
+    this.validator = new Validator();
   }
 
   validate(): boolean {
@@ -22,23 +21,23 @@ export class UpdateOperationContract extends Notifiable implements Contract<Upda
     this.validateValueToAdd();
     this.validateDate();
 
-    this.addReports(this._validator.reports);
+    this.addReports(this.validator.reports);
     return this.isValid();
   }
 
   private validateUserId() {
-    this._validator.isRequired(this._dto.userId, 'userId', 'userId is required');
-    this._validator.isValidObjectId(this._dto.userId, 'userId', 'userId invalid');
+    this.validator.isRequired(this.dto.userId, 'userId', 'userId is required');
+    this.validator.isValidObjectId(this.dto.userId, 'userId', 'userId invalid');
   }
 
   private validateOperationId() {
-    this._validator.isRequired(this._dto.operationId, 'operationId', 'operationId is required');
-    this._validator.isValidObjectId(this._dto.operationId, 'operationId', 'operationId invalid');
+    this.validator.isRequired(this.dto.operationId, 'operationId', 'operationId is required');
+    this.validator.isValidObjectId(this.dto.operationId, 'operationId', 'operationId invalid');
   }
 
   private validateOperationType() {
-    if (this._dto.type) {
-      const isNotValidOperationType = !Object.values(EOperationType).some((v) => v === this._dto.type);
+    if (this.dto.type) {
+      const isNotValidOperationType = !Object.values(EOperationType).some((v) => v === this.dto.type);
       if (isNotValidOperationType) {
         this.addReport({ name: 'type', message: 'operation invalid' });
       }
@@ -46,12 +45,12 @@ export class UpdateOperationContract extends Notifiable implements Contract<Upda
   }
 
   private validateValueToAdd() {
-    if (this._dto.value) {
-      this._validator.isValidNumber(this._dto.value, 'value', 'value must be a valid number');
+    if (this.dto.value) {
+      this.validator.isValidNumber(this.dto.value, 'value', 'value must be a valid number');
 
       const MIN_VALUE_TO_ADD = 0;
-      this._validator.isLessThan(
-        this._dto.value,
+      this.validator.isLessThan(
+        this.dto.value,
         MIN_VALUE_TO_ADD,
         'value',
         `value must be greather than ${MIN_VALUE_TO_ADD}`
@@ -60,8 +59,8 @@ export class UpdateOperationContract extends Notifiable implements Contract<Upda
   }
 
   private validateDate() {
-    if (this._dto.date) {
-      const newDate = new Date(this._dto.date);
+    if (this.dto.date) {
+      const newDate = new Date(this.dto.date);
       if (newDate.toString() === 'Invalid Date') {
         this.addReport({ name: 'date', message: 'invalid date' });
       }

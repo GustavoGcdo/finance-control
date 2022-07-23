@@ -5,10 +5,10 @@ import { HttpStatus } from '../helper/enums/http-status.enum';
 import { HandleResponse } from '../helper/handleResponse';
 
 export class AuthMiddleware {
-  private _authService: IAuthService;
+  private authService: IAuthService;
 
   constructor(authService: IAuthService) {
-    this._authService = authService;
+    this.authService = authService;
   }
 
   public async authorize(request: Request, response: Response, next: NextFunction) {
@@ -19,7 +19,7 @@ export class AuthMiddleware {
         { name: 'server', message: 'this route is restrict' });
       return HandleResponse.handleError(response, HttpStatus.UNAUTHORIZED, validationError);
     } else {
-      return await this._authService.verifyToken(token)
+      return await this.authService.verifyToken(token)
         .then(() => next())
         .catch(() => {
           const validationError = new ValidationFailedError('unauthorized',

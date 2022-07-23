@@ -7,7 +7,7 @@ export class OperationMap {
     return {
       ...operation,
       user: {
-        _id: operation.user._id,
+        _id: operation.user.id,
         name: operation.user.name,
         email: operation.user.email.value
       },

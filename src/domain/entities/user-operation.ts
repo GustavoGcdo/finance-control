@@ -1,5 +1,5 @@
 export type UserOperation = {
-    _id: string;
+    id: string;
     name: string;
     email: string;
 }

@@ -4,15 +4,15 @@ import { AuthMiddleware } from '../middlewares/auth.middleware';
 
 export class FinanceRoutes {
   private router: Router;
-  private _controller: FinanceController;
-  private _auth: AuthMiddleware;
+  private controller: FinanceController;
+  private auth: AuthMiddleware;
 
   constructor(
     auth: AuthMiddleware,
     controller: FinanceController) {
     this.router = Router();
-    this._controller = controller;
-    this._auth = auth;
+    this.controller = controller;
+    this.auth = auth;
   }
 
   getRoutes() {
@@ -22,19 +22,19 @@ export class FinanceRoutes {
 
   private mapRoutes() {
     this.router.get('/finance/extract',
-      (req, res, next) => this._auth.authorize(req, res, next),
-      (req, res) => this._controller.getUserExtract(req, res));
+      (req, res, next) => this.auth.authorize(req, res, next),
+      (req, res) => this.controller.getUserExtract(req, res));
 
     this.router.get('/finance/operations',
-      (req, res, next) => this._auth.authorize(req, res, next),
-      (req, res) => this._controller.getUserOperations(req, res));
+      (req, res, next) => this.auth.authorize(req, res, next),
+      (req, res) => this.controller.getUserOperations(req, res));
 
     this.router.post('/finance/operations',
-      (req, res, next) => this._auth.authorize(req, res, next),
-      (req, res) => this._controller.addOperation(req, res));
+      (req, res, next) => this.auth.authorize(req, res, next),
+      (req, res) => this.controller.addOperation(req, res));
 
     this.router.put('/finance/operations/:id',
-      (req, res, next) => this._auth.authorize(req, res, next),
-      (req, res) => this._controller.updateOperation(req, res));
+      (req, res, next) => this.auth.authorize(req, res, next),
+      (req, res) => this.controller.updateOperation(req, res));
   }
 }

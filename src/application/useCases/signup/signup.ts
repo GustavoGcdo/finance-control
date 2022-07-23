@@ -8,13 +8,13 @@ import { SignupDto } from './signup.dto';
 import { ISignup } from './signup.interface';
 
 export class Signup implements ISignup {
-  private _userRepository: IUserRepository;
-  private _encriptService: IEncriptService;
+  private userRepository: IUserRepository;
+  private encriptService: IEncriptService;
 
   constructor(userRepository: IUserRepository,
     encriptService: IEncriptService) {
-    this._userRepository = userRepository;
-    this._encriptService = encriptService;
+    this.userRepository = userRepository;
+    this.encriptService = encriptService;
   }
 
   async handle(signupDto: SignupDto): Promise<Result<User>> {
@@ -38,9 +38,9 @@ export class Signup implements ISignup {
   }
 
   private async createUser(signupDto: SignupDto) {
-    const encriptedPassword = await this._encriptService.encript(signupDto.password);
+    const encriptedPassword = await this.encriptService.encript(signupDto.password);
 
-    const userFound = await this._userRepository.findByEmail(signupDto.email);
+    const userFound = await this.userRepository.findByEmail(signupDto.email);
     if (userFound) {
       throw new ValidationFailedError('fail to register user', { name: 'email', message: 'email already registered' });
     }
@@ -55,10 +55,10 @@ export class Signup implements ISignup {
       throw new ValidationFailedError('fail to register user');
     }
 
-    const userCreated = await this._userRepository.create(newUserOrError.value);
+    const userCreated = await this.userRepository.create(newUserOrError.value);
 
     const returnObject = {
-      _id: userCreated._id,
+      id: userCreated.id,
       name: userCreated.name,
       email: userCreated.email,
     } as User;

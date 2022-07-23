@@ -5,13 +5,13 @@ import { Contract } from '../models/contract';
 import { Notifiable } from '../models/notifiable';
 
 export class AddOperationContract extends Notifiable implements Contract<AddOperationDto> {
-  private _dto: AddOperationDto;
-  private _validator: Validator;
+  private dto: AddOperationDto;
+  private validator: Validator;
 
   constructor(dto: AddOperationDto) {
     super();
-    this._dto = dto;
-    this._validator = new Validator();
+    this.dto = dto;
+    this.validator = new Validator();
   }
 
   validate(): boolean {
@@ -19,28 +19,28 @@ export class AddOperationContract extends Notifiable implements Contract<AddOper
     this.validateOperationType();
     this.validateValueToAdd();
 
-    this.addReports(this._validator.reports);
+    this.addReports(this.validator.reports);
     return this.isValid();
   }
 
   private validateUserId() {
-    this._validator.isRequired(this._dto.userId, 'userId', 'userId is required');
-    this._validator.isValidObjectId(this._dto.userId, 'userId', 'userId invalid');
+    this.validator.isRequired(this.dto.userId, 'userId', 'userId is required');
+    this.validator.isValidObjectId(this.dto.userId, 'userId', 'userId invalid');
   }
 
   private validateOperationType() {
-    const isNotValidOperationType = !Object.values(EOperationType).some((v) => v === this._dto.type);
+    const isNotValidOperationType = !Object.values(EOperationType).some((v) => v === this.dto.type);
     if (isNotValidOperationType) {
       this.addReport({ name: 'type', message: 'operation invalid' });
     }
   }
 
   private validateValueToAdd() {
-    this._validator.isValidNumber(this._dto.value, 'value', 'value must be a valid number');
+    this.validator.isValidNumber(this.dto.value, 'value', 'value must be a valid number');
 
     const MIN_VALUE_TO_ADD = 0;
-    this._validator.isLessThan(
-      this._dto.value,
+    this.validator.isLessThan(
+      this.dto.value,
       MIN_VALUE_TO_ADD,
       'value',
       `value must be greather than ${MIN_VALUE_TO_ADD}`

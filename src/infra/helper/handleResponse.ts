@@ -1,6 +1,6 @@
 import { Response } from 'express';
-import { ValidationFailedError } from '../errors/validationFailedError';
-import { Result } from '../models/result';
+import { Result } from '../../@shared/result';
+import { ValidationFailedError } from '../../application/errors/validationFailedError';
 import { HttpStatus } from './enums/http-status.enum';
 
 export abstract class HandleResponse {

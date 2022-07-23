@@ -1,4 +1,4 @@
-import { Result } from '../../../infra/models/result';
+import { Result } from '../../../@shared/result';
 import { GetUserExtractDto } from './get-user-extract.dto';
 import { UserExtractDto } from './user-extract.dto';
 

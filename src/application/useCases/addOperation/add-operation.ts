@@ -1,8 +1,8 @@
+import { Either, left, right } from '../../../@shared/either';
+import { Result } from '../../../@shared/result';
 import { Operation } from '../../../domain/entities/operation';
 import { AddOperationContract } from '../../../infra/contracts/add-operation.contract';
-import { ValidationFailedError } from '../../../infra/errors/validationFailedError';
-import { Result } from '../../../infra/models/result';
-import { Either, left, right } from '../../@shared/models/either';
+import { ValidationFailedError } from '../../errors/validationFailedError';
 import { IOperationRepository } from '../../repositories/operation-repository.interface';
 import { IUserRepository } from '../../repositories/user-repository.interface';
 import { AddOperationDto } from './add-operation.dto';

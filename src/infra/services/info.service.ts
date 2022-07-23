@@ -1,7 +1,9 @@
-import { Info } from '../models/info';
-import { IInfoService } from './info-service.interface';
+export interface Info {
+  name?: string;
+  version?: string;
+}
 
-export class InfoService implements IInfoService {
+export class InfoService {
   getInfo(): Info {
     const { npm_package_name: packageName, npm_package_version: packageVersion } = process.env;
 

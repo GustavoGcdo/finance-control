@@ -1,4 +1,4 @@
-import { Report } from '../models/report';
+import { Report } from '../../@shared/report';
 export class ValidationFailedError extends Error {
   private _reports: Report[];
 

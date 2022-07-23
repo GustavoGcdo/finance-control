@@ -1,5 +1,5 @@
 
-import { Either, left, right } from '../../application/@shared/models/either';
+import { Either, left, right } from '../../@shared/either';
 import { UserErrors } from '../errors/user.errors';
 import { Email } from '../valueObjects/email';
 import { Operation } from './operation';

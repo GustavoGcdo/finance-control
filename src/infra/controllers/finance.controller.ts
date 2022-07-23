@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { IAuthService } from '../../application/@shared/services/auth-service.interface';
+import { IAuthService } from '../../application/services/auth-service.interface';
 import { AddOperationDto } from '../../application/useCases/addOperation/add-operation.dto';
 import { IAddOperation } from '../../application/useCases/addOperation/add-operation.interface';
 import { GetUserExtract } from '../../application/useCases/getUserExtract/get-user-extract';

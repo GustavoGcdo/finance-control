@@ -1,4 +1,4 @@
-import { Either, left, right } from '../../application/@shared/models/either';
+import { Either, left, right } from '../../@shared/either';
 import { OperationErrors } from '../errors/operation.errors';
 import { OperationType } from '../valueObjects/operation-type';
 import { User } from './user';

@@ -1,9 +1,9 @@
+import { Result } from '../../../@shared/result';
 import { User } from '../../../domain/entities/user';
 import { SignupContract } from '../../../infra/contracts/signup.contract';
-import { ValidationFailedError } from '../../../infra/errors/validationFailedError';
-import { Result } from '../../../infra/models/result';
-import { IEncriptService } from '../../@shared/services/encript-service.interface';
+import { ValidationFailedError } from '../../errors/validationFailedError';
 import { IUserRepository } from '../../repositories/user-repository.interface';
+import { IEncriptService } from '../../services/encript-service.interface';
 import { SignupDto } from './signup.dto';
 import { ISignup } from './signup.interface';
 

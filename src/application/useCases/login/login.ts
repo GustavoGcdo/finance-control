@@ -1,10 +1,10 @@
+import { Result } from '../../../@shared/result';
 import { User } from '../../../domain/entities/user';
 import { LoginContract } from '../../../infra/contracts/login.contract';
-import { ValidationFailedError } from '../../../infra/errors/validationFailedError';
-import { Result } from '../../../infra/models/result';
-import { IAuthService } from '../../@shared/services/auth-service.interface';
-import { IEncriptService } from '../../@shared/services/encript-service.interface';
+import { ValidationFailedError } from '../../errors/validationFailedError';
 import { IUserRepository } from '../../repositories/user-repository.interface';
+import { IAuthService } from '../../services/auth-service.interface';
+import { IEncriptService } from '../../services/encript-service.interface';
 import { LoginDto } from './login.dto';
 import { ILogin } from './login.interface';
 

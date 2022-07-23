@@ -1,6 +1,6 @@
 import { sign, verify } from 'jsonwebtoken';
-import { Payload } from '../../application/@shared/models/payload';
-import { IAuthService } from '../../application/@shared/services/auth-service.interface';
+import { Payload } from '../../@shared/payload';
+import { IAuthService } from '../../application/services/auth-service.interface';
 import config from '../../config';
 import { User } from '../../domain/entities/user';
 

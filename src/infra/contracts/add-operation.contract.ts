@@ -1,8 +1,8 @@
+import { Validator } from '../../@shared/validator';
 import { AddOperationDto } from '../../application/useCases/addOperation/add-operation.dto';
 import { EOperationType } from '../../domain/enums/operation-type.enum';
 import { Contract } from '../models/contract';
 import { Notifiable } from '../models/notifiable';
-import { Validator } from '../validator/validator';
 
 export class AddOperationContract extends Notifiable implements Contract<AddOperationDto> {
   private _dto: AddOperationDto;

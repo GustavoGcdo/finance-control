@@ -1,4 +1,4 @@
-import { Result } from '../../../infra/models/result';
+import { Result } from '../../../@shared/result';
 import { GetUserOperationsDto } from './get-user-operations.dto';
 import { PaginateOperationsDto } from './pagintate-operations.dto';
 

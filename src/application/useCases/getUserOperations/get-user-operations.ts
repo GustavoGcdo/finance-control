@@ -1,7 +1,7 @@
+import { Result } from '../../../@shared/result';
 import { PaginateOptions } from '../../../domain/valueObjects/paginate-options';
 import { GetUserOperationsContract } from '../../../infra/contracts/get-user-operations.contract';
-import { ValidationFailedError } from '../../../infra/errors/validationFailedError';
-import { Result } from '../../../infra/models/result';
+import { ValidationFailedError } from '../../errors/validationFailedError';
 import { IOperationRepository } from '../../repositories/operation-repository.interface';
 import { IUserRepository } from '../../repositories/user-repository.interface';
 import { GetUserOperationsDto } from './get-user-operations.dto';

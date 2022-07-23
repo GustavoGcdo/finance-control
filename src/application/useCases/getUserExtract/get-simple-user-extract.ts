@@ -1,8 +1,8 @@
+import { Result } from '../../../@shared/result';
 import { Operation } from '../../../domain/entities/operation';
 import { EOperationType } from '../../../domain/enums/operation-type.enum';
 import { GetUserExtractContract } from '../../../infra/contracts/get-user-extract.contract';
-import { ValidationFailedError } from '../../../infra/errors/validationFailedError';
-import { Result } from '../../../infra/models/result';
+import { ValidationFailedError } from '../../errors/validationFailedError';
 import { IOperationRepository } from '../../repositories/operation-repository.interface';
 import { IUserRepository } from '../../repositories/user-repository.interface';
 import { GetUserExtract } from './get-user-extract';

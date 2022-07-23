@@ -1,18 +1,19 @@
 import { Request, Response } from 'express';
-import { IInfoService } from '../../info/services/info-service.interface';
+
+import { Result } from '../../@shared/result';
 import { HttpStatus } from '../helper/enums/http-status.enum';
 import { HandleResponse } from '../helper/handleResponse';
-import { Result } from '../models/result';
+import { InfoService } from '../services/info.service';
 
 export class InfoController {
-  private _infoService: IInfoService;
+  private infoService: InfoService;
 
-  constructor(infoService: IInfoService) {
-    this._infoService = infoService;
+  constructor(infoService: InfoService) {
+    this.infoService = infoService;
   }
 
   public getApiInfo(request: Request, response: Response) {
-    const infoApi = this._infoService.getInfo();
+    const infoApi = this.infoService.getInfo();
     const result = new Result(infoApi, 'success on get info API', true, []);
     return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
   }

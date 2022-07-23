@@ -1,7 +1,8 @@
 import { mock } from 'jest-mock-extended';
-import { IAuthService } from '../../src/application/@shared/services/auth-service.interface';
-import { IEncriptService } from '../../src/application/@shared/services/encript-service.interface';
+
 import { IUserRepository } from '../../src/application/repositories/user-repository.interface';
+import { IAuthService } from '../../src/application/services/auth-service.interface';
+import { IEncriptService } from '../../src/application/services/encript-service.interface';
 import { Login } from '../../src/application/useCases/login/login';
 import { User } from '../../src/domain/entities/user';
 import { ValidationFailedError } from '../../src/infra/errors/validationFailedError';

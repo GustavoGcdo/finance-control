@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { IAuthService } from '../../application/@shared/services/auth-service.interface';
-import { ValidationFailedError } from '../errors/validationFailedError';
+import { ValidationFailedError } from '../../application/errors/validationFailedError';
+import { IAuthService } from '../../application/services/auth-service.interface';
 import { HttpStatus } from '../helper/enums/http-status.enum';
 import { HandleResponse } from '../helper/handleResponse';
 

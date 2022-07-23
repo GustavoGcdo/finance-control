@@ -1,5 +1,5 @@
 
-import { Either, left, right } from '../../application/@shared/models/either';
+import { Either, left, right } from '../../@shared/either';
 import { EOperationType } from '../enums/operation-type.enum';
 import { OperationErrors } from '../errors/operation.errors';
 

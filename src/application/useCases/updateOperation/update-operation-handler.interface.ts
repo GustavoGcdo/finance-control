@@ -1,4 +1,4 @@
-import { Result } from '../../../infra/models/result';
+import { Result } from '../../../@shared/result';
 import { UpdateOperationDto } from './update-operation.dto';
 
 export interface IUpdateOperationHandler {

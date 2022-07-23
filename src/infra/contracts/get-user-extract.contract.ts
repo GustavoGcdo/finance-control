@@ -1,7 +1,7 @@
+import { Validator } from '../../@shared/validator';
 import { GetUserExtractDto } from '../../application/useCases/getUserExtract/get-user-extract.dto';
 import { Contract } from '../models/contract';
 import { Notifiable } from '../models/notifiable';
-import { Validator } from '../validator/validator';
 
 export class GetUserExtractContract extends Notifiable implements Contract<GetUserExtractDto> {
   private _dto: GetUserExtractDto;

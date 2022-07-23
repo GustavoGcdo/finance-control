@@ -1,7 +1,7 @@
+import { Validator } from '../../@shared/validator';
 import { SignupDto } from '../../application/useCases/signup/signup.dto';
 import { Contract } from '../models/contract';
 import { Notifiable } from '../models/notifiable';
-import { Validator } from '../validator/validator';
 
 export class SignupContract extends Notifiable implements Contract<SignupDto> {
     private _dto: SignupDto;

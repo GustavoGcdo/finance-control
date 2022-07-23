@@ -1,8 +1,8 @@
+import { Result } from '../../../@shared/result';
 import { Operation } from '../../../domain/entities/operation';
 import { OperationType } from '../../../domain/valueObjects/operation-type';
 import { UpdateOperationContract } from '../../../infra/contracts/update-operation.contract';
-import { ValidationFailedError } from '../../../infra/errors/validationFailedError';
-import { Result } from '../../../infra/models/result';
+import { ValidationFailedError } from '../../errors/validationFailedError';
 import { IOperationRepository } from '../../repositories/operation-repository.interface';
 import { IUserRepository } from '../../repositories/user-repository.interface';
 import { IUpdateOperationHandler } from './update-operation-handler.interface';

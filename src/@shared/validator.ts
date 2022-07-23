@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import { Report } from '../models/report';
+import { Report } from './report';
 
 export class Validator {
   public reports: Report[];

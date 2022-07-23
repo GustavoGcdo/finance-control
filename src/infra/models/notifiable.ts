@@ -1,4 +1,4 @@
-import { Report } from './report';
+import { Report } from '../../@shared/report';
 export class Notifiable {
   private _reports: Report[];
 

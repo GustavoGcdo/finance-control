@@ -1,7 +1,7 @@
 import { Application } from 'express';
 import request from 'supertest';
 import { App } from '../../../src/app';
-import { HttpStatus } from '../../../src/presentation/helper/enums/http-status.enum';
+import { HttpStatus } from '../../../src/infra/helper/enums/http-status.enum';
 import { createValidUser, validUser } from '../../helpers/user-functions-default';
 
 describe('Login Controller', () => {

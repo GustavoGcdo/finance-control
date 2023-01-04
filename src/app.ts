@@ -2,9 +2,9 @@ import cors from 'cors';
 import express, { Application } from 'express';
 import mongoose from 'mongoose';
 import config from './config';
-import { makeFinanceRoutes } from './factories/finance-routes.factory';
-import { makeInfoRoutes } from './factories/info-routes.factory';
-import { makeLoginRoutes } from './factories/login-routes.factory';
+import { makeFinanceRoutes } from './infra/factories/finance-routes.factory';
+import { makeInfoRoutes } from './infra/factories/info-routes.factory';
+import { makeLoginRoutes } from './infra/factories/login-routes.factory';
 
 export class App {
   private app: Application;

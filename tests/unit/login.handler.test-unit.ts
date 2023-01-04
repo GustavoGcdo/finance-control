@@ -1,10 +1,11 @@
 import { mock } from 'jest-mock-extended';
-import { ValidationFailedError } from '../../src/infra/errors/validationFailedError';
-import { IAuthService } from '../../src/modules/shared/services/auth-service.interface';
-import { IEncriptService } from '../../src/modules/shared/services/encript-service.interface';
-import { User } from '../../src/modules/users/domain/entities/user';
-import { IUserRepository } from '../../src/modules/users/repositories/user-repository.interface';
-import { Login } from '../../src/modules/users/useCases/login';
+import { ValidationFailedError } from '../../src/application/errors/validationFailedError';
+import { IUserRepository } from '../../src/application/repositories/user-repository.interface';
+import { IAuthService } from '../../src/application/services/auth-service.interface';
+import { IEncriptService } from '../../src/application/services/encript-service.interface';
+import { Login } from '../../src/application/useCases/login/login';
+import { User } from '../../src/domain/entities/user';
+
 
 describe('UseCase login', () => {
   const mockUserRepository = mock<IUserRepository>();

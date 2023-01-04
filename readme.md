@@ -1,1 +1,0 @@
-Project for studying and practice

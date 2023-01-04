@@ -1,0 +1,81 @@
+@import '../../assets/scss/colors.scss';
+
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  .totalItems {
+    font-size: 10pt;
+    cursor: text;
+    user-select: unset;
+  }
+
+  .totalItems:hover {
+    background: none;
+  }
+
+  .pagination {
+    padding: 10px 10px;
+    display: flex;
+    justify-content: flex-end;
+
+    li {
+      display: inline-block;
+      margin: 3px;
+      padding: 6px 10px;
+      border-radius: 3px;
+      user-select: none;
+      cursor: pointer;
+      font-size: 13px;
+      transition: 0.3s;
+      border: 1px solid transparent;
+
+      &.active {
+        background: $primary-color;
+        color: #fff;
+        font-weight: 500;
+
+        &:hover {
+          background: transparent;
+          color: $primary-color;
+          border: 1px solid $primary-color;
+          transition: 0.3s;
+        }
+      }
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.116);
+        transition: 0.3s;
+      }
+
+      &.disabled,
+      .disabled:hover {
+        background: #e8e8e8;
+        color: #929292;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    margin-top: 20px;
+    flex-direction: column;
+    justify-content: center;
+
+    .pagination {
+      li {
+        font-size: 13pt;
+      }
+      > li.normal {
+        display: none;
+      }
+      > li:last-child {
+        display: none;
+      }
+      > li:nth-child(1) {
+        display: none;
+      }
+    }
+  }
+}

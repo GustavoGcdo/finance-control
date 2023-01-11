@@ -35,12 +35,14 @@ export class App {
     return mongoose.connect(config.DB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true
+    }).then(() => {
+      console.log('[app] > database conected');
     });
   }
 
   public start() {
     this.app.listen(config.PORT, () => {
-      console.log(`listen on port ${config.PORT}`);
+      console.log(`[app] > listen on port ${config.PORT}`);
     });
   }
 

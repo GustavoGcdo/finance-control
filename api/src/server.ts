@@ -6,7 +6,7 @@ async function bootstrap() {
     await application.create();
     application.start();
   } catch (error) {
-    console.log('[server]: Erro ao configurar aplicação');
+    console.log('[server]: Erro ao configurar aplicação', error);
     
   }
 }

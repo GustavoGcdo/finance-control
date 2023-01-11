@@ -43,7 +43,7 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit
     const newOperation = formData;
 
     if (objectToEdit) {
-      updateOperation(objectToEdit._id, newOperation)
+      updateOperation(objectToEdit.id, newOperation)
         .then((result) => {
           onClose(true);
           console.log('result deu bom', result);

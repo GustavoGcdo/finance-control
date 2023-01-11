@@ -38,6 +38,8 @@ const CardsView: React.FC<OperationListProps> = ({ operationList, onItemSelected
 
   const handleItemSelected = (operation: Operation) => {
     if (onItemSelected) {
+      console.log(operation);
+      
       onItemSelected(operation);
     }
   };
@@ -59,7 +61,7 @@ const CardsView: React.FC<OperationListProps> = ({ operationList, onItemSelected
       {operationList.map((operation) => (
         <div
           className="card-item"
-          key={operation._id}          
+          key={operation.id}          
         >
           <div className="condensed">
             <div>{getIconByType(operation.type)}</div>
@@ -67,10 +69,10 @@ const CardsView: React.FC<OperationListProps> = ({ operationList, onItemSelected
               <div>{formatOperationValue(operation.value, operation.type)}</div>
               <div>Em: {operation.category}</div>
               </div>
-            <div className="actions" onClick={() => handleToggleDetails(operation._id)}>Detalhes</div>
+            <div className="actions" onClick={() => handleToggleDetails(operation.id)}>Detalhes</div>
             <div className="actions" onClick={() => handleItemSelected(operation)}>Editar</div>           
           </div>
-          <Collapse in={isShowingDetails(operation._id)} timeout="auto" unmountOnExit>
+          <Collapse in={isShowingDetails(operation.id)} timeout="auto" unmountOnExit>
             <div className="details">
               <div className="section">
                 <span className="label">Descrição:</span>

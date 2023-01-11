@@ -54,7 +54,7 @@ const TableView: React.FC<OperationListProps> = ({ operationList, onItemSelected
       </thead>
       <tbody>
         {operationList.map((operation) => (
-          <tr key={operation._id}>
+          <tr key={operation.id}>
             <td className="operation">{getIconByType(operation.type)}</td>
             <td className="description">{operation.description}</td>
             <td>{formatOperationValue(operation.value, operation.type)}</td>

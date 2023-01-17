@@ -1,4 +1,4 @@
-import { stringify } from 'querystring';
+import queryString from 'query-string';
 import { DEFAULT_LIMIT, DEFAULT_PAGE } from '../constants/paginate.constants';
 import { Result } from '../infra/models/result';
 import { Operation } from '../models/operation';
@@ -13,9 +13,9 @@ export function getUserExtract(): Promise<Result> {
 }
 
 export function getOperations(page: number = DEFAULT_PAGE, limit: number = DEFAULT_LIMIT): Promise<Result> {
-  const queryString = stringify({ page, limit })
+  const queryStringResult = queryString.stringify({ page, limit })
   return api
-    .get(`${URL_SERVICE_BASE}/operations?${queryString}`)
+    .get(`${URL_SERVICE_BASE}/operations?${queryStringResult}`)
     .then((response) => response.data);
 }
 

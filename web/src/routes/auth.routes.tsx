@@ -1,14 +1,15 @@
 import React from 'react';
-import { BrowserRouter, Redirect, Route } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { loginRoute, signupRoute } from '../constants/routes.constants';
 import Login from '../pages/Login/Login';
 import Signup from '../pages/Signup/Signup';
 
 const AuthRoutes: React.FC = () => (
   <BrowserRouter>
-    <Redirect exact path='/' to={loginRoute} />
-    <Route path={loginRoute} component={Login} />    
-    <Route path={signupRoute} component={Signup} />    
+    <Routes>      
+      <Route path={loginRoute} element={<Login />} />
+      <Route path={signupRoute} element={<Signup />} />
+    </Routes>
   </BrowserRouter>
 );
 

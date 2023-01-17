@@ -1,12 +1,13 @@
 import React from 'react';
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
-import Dashboard from '../pages/MyFinances/MyFinances';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { myFinancesRoute } from '../constants/routes.constants';
+import Dashboard from '../pages/MyFinances/MyFinances';
 
 const AppRoutes: React.FC = () => (
   <BrowserRouter>
-    <Redirect exact path='/' to={myFinancesRoute} />
-    <Route path={myFinancesRoute} component={Dashboard} />
+    <Routes>
+      <Route path={myFinancesRoute} element={<Dashboard />} />
+    </Routes>
   </BrowserRouter>
 );
 

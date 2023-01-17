@@ -1,19 +1,19 @@
-import React from 'react';
-import { FunctionComponent } from 'react';
 import Icon from '@material-ui/core/Icon';
+import { useNavigate } from 'react-router-dom';
 import './Goback.scss';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-const GoBack: FunctionComponent<RouteComponentProps> = ({ history }) => {
+const GoBack = () => {
+  const navigate = useNavigate();
+
   const handleClick = () => {
-    history.goBack();
+    navigate(-1);
   };
 
   return (
-    <Icon onClick={handleClick} className='btn-go-back' color='action'>
+    <Icon onClick={handleClick} className="btn-go-back" color="action">
       arrow_back
     </Icon>
   );
 };
 
-export default withRouter(GoBack);
+export default GoBack;

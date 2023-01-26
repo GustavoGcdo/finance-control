@@ -28,7 +28,7 @@ const InputForm: FunctionComponent<InputProps> = ({ name, label, ...rest }) => {
       error={error != null}
       id={name}
       label={label}
-      className="input-form"
+      className="w-full"
       size="small"
       helperText={error}
       variant="outlined"

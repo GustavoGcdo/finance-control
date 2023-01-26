@@ -2,15 +2,14 @@ import Button from '@material-ui/core/Button';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import React, { useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AlertErrorMessage from '../../components/AlertErrorMessage/AlertErrorMessage';
 import InputForm from '../../components/formComponents/InputForm';
 import { useAuth } from '../../contexts/auth.context';
 import { ErrorHandler } from '../../infra/errorHandler';
 import { Result } from '../../infra/models/result';
 import { LoginDto } from '../../models/dtos/login.dto';
-import './Login.scss';
-import { signupRoute, myFinancesRoute } from '../../constants/routes.constants';
+import { signupRoute } from '../../constants/routes.constants';
 
 const Login: React.FC = () => {
   const { signIn } = useAuth();
@@ -41,13 +40,13 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <div className="header">
-          <span className="title">Login</span>
+    <div className="h-screen w-screen flex flex-col bg-dark-primary items-center justify-center">
+      <div className="p-7 bg-white flex flex-col rounded min-w-[350px]">
+        <div className="mb-9">
+          <span className="font-medium">Login</span>
         </div>
 
-        <Form className="login-form" ref={formRef} onSubmit={handleSignin}>
+        <Form className="flex flex-col items-end gap-4" ref={formRef} onSubmit={handleSignin}>
           <InputForm name="email" type="email" label="E-mail" />
           <InputForm name="password" type="password" label="Senha" />
           <Button type="submit" variant="contained" color="primary">
@@ -55,16 +54,16 @@ const Login: React.FC = () => {
           </Button>
         </Form>
 
-        <hr className="divider" />
+        <hr className="h-[1px] my-5 block bg-gray-300" />
 
-        <span className="btn-registrar">
+        <span className="text-sm self-center">
           Não tem uma conta?
-          <Link to={signupRoute} className="link-to-register">
-            <span className="label">Registre-se</span>
+          <Link to={signupRoute} className="cursor-pointer no-underline font-bold ml-1 text-primary">
+            <span>Registre-se</span>
           </Link>
         </span>
 
-        <div className="errors">
+        <div className="mt-3">
           {errorMessages.map((error: string, index: number) => (
             <AlertErrorMessage key={index} message={error} />
           ))}

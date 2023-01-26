@@ -9,8 +9,7 @@ import Goback from '../../components/GoBack/Goback';
 import { ErrorHandler } from '../../infra/errorHandler';
 import { Result } from '../../infra/models/result';
 import * as authService from '../../services/auth.service';
-import './Signup.scss';
-
+// import './Signup.scss';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -32,10 +31,7 @@ const Signup = () => {
 
     if (resultError && resultError.errors) {
       const errors = resultError.errors;
-      const errorMessagesServer = ErrorHandler.getErrorMessagesByName(
-        errors,
-        'login'
-      );
+      const errorMessagesServer = ErrorHandler.getErrorMessagesByName(errors, 'login');
       setErrorMessages(errorMessagesServer);
 
       const fieldErrors = ErrorHandler.getFieldErrors(errors);
@@ -46,25 +42,23 @@ const Signup = () => {
   };
 
   return (
-    <div className="signup-container">
-      <div className="signup-card">
-        <div className="header">
+    <div className="h-screen w-screen flex flex-col bg-dark-primary items-center justify-center">
+      <div className="px-7 py-9 bg-white flex flex-col rounded min-w-[350px]">
+        <div className="mb-9 flex">
           <Goback />
-          <span className="title">Cadastrar-se</span>
+          <span className="font-medium">Cadastrar-se</span>
         </div>
 
-        <Form className="signup-form" ref={formRef} onSubmit={handleSignin}>
+        <Form className="flex flex-col gap-3 items-center" ref={formRef} onSubmit={handleSignin}>
           <InputForm name="name" label="Nome" />
           <InputForm name="email" type="email" label="E-mail" />
           <InputForm name="password" type="password" label="Senha" />
-          <InputForm
-            name="confirmPassword"
-            type="password"
-            label="Confirmação de senha"
-          />
-          <Button type="submit" variant="contained" color="primary">
-            Cadastrar
-          </Button>
+          <InputForm name="confirmPassword" type="password" label="Confirmação de senha" />
+          <div className='mt-5'>
+            <Button type="submit" variant="contained" color="primary">
+              Cadastrar
+            </Button>
+          </div>
         </Form>
 
         <div className="errors">

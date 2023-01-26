@@ -3,7 +3,6 @@ import React from 'react';
 import { formatCurrency } from '../../../../../infra/formatCurrency';
 import { OperationType } from '../../../../../models/enums/operation-type.enum';
 import { Operation } from '../../../../../models/operation';
-import './TableView.scss';
 
 type OperationListProps = {
   operationList: Operation[];
@@ -41,26 +40,26 @@ const TableView: React.FC<OperationListProps> = ({ operationList, onItemSelected
   };
 
   return (
-    <table className="table-operations">
+    <table className="w-full text-center">
       <thead>
-        <tr>
+        <tr className='text-gray-500 font-semibold text-sm'>
           <th></th>
-          <th className="description">Descrição</th>
-          <th>Valor</th>
-          <th>Categoria</th>
-          <th>Data</th>
+          <th className="p-2 text-left">Descrição</th>
+          <th className='p-2'>Valor</th>
+          <th className='p-2'>Categoria</th>
+          <th className='p-2'>Data</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         {operationList.map((operation) => (
-          <tr key={operation.id}>
-            <td className="operation">{getIconByType(operation.type)}</td>
-            <td className="description">{operation.description}</td>
-            <td>{formatOperationValue(operation.value, operation.type)}</td>
-            <td>{operation.category}</td>
-            <td>{formatDateString(operation.date)}</td>
-            <td className="actions" onClick={() => handleItemSelected(operation)}><Icon>edit</Icon></td>
+          <tr className='group text-sm bg-white transition-all hover:bg-primary-hover' key={operation.id}>
+            <td className="p-1 align-middle group-first:rounded-tl-lg group-last:rounded-bl-lg">{getIconByType(operation.type)}</td>
+            <td className="p-2 text-left">{operation.description}</td>
+            <td className='p-4'>{formatOperationValue(operation.value, operation.type)}</td>
+            <td className='p-4'>{operation.category}</td>
+            <td className='p-4'>{formatDateString(operation.date)}</td>
+            <td className="p-2 align-middle group-first:rounded-tr-lg group-last:rounded-br-lg transition-all hover:bg-primary hover:text-white cursor-pointer" onClick={() => handleItemSelected(operation)}><Icon>edit</Icon></td>
           </tr>
         ))}
       </tbody>

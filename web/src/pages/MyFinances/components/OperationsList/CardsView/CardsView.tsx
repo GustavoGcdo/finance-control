@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { formatCurrency } from '../../../../../infra/formatCurrency';
 import { OperationType } from '../../../../../models/enums/operation-type.enum';
 import { Operation } from '../../../../../models/operation';
-import './CardsView.scss';
 
 type OperationListProps = {
   operationList: Operation[];
@@ -60,37 +59,37 @@ const CardsView: React.FC<OperationListProps> = ({ operationList, onItemSelected
     <div>
       {operationList.map((operation) => (
         <div
-          className="card-item"
+          className="card-item border-[1px] border-solid border-gray-300 mb-2 flex flex-col gap-1 rounded bg-white"
           key={operation.id}          
         >
-          <div className="condensed">
+          <div className="p-4 flex items-center gap-3 justify-between">
             <div>{getIconByType(operation.type)}</div>
-            <div className="main-text">
+            <div className="self-start grow">
               <div>{formatOperationValue(operation.value, operation.type)}</div>
               <div>Em: {operation.category}</div>
               </div>
-            <div className="actions" onClick={() => handleToggleDetails(operation.id)}>Detalhes</div>
-            <div className="actions" onClick={() => handleItemSelected(operation)}>Editar</div>           
+            <div className="uppercase text-sm cursor-pointer transition-all px-2 py-1 rounded" onClick={() => handleToggleDetails(operation.id)}>Detalhes</div>
+            <div className="uppercase text-sm cursor-pointer transition-all px-2 py-1 rounded" onClick={() => handleItemSelected(operation)}>Editar</div>           
           </div>
           <Collapse in={isShowingDetails(operation.id)} timeout="auto" unmountOnExit>
-            <div className="details">
-              <div className="section">
-                <span className="label">Descrição:</span>
-                <span className="value">{operation.description}</span>
+            <div className="p-3 flex flex-col gap-4 bg-white text-gray-600 border-t-[1px] border-gray-300 border-solid">
+              <div className="flex flex-col gap-1">
+                <span className="text-xs uppercase">Descrição:</span>
+                <span className="p-2 bg-gray-100 rounded text-lg">{operation.description}</span>
               </div>
-              <div className="section">
-                <span className="label">Valor:</span>
-                <span className="value">
+              <div className="flex flex-col gap-1">
+                <span className="text-xs uppercase">Valor:</span>
+                <span className="p-2 bg-gray-100 rounded text-lg">
                   {formatCurrency(operation.value)}
                 </span>
               </div>
-              <div className="section">
-                <span className="label">Categoria:</span>
-                <span className="value">{operation.category}</span>
+              <div className="flex flex-col gap-1">
+                <span className="text-xs uppercase">Categoria:</span>
+                <span className="p-2 bg-gray-100 rounded text-lg">{operation.category}</span>
               </div>
-              <div className="section">
-                <span className="label">Data:</span>
-                <span className="value">{formatDateString(operation.date)}</span>
+              <div className="flex flex-col gap-1">
+                <span className="text-xs uppercase">Data:</span>
+                <span className="p-2 bg-gray-100 rounded text-lg">{formatDateString(operation.date)}</span>
               </div>
             </div>
           </Collapse>

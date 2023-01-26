@@ -1,7 +1,6 @@
 import React from 'react';
 import { AuthProvider } from './contexts/auth.context';
 import Routes from './routes';
-import './App.scss';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
@@ -20,7 +19,6 @@ function App() {
   return (
     <AuthProvider>
       <ThemeProvider theme={theme}>
-      
         <Routes />
       </ThemeProvider>
     </AuthProvider>

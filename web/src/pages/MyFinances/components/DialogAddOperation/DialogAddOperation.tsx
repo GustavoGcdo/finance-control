@@ -17,7 +17,7 @@ import { Result } from '../../../../infra/models/result';
 import { OperationType } from '../../../../models/enums/operation-type.enum';
 import { Operation } from '../../../../models/operation';
 import { addOperation, updateOperation } from '../../../../services/finances.service';
-import './DialogAddOperation.scss';
+
 
 type DialogProps = {
   open: boolean;
@@ -83,7 +83,7 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit
       </DialogTitle>
       <DialogContent>
         <Form ref={formRef} onSubmit={handleSubmit} initialData={objectToEdit}>
-          <div className="form-add-operation">
+          <div className="flex flex-col gap-4">
             <RadioGroupForm
               name="type"
               options={[
@@ -104,7 +104,7 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit
         ))}
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">
+        <Button onClick={handleClose} color="default">
           Cancelar
         </Button>
         <Button onClick={handleConfirm} color="primary">

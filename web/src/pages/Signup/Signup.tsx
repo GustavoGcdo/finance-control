@@ -9,7 +9,6 @@ import Goback from '../../components/GoBack/Goback';
 import { ErrorHandler } from '../../infra/errorHandler';
 import { Result } from '../../infra/models/result';
 import * as authService from '../../services/auth.service';
-// import './Signup.scss';
 
 const Signup = () => {
   const navigate = useNavigate();

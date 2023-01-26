@@ -2,7 +2,6 @@ import React from 'react';
 import { useResponsive } from '../../../../hooks/useResponsive';
 import { Operation } from '../../../../models/operation';
 import CardsView from './CardsView/CardsView';
-import './OperationsList.scss';
 import TableView from './TableView/TableView';
 
 type OperationListProps = {
@@ -22,11 +21,11 @@ const OperationsList: React.FC<OperationListProps> = ({ operationList = [], onIt
   };
 
   return (
-    <div className="operations-list-container">
+    <div>
       {renderViewList()}
 
       {operationList.length === 0 && (
-        <div className="not-results">Ops.. não há lançamentos aqui</div>
+        <div className="p-4 font-medium text-neutral-400 rounded text-lg bg-neutral-200">Ops.. não há lançamentos aqui</div>
       )}
     </div>
   );

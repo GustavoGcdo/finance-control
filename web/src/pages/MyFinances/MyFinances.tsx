@@ -9,12 +9,12 @@ import { PaginateResult } from '../../types/PaginateResult';
 import DialogAddOperation from './components/DialogAddOperation/DialogAddOperation';
 import OperationsList from './components/OperationsList/OperationsList';
 import PersonInfo from './components/PersonInfo/PersonInfo';
-import './MyFinances.scss';
+// import './MyFinances.scss';
 
 const userExtractInit = {} as UserExtract;
 
-const MyFinances: React.FC = () => {  
-  const [paginateResult, setPaginateResult] = useState<PaginateResult<Operation> | undefined>();  
+const MyFinances: React.FC = () => {
+  const [paginateResult, setPaginateResult] = useState<PaginateResult<Operation> | undefined>();
   const [userExtract, setUserExtract] = useState<UserExtract>(userExtractInit);
   const [openDialog, setOpenDialog] = useState(false);
   const [itemSelected, setItemSelected] = useState<Operation | undefined>();
@@ -56,37 +56,51 @@ const MyFinances: React.FC = () => {
     setItemSelected(undefined);
   };
 
-  const handleItemSelected = (operation: Operation) => {    
+  const handleItemSelected = (operation: Operation) => {
     setOpenDialog(true);
     setItemSelected(operation);
-  }
+  };
 
   const showModal = () => {
-    return <DialogAddOperation open={openDialog} onClose={handleOnCloseDialog} objectToEdit={itemSelected}/>
-  }
+    return (
+      <DialogAddOperation
+        open={openDialog}
+        onClose={handleOnCloseDialog}
+        objectToEdit={itemSelected}
+      />
+    );
+  };
 
   const handleChangePage = (page: number) => {
     getOperationsList(page);
-  }
+  };
 
   return (
-    <div className="my-finances-container">
-      <div className="person-info-area">
+    <div>
+      <div className="mt-6">
         <PersonInfo userExtract={userExtract} />
       </div>
 
-      <div className="operations-area">
-        <div className="operation-header">
+      <div>
+        <div className="bg-white flex items-center my-7 p-4 flex-wrap justify-center gap-5 sm:justify-between">
           <h2>Meus lançamentos</h2>
-          <Button variant="contained" color="primary" disableElevation onClick={handleOpenDialog}>Adicionar lançamento</Button>
+          <Button variant="contained" color="primary" disableElevation onClick={handleOpenDialog}>
+            Adicionar lançamento
+          </Button>
         </div>
-        <OperationsList operationList={paginateResult?.results} onItemSelected={handleItemSelected}/>
+        <OperationsList
+          operationList={paginateResult?.results}
+          onItemSelected={handleItemSelected}
+        />
 
-        <Pagination totalItems={paginateResult?.total} onChangePage={handleChangePage} pageSize={DEFAULT_LIMIT} />
+        <Pagination
+          totalItems={paginateResult?.total}
+          onChangePage={handleChangePage}
+          pageSize={DEFAULT_LIMIT}
+        />
       </div>
 
       {openDialog && showModal()}
-      
     </div>
   );
 };

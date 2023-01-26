@@ -1,7 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { LoginDto } from '../models/dtos/login.dto';
 import api from '../services/api';
 import * as authService from '../services/auth.service';
+import { myFinancesRoute } from '../constants/routes.constants';
+
 
 type User = {
   email: string;
@@ -48,7 +51,7 @@ export const AuthProvider = ({ children }: Props) => {
 
     saveInLocalStorage(loginDto.email, token);
     setDefaulHeaderToken(token);
-    setUser(loginDto);
+    setUser(loginDto);    
   };
 
   const signOut = () => {

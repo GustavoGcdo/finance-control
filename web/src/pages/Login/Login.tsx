@@ -2,7 +2,7 @@ import Button from '@material-ui/core/Button';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import React, { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AlertErrorMessage from '../../components/AlertErrorMessage/AlertErrorMessage';
 import InputForm from '../../components/formComponents/InputForm';
 import { useAuth } from '../../contexts/auth.context';
@@ -10,7 +10,7 @@ import { ErrorHandler } from '../../infra/errorHandler';
 import { Result } from '../../infra/models/result';
 import { LoginDto } from '../../models/dtos/login.dto';
 import './Login.scss';
-import { signupRoute } from '../../constants/routes.constants';
+import { signupRoute, myFinancesRoute } from '../../constants/routes.constants';
 
 const Login: React.FC = () => {
   const { signIn } = useAuth();
@@ -19,9 +19,10 @@ const Login: React.FC = () => {
 
   const handleSignin = async (loginDto: LoginDto) => {
     setErrorMessages([]);
-    signIn(loginDto).catch((resultError) => {
-      handleErrors(resultError.response?.data);
-    });
+    signIn(loginDto)  
+      .catch((resultError) => {
+        handleErrors(resultError.response?.data);
+      });
   };
 
   const handleErrors = (resultError: Result) => {
@@ -29,10 +30,7 @@ const Login: React.FC = () => {
 
     if (resultError && resultError.errors) {
       const errors = resultError.errors;
-      const errorMessagesServer = ErrorHandler.getErrorMessagesByName(
-        errors,
-        'login'
-      );
+      const errorMessagesServer = ErrorHandler.getErrorMessagesByName(errors, 'login');
       setErrorMessages(errorMessagesServer);
 
       const fieldErrors = ErrorHandler.getFieldErrors(errors);

@@ -6,7 +6,9 @@ import Signup from '../pages/Signup/Signup';
 
 const AuthRoutes: React.FC = () => (
   <BrowserRouter>
-    <Routes>      
+    <Routes>
+      <Route path="/" element={<Navigate to={loginRoute} replace />} />
+      <Route path="*" element={<Navigate to={loginRoute} replace />} />
       <Route path={loginRoute} element={<Login />} />
       <Route path={signupRoute} element={<Signup />} />
     </Routes>

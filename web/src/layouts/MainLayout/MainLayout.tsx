@@ -1,5 +1,4 @@
 import React from 'react';
-import './MainLayout.scss';
 import Navbar from '../components/Navbar/Navbar';
 
 type Props = {
@@ -7,10 +6,10 @@ type Props = {
 };
 const MainLayout = ({ children }: Props) => {
   return (
-    <div className="main-layout-container">
-      <div className="main-content-container">
+    <div className="bg-gray-100 flex flex-row h-screen w-screen">
+      <div className="flex-1 overflow-x-auto">
         <Navbar />
-        <div className="main-content">{children}</div>
+        <div className="mx-auto p-3 max-w-7xl">{children}</div>
       </div>
     </div>
   );

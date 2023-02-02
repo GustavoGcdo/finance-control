@@ -8,8 +8,8 @@ type PersonInfoProps = {
 
 const PersonInfo: React.FC<PersonInfoProps> = ({ userExtract }) => {
   return (
-    <div className="person-info-container grid grid-cols-5 gap-2">
-      <div className="rounded bg-white col-start-1 col-end-3 flex flex-col p-6">
+    <div className="person-info-container flex lg:flex-row flex-col gap-2">
+      <div className="rounded bg-white grow flex flex-col p-6">
         <div className="text-xl font-light whitespace-nowrap overflow-hidden text-ellipsis">{userExtract.name}</div>
         <div className="mt-1 text-sm font-medium">Editar informações</div>
       </div>

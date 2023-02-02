@@ -1,6 +1,5 @@
 import Icon from '@material-ui/core/Icon';
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import './AlertErrorMessage.scss';
+import { FunctionComponent, useEffect, useState } from 'react';
 
 type Props = {
   show?: boolean;
@@ -27,10 +26,10 @@ const AlertErrorMessage: FunctionComponent<Props> = ({ message, onClose }) => {
   return (
     <>
       {showError && (
-        <div className="error-messages">
+        <div className="my-2 bg-red-300 text-red-900 text-sm p-2 rounded flex items-center justify-between flex-wrap">
           <span>{message}</span>
 
-          <Icon className="btn-close" onClick={handleClose}>
+          <Icon className="cursor-pointer text-sm ml-2" onClick={handleClose}>
             close
           </Icon>
         </div>

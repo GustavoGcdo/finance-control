@@ -1,13 +1,9 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
-import React from 'react';
-import './Loading.scss';
 
-type Props = { isLoading: boolean };
-
-const Loading: React.FC<Props> = ({ isLoading }) => {
+const Loading = () => {
   return (
-    <div className="backdrop-container">
-      <CircularProgress className="circular-progress" color="primary" />
+    <div className="bg-dark-primary w-screen h-screen flex items-center justify-center">
+      <CircularProgress className="text-white" color="inherit" />
     </div>
   );
 };

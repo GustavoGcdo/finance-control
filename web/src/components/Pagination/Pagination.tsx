@@ -1,39 +1,73 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import './Pagination.scss';
+import { useEffect, useState } from 'react';
+import { useResponsive } from '../../hooks/useResponsive';
+import PaginateItem from './PaginateItem';
 
 type PaginateProps = {
   totalItems?: number;
   currentPage?: number;
   pageSize?: number;
-  maxPages?: number;
   onChangePage?: (page: number) => void;
 };
 
-const Pagination: FunctionComponent<PaginateProps> = (props) => {
-  const pagerInit = getPager();
-  const [pager, setPager] = useState(pagerInit);
+type Pager = {
+  totalItems: number;
+  currentPage: number;
+  pageSize: number;
+  totalPages: number;
+  startPage: number;
+  endPage: number;
+  pages: number[];
+};
+
+const pagerInit = {
+  totalItems: 0,
+  totalPages: 0,
+  currentPage: 0,
+  endPage: 0,
+  pages: [],
+  pageSize: 0,
+  startPage: 0
+};
+
+const Pagination = (props: PaginateProps) => {
+  const [pager, setPager] = useState<Pager>(pagerInit);
+  const [maxPages, setMaxPages] = useState(5);
+  const { isMobile } = useResponsive();
 
   useEffect(() => {
-    const pagerInit = getPager(props.totalItems, 1, props.pageSize, props.maxPages);
+    const pagerInit = getPager(props.totalItems, 1, props.pageSize);
     setPager(pagerInit);
-  }, [props.totalItems, props.pageSize, props.maxPages]);
+  }, [props.totalItems, props.pageSize]);
 
-  function setPage(page: number) {
+  const setPage = (page: number) => {
     if (page < 1 || page > pager.totalPages) return;
-    const newPager = getPager(props.totalItems, page, props.pageSize, props.maxPages);
+    const newPager = getPager(props.totalItems, page, props.pageSize, maxPages);
     setPager(newPager);
 
     if (props.onChangePage) {
       props.onChangePage(page);
     }
-  }
+  };
 
-  function getPager(
+  useEffect(() => {
+    if (isMobile) {
+      setMaxPages(1);
+    } else {
+      setMaxPages(5);
+    }
+  }, [isMobile]);
+
+  useEffect(() => {
+    const newPager = getPager(pager.totalItems, pager.currentPage, props.pageSize, maxPages);
+    setPager(newPager);
+  }, [maxPages]);
+
+  const getPager = (
     totalItems: number = 0,
     currentPage: number = 1,
     pageSize: number = 10,
-    maxPages: number = 5
-  ) {
+    maxPages = 5
+  ) => {
     const totalPages = Math.ceil(totalItems / pageSize);
 
     if (currentPage < 1) {
@@ -73,45 +107,48 @@ const Pagination: FunctionComponent<PaginateProps> = (props) => {
       endPage: endPage,
       pages: pages
     };
-  }
+  };
 
   return (
-    <div className="pagination-container">
-      <div className="totalItems">Total de {props.totalItems} registros</div>
-      <ul className="pagination">
-        <li
-          className={pager.currentPage === 1 || pager.currentPage === 0 ? 'disabled' : ''}
-          onClick={() => setPage(1)}
-        >
-          <span>Primeiro</span>
-        </li>
-        <li
-          className={pager.currentPage === 1 || pager.currentPage === 0 ? 'disabled' : ''}
+    <div className="flex sm:flex-row flex-col flex-wrap justify-center items-center sm:justify-end">
+      <div className="text-sm cursor-text">Total de {props.totalItems} registros</div>
+      <ul className="p-3 flex gap-2 justify-end">
+        {!isMobile && (
+          <PaginateItem
+            text="Primeiro"
+            isDisabled={pager.currentPage === 1 || pager.currentPage === 0}
+            onClick={() => setPage(1)}
+          />
+        )}
+
+        <PaginateItem
+          text="Anterior"
+          isDisabled={pager.currentPage === 1 || pager.currentPage === 0}
           onClick={() => setPage(pager.currentPage - 1)}
-        >
-          <span>Anterior</span>
-        </li>
+        />
+
         {pager.pages.map((page, index) => (
-          <li
+          <PaginateItem
             key={index}
-            className={pager.currentPage === page ? 'active' : 'normal'}
+            text={page}
+            isActive={pager.currentPage === page}
             onClick={() => setPage(page)}
-          >
-            <span>{page}</span>
-          </li>
+          />
         ))}
-        <li
-          className={pager.currentPage === pager.totalPages ? 'disabled' : ''}
+
+        <PaginateItem
+          text="Próximo"
+          isDisabled={pager.currentPage === pager.totalPages}
           onClick={() => setPage(pager.currentPage + 1)}
-        >
-          <span>Próximo</span>
-        </li>
-        <li
-          className={pager.currentPage === pager.totalPages ? 'disabled' : ''}
-          onClick={() => setPage(pager.totalPages)}
-        >
-          <span>Último</span>
-        </li>
+        />
+
+        {!isMobile && (
+          <PaginateItem
+            text="Último"
+            isDisabled={pager.currentPage === pager.totalPages}
+            onClick={() => setPage(pager.totalPages)}
+          />
+        )}
       </ul>
     </div>
   );

@@ -9,7 +9,7 @@ const Routes: React.FC = () => {
   const { signed, loading } = useAuth();
 
   if (loading) {
-    return <Loading isLoading={loading} />;
+    return <Loading />;
   }
 
   return signed ? (

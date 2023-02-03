@@ -10,9 +10,12 @@ import DialogAddOperation from './components/DialogAddOperation/DialogAddOperati
 import OperationsList from './components/OperationsList/OperationsList';
 import PersonInfo from './components/PersonInfo/PersonInfo';
 import { useAppSelector } from '../../store/index';
+import { deleteOperation } from '../../services/finances.service';
+import ConfirmDialog from '../../components/DialogConfirmation/DialogConfirmation';
 
 const MyFinances = () => {
-  const [openDialog, setOpenDialog] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [itemSelected, setItemSelected] = useState<Operation | undefined>();
   const dispatch = useAppDispatch();
   const operations = useAppSelector((state) => state.operations);
@@ -27,12 +30,12 @@ const MyFinances = () => {
     updateOperations();
   }, [activePage]);
 
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
+  const handleOpenEditDialog = () => {
+    setOpenEditDialog(true);
   };
 
   const handleOnCloseDialog = (confirm: Boolean) => {
-    setOpenDialog(false);
+    setOpenEditDialog(false);
     if (confirm) {
       updateOperations();
       updateUserExtract();
@@ -40,9 +43,22 @@ const MyFinances = () => {
     setItemSelected(undefined);
   };
 
-  const handleItemSelected = (operation: Operation) => {
-    setOpenDialog(true);
+  const handleItemSelected = (operation: Operation, action: 'edit' | 'delete') => {
     setItemSelected(operation);
+    if (action == 'edit') {
+      setOpenEditDialog(true);
+    } else {
+      setOpenConfirmDialog(true);
+    }
+  };
+
+  const handleConfirmDialog = async (confirm: boolean) => {    
+    if (confirm && itemSelected) {
+      await deleteOperation(itemSelected.id);
+      updateOperations();
+      updateUserExtract();
+    }
+    setOpenConfirmDialog(false);
   };
 
   const updateUserExtract = () => {
@@ -66,7 +82,12 @@ const MyFinances = () => {
       <div>
         <div className="bg-white flex items-center my-7 p-4 flex-wrap justify-center gap-5 sm:justify-between">
           <h2>Meus lançamentos</h2>
-          <Button variant="contained" color="primary" disableElevation onClick={handleOpenDialog}>
+          <Button
+            variant="contained"
+            color="primary"
+            disableElevation
+            onClick={handleOpenEditDialog}
+          >
             Adicionar lançamento
           </Button>
         </div>
@@ -83,13 +104,15 @@ const MyFinances = () => {
         />
       </div>
 
-      {openDialog && (
+      {openEditDialog && (
         <DialogAddOperation
-          open={openDialog}
+          open={openEditDialog}
           onClose={handleOnCloseDialog}
           objectToEdit={itemSelected}
         />
       )}
+
+      <ConfirmDialog open={openConfirmDialog} onClose={handleConfirmDialog} />
     </div>
   );
 };

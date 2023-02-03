@@ -30,3 +30,9 @@ export function updateOperation(id: string, operationToUpdate: Operation): Promi
     .put(`${URL_SERVICE_BASE}/operations/${id}`, operationToUpdate)
     .then((response) => response.data);
 }
+
+export function deleteOperation(id: string): Promise<Result> {
+  return api
+    .delete(`${URL_SERVICE_BASE}/operations/${id}`)
+    .then((response) => response.data);
+}

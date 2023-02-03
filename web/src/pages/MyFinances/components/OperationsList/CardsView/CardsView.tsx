@@ -1,4 +1,4 @@
-import { Collapse, Icon } from '@material-ui/core';
+import { Button, Collapse, Icon } from '@material-ui/core';
 import React, { useState } from 'react';
 import { formatCurrency } from '../../../../../infra/formatCurrency';
 import { OperationType } from '../../../../../models/enums/operation-type.enum';
@@ -6,7 +6,7 @@ import { Operation } from '../../../../../models/operation';
 
 type OperationListProps = {
   operationList: Operation[];
-  onItemSelected?: (operation: Operation) => void;
+  onItemSelected?: (operation: Operation, action: 'edit' | 'delete') => void;
 };
 
 const CardsView: React.FC<OperationListProps> = ({ operationList, onItemSelected }) => {
@@ -35,11 +35,9 @@ const CardsView: React.FC<OperationListProps> = ({ operationList, onItemSelected
     return formatedValue;
   };
 
-  const handleItemSelected = (operation: Operation) => {
+  const handleItemSelected = (operation: Operation, action: 'edit' | 'delete') => {
     if (onItemSelected) {
-      console.log(operation);
-      
-      onItemSelected(operation);
+      onItemSelected(operation, action);
     }
   };
 
@@ -60,16 +58,21 @@ const CardsView: React.FC<OperationListProps> = ({ operationList, onItemSelected
       {operationList.map((operation) => (
         <div
           className="card-item border-[1px] border-solid border-gray-300 mb-2 flex flex-col gap-1 rounded bg-white"
-          key={operation.id}          
+          key={operation.id}
+          onClick={() => handleToggleDetails(operation.id)}
         >
-          <div className="p-4 flex items-center gap-3 justify-between">
+          <div className="p-3 flex items-center gap-2 justify-between">
             <div>{getIconByType(operation.type)}</div>
             <div className="self-start grow">
-              <div>{formatOperationValue(operation.value, operation.type)}</div>
-              <div>Em: {operation.category}</div>
+              <div className='flex'>
+                <div className='grow'>{formatOperationValue(operation.value, operation.type)}</div>
+                <div className="text-sm text-gray-500">{formatDateString(operation.date)}</div>
               </div>
-            <div className="uppercase text-sm cursor-pointer transition-all px-2 py-1 rounded" onClick={() => handleToggleDetails(operation.id)}>Detalhes</div>
-            <div className="uppercase text-sm cursor-pointer transition-all px-2 py-1 rounded" onClick={() => handleItemSelected(operation)}>Editar</div>           
+              <div className="text-gray-400">{operation.description}</div>
+            </div>
+            <div className="uppercase text-sm cursor-pointer transition-all px-2 py-1 rounded">
+              <Icon>expand_more</Icon>
+            </div>
           </div>
           <Collapse in={isShowingDetails(operation.id)} timeout="auto" unmountOnExit>
             <div className="p-3 flex flex-col gap-4 bg-white text-gray-600 border-t-[1px] border-gray-300 border-solid">
@@ -89,7 +92,26 @@ const CardsView: React.FC<OperationListProps> = ({ operationList, onItemSelected
               </div>
               <div className="flex flex-col gap-1">
                 <span className="text-xs uppercase">Data:</span>
-                <span className="p-2 bg-gray-100 rounded text-lg">{formatDateString(operation.date)}</span>
+                <span className="p-2 bg-gray-100 rounded text-lg">
+                  {formatDateString(operation.date)}
+                </span>
+              </div>
+
+              <div>
+                <button
+                  className="bg-primary w-full px-3 py-2 rounded text-white"
+                  onClick={() => handleItemSelected(operation, 'edit')}
+                >
+                  Editar
+                </button>
+              </div>
+              <div>
+                <button
+                  className="bg-red-500 w-full px-3 py-2 rounded text-white"
+                  onClick={() => handleItemSelected(operation, 'delete')}
+                >
+                  Excluir
+                </button>
               </div>
             </div>
           </Collapse>

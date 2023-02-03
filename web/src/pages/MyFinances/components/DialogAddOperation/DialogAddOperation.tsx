@@ -65,10 +65,6 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit
     }
   };
 
-  const handleChange = (event: any) => {
-    console.log('chamou', event);
-  };
-
   return (
     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogTitle id="simple-dialog-title">
@@ -78,7 +74,6 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit
         <Form
           ref={formRef}
           onSubmit={handleSubmit}
-          onChange={handleChange}
           initialData={objectToEdit}
         >
           <div className="flex flex-col gap-4">

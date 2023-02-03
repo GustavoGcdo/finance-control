@@ -6,7 +6,7 @@ import TableView from './TableView/TableView';
 
 type OperationListProps = {
   operationList?: Operation[];
-  onItemSelected?: (operation: Operation) => void;
+  onItemSelected?: (operation: Operation, action: 'edit' | 'delete') => void;
 };
 
 const OperationsList: React.FC<OperationListProps> = ({ operationList = [], onItemSelected }) => {

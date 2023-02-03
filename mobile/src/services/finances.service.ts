@@ -7,7 +7,7 @@ const URL_SERVICE_BASE = '/finance';
 export function getUserExtract(): Promise<Result> {
   return api
     .get(`${URL_SERVICE_BASE}/extract`)
-    .then((response) => response.data);
+    .then((response: ) => response.data);
 }
 
 export function getOperations(): Promise<Result> {

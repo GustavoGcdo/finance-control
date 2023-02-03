@@ -18,7 +18,6 @@ import { OperationType } from '../../../../models/enums/operation-type.enum';
 import { Operation } from '../../../../models/operation';
 import { addOperation, updateOperation } from '../../../../services/finances.service';
 
-
 type DialogProps = {
   open: boolean;
   onClose: (confirm: boolean) => void;
@@ -38,28 +37,19 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit
     handleSubmit(dataForm);
   };
 
-  const handleSubmit = (formData: any) => {
+  const handleSubmit = async (formData: any) => {
     setErrorMessages([]);
     const newOperation = formData;
 
-    if (objectToEdit) {
-      updateOperation(objectToEdit.id, newOperation)
-        .then((result) => {
-          onClose(true);
-          console.log('result deu bom', result);
-        })
-        .catch((resultError) => {
-          handleErrors(resultError.response?.data);
-        });
-    } else {
-      addOperation(newOperation)
-        .then((result) => {
-          onClose(true);
-          console.log('result deu bom', result);
-        })
-        .catch((resultError) => {
-          handleErrors(resultError.response?.data);
-        });
+    try {
+      if (objectToEdit) {
+        await updateOperation(objectToEdit.id, newOperation);
+      } else {
+        await addOperation(newOperation);
+      }
+      onClose(true);
+    } catch (resultError: any) {
+      handleErrors(resultError.response?.data);
     }
   };
 
@@ -68,12 +58,15 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit
       const errors = resultError.errors;
       const errorMessagesServer = ErrorHandler.getErrorMessagesByName(errors, 'type');
       setErrorMessages(errorMessagesServer);
-
       const fieldErrors = ErrorHandler.getFieldErrors(errors);
       formRef.current?.setErrors(fieldErrors);
     } else {
       setErrorMessages(['Falha no servidor']);
     }
+  };
+
+  const handleChange = (event: any) => {
+    console.log('chamou', event);
   };
 
   return (
@@ -82,7 +75,12 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit
         {objectToEdit ? 'Alterar' : 'Adicionar'} lançamento
       </DialogTitle>
       <DialogContent>
-        <Form ref={formRef} onSubmit={handleSubmit} initialData={objectToEdit}>
+        <Form
+          ref={formRef}
+          onSubmit={handleSubmit}
+          onChange={handleChange}
+          initialData={objectToEdit}
+        >
           <div className="flex flex-col gap-4">
             <RadioGroupForm
               name="type"

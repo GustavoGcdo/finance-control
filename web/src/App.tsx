@@ -1,7 +1,8 @@
-import React from 'react';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { Provider } from 'react-redux';
 import { AuthProvider } from './contexts/auth.context';
 import Routes from './routes';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import store from './store';
 
 const theme = createMuiTheme({
   typography: {
@@ -17,11 +18,13 @@ const theme = createMuiTheme({
 
 function App() {
   return (
-    <AuthProvider>
-      <ThemeProvider theme={theme}>
-        <Routes />
-      </ThemeProvider>
-    </AuthProvider>
+    <Provider store={store}>
+      <AuthProvider>
+        <ThemeProvider theme={theme}>
+          <Routes />
+        </ThemeProvider>
+      </AuthProvider>
+    </Provider>
   );
 }
 

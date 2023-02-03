@@ -1,46 +1,31 @@
 import Button from '@material-ui/core/Button';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Pagination from '../../components/Pagination/Pagination';
 import { DEFAULT_LIMIT } from '../../constants/paginate.constants';
 import { Operation } from '../../models/operation';
-import { UserExtract } from '../../models/user-extract';
-import { getOperations, getUserExtract } from '../../services/finances.service';
-import { PaginateResult } from '../../types/PaginateResult';
+import { useAppDispatch } from '../../store';
+import { getOperationsAction } from '../../store/operations/Operation.actions';
+import { getUserExtractAction } from '../../store/person/Person.actions';
 import DialogAddOperation from './components/DialogAddOperation/DialogAddOperation';
 import OperationsList from './components/OperationsList/OperationsList';
 import PersonInfo from './components/PersonInfo/PersonInfo';
-// import './MyFinances.scss';
+import { useAppSelector } from '../../store/index';
 
-const userExtractInit = {} as UserExtract;
-
-const MyFinances: React.FC = () => {
-  const [paginateResult, setPaginateResult] = useState<PaginateResult<Operation> | undefined>();
-  const [userExtract, setUserExtract] = useState<UserExtract>(userExtractInit);
+const MyFinances = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [itemSelected, setItemSelected] = useState<Operation | undefined>();
+  const dispatch = useAppDispatch();
+  const operations = useAppSelector((state) => state.operations);
+  const [activePage, setActivePage] = useState(1);
 
   useEffect(() => {
-    getOperationsList();
-    getUserExtractData();
+    updateOperations();
+    updateUserExtract();
   }, []);
 
-  const getOperationsList = async (page?: number) => {
-    try {
-      const result = await getOperations(page);
-      setPaginateResult(result.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getUserExtractData = async () => {
-    try {
-      const result = await getUserExtract();
-      setUserExtract(result.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    updateOperations();
+  }, [activePage]);
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -49,10 +34,9 @@ const MyFinances: React.FC = () => {
   const handleOnCloseDialog = (confirm: Boolean) => {
     setOpenDialog(false);
     if (confirm) {
-      getOperationsList();
-      getUserExtractData();
+      updateOperations();
+      updateUserExtract();
     }
-
     setItemSelected(undefined);
   };
 
@@ -61,24 +45,22 @@ const MyFinances: React.FC = () => {
     setItemSelected(operation);
   };
 
-  const showModal = () => {
-    return (
-      <DialogAddOperation
-        open={openDialog}
-        onClose={handleOnCloseDialog}
-        objectToEdit={itemSelected}
-      />
-    );
+  const updateUserExtract = () => {
+    dispatch(getUserExtractAction());
   };
 
-  const handleChangePage = (page: number) => {
-    getOperationsList(page);
+  const updateOperations = () => {
+    dispatch(getOperationsAction(activePage));
+  };
+
+  const handlePageChanged = (page: number) => {
+    setActivePage(page);
   };
 
   return (
     <div>
       <div className="mt-6">
-        <PersonInfo userExtract={userExtract} />
+        <PersonInfo />
       </div>
 
       <div>
@@ -89,18 +71,25 @@ const MyFinances: React.FC = () => {
           </Button>
         </div>
         <OperationsList
-          operationList={paginateResult?.results}
+          operationList={operations.paginateOperations.results}
           onItemSelected={handleItemSelected}
         />
 
         <Pagination
-          totalItems={paginateResult?.total}
-          onChangePage={handleChangePage}
+          currentPage={activePage}
+          totalItems={operations.paginateOperations.total}
+          onChangePage={handlePageChanged}
           pageSize={DEFAULT_LIMIT}
         />
       </div>
 
-      {openDialog && showModal()}
+      {openDialog && (
+        <DialogAddOperation
+          open={openDialog}
+          onClose={handleOnCloseDialog}
+          objectToEdit={itemSelected}
+        />
+      )}
     </div>
   );
 };

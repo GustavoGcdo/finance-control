@@ -5,7 +5,7 @@ import Login from '../pages/Login/Login';
 import Signup from '../pages/Signup/Signup';
 
 const AuthRoutes: React.FC = () => (
-  <BrowserRouter>
+  <BrowserRouter basename='/'>
     <Routes>
       <Route path="/" element={<Navigate to={loginRoute} replace />} />
       <Route path="*" element={<Navigate to={loginRoute} replace />} />

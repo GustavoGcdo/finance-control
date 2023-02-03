@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { IAuthService } from '../../application/services/auth-service.interface';
 import { AddOperationDto } from '../../application/useCases/addOperation/add-operation.dto';
 import { IAddOperation } from '../../application/useCases/addOperation/add-operation.interface';
+import { DeleteOperation } from '../../application/useCases/deleteOperation/delete-operation';
 import { GetUserExtract } from '../../application/useCases/getUserExtract/get-user-extract';
 import { IGetUserOperations } from '../../application/useCases/getUserOperations/get-user-operations.interface';
 import { IUpdateOperationHandler } from '../../application/useCases/updateOperation/update-operation-handler.interface';
@@ -15,20 +16,22 @@ export class FinanceController {
   private getUserExtractUseCase: GetUserExtract;
   private addOperationUseCase: IAddOperation;
   private authServiceUseCase: IAuthService;
+  private deleteOperationUseCase: DeleteOperation;
 
   constructor(
     getUserOperations: IGetUserOperations,
     getUserExtract: GetUserExtract,
     addOperation: IAddOperation,
     updateOperationHandler: IUpdateOperationHandler,
-    authService: IAuthService
+    authService: IAuthService,
+    deleteOperationUseCase: DeleteOperation
   ) {
     this.getUserOperationsUseCase = getUserOperations;
     this.getUserExtractUseCase = getUserExtract;
     this.updateOperationHandler = updateOperationHandler;
     this.addOperationUseCase = addOperation;
     this.authServiceUseCase = authService;
-
+    this.deleteOperationUseCase = deleteOperationUseCase;
   }
 
   public async getUserOperations(request: Request, response: Response) {
@@ -85,6 +88,15 @@ export class FinanceController {
       };
 
       const result = await this.updateOperationHandler.handle(addOperationDto);
+      return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
+    } catch (error) {
+      return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);
+    }
+  }
+
+  public async deleteOperation(request: Request, response: Response) {
+    try {
+      const result = await this.deleteOperationUseCase.handle(request.params.id);
       return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
     } catch (error) {
       return HandleResponse.handleError(response, HttpStatus.BAD_REQUEST, error);

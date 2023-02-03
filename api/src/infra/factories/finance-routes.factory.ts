@@ -8,7 +8,7 @@ import { OperationRepository } from '../repositories/operation.repository';
 import { UserRepository } from '../repositories/user.repository';
 import { FinanceRoutes } from '../routes/finance.routes';
 import { AuthService } from '../services/auth.service';
-
+import { DeleteOperation } from '../../application/useCases/deleteOperation/delete-operation';
 
 export const makeFinanceRoutes = (): FinanceRoutes => {
   const authService = new AuthService();
@@ -19,7 +19,15 @@ export const makeFinanceRoutes = (): FinanceRoutes => {
   const getUserExtract = new GetSimpleUserExtract(operationsRepository, userRepository);
   const addOperation = new AddOperationToUser(userRepository, operationsRepository);
   const updateOperation = new UpdateOperationHandler(userRepository, operationsRepository);
-  const financeController = new FinanceController(getOperations, getUserExtract, addOperation, updateOperation, authService);
+  const deleteOperation = new DeleteOperation(operationsRepository);
+  const financeController = new FinanceController(
+    getOperations,
+    getUserExtract,
+    addOperation,
+    updateOperation,
+    authService,
+    deleteOperation
+  );
   const financeRoutes = new FinanceRoutes(authMiddleware, financeController);
   return financeRoutes;
 };

@@ -6,7 +6,6 @@ import { IEncriptService } from '../../src/application/services/encript-service.
 import { Login } from '../../src/application/useCases/login/login';
 import { User } from '../../src/domain/entities/user';
 
-
 describe('UseCase login', () => {
   const mockUserRepository = mock<IUserRepository>();
   const mockEncriptService = mock<IEncriptService>();

@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node ./dist/server.js",
     "dev": "cross-env NODE_ENV=dev ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify  ./src/server.ts",
-    "build": "tsc",
-    "test": "jest --runInBand",
+    "build": "tsc --project tsconfig-build.json",
+    "test:int": "jest --runInBand",
     "test:unit": "jest --config jest.config-unit.js",
     "test:watch": "cross-env NODE_ENV=test jest --watch",
     "coverage": "cross-env NODE_ENV=test jest --coverage"

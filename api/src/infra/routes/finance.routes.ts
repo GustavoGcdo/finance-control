@@ -36,5 +36,9 @@ export class FinanceRoutes {
     this.router.put('/finance/operations/:id',
       (req, res, next) => this.auth.authorize(req, res, next),
       (req, res) => this.controller.updateOperation(req, res));
+    
+      this.router.delete('/finance/operations/:id',
+      (req, res, next) => this.auth.authorize(req, res, next),
+      (req, res) => this.controller.deleteOperation(req, res));
   }
 }

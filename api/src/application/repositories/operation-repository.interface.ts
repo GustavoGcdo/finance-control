@@ -7,4 +7,5 @@ export interface IOperationRepository {
   get(userId: string): Promise<Operation[]>;
   update(operation: Operation): Promise<void>;
   add(operation: Operation): Promise<Operation | null>;
+  remove(id: string): Promise<void>;
 }

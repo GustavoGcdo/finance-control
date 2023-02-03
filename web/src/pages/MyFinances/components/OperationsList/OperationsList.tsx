@@ -1,4 +1,3 @@
-import React from 'react';
 import { useResponsive } from '../../../../hooks/useResponsive';
 import { Operation } from '../../../../models/operation';
 import CardsView from './CardsView/CardsView';
@@ -9,7 +8,7 @@ type OperationListProps = {
   onItemSelected?: (operation: Operation, action: 'edit' | 'delete') => void;
 };
 
-const OperationsList: React.FC<OperationListProps> = ({ operationList = [], onItemSelected }) => {
+const OperationsList = ({ operationList = [], onItemSelected }: OperationListProps) => {
   const { isMobile } = useResponsive();
 
   const renderViewList = () => {

@@ -9,7 +9,7 @@ type OperationListProps = {
   onItemSelected?: (operation: Operation, action: 'edit' | 'delete') => void;
 };
 
-const CardsView: React.FC<OperationListProps> = ({ operationList, onItemSelected }) => {
+const CardsView = ({ operationList, onItemSelected }: OperationListProps) => {
   const [idShowingDetails, setIdShowingDetails] = useState<string | null>(null);
 
   const getIconByType = (operationType: OperationType) => {
@@ -71,7 +71,7 @@ const CardsView: React.FC<OperationListProps> = ({ operationList, onItemSelected
               <div className="text-gray-400">{operation.description}</div>
             </div>
             <div className="uppercase text-sm cursor-pointer transition-all px-2 py-1 rounded">
-              <Icon>expand_more</Icon>
+              <Icon>{isShowingDetails(operation.id) ? 'expand_less' : 'expand_more'}</Icon>
             </div>
           </div>
           <Collapse in={isShowingDetails(operation.id)} timeout="auto" unmountOnExit>

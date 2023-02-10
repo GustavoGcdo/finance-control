@@ -27,7 +27,7 @@ type DialogProps = {
 };
 
 const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit }) => {
-  const formRef = useRef<FormHandles>(null);  
+  const formRef = useRef<FormHandles>(null);
   const { isMobile } = useResponsive();
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [operationSelected, setOperationSelected] = useState(OperationType.EXPENSE);
@@ -98,7 +98,7 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit
               <InputValueForm name="value" autoFocus />
             </div>
 
-            <div className=' border-gray-300 border-2 border-solid rounded'>
+            <div className=" border-gray-300 border-2 border-solid rounded">
               <CheckBoxForm name="executed" label="Já está pago?" />
             </div>
 
@@ -109,6 +109,7 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit
               <span>Adicionar detalhes</span>
               <Icon>{openDetails ? 'expand_less' : 'expand_more'}</Icon>
             </div>
+
             <Collapse in={openDetails} timeout="auto">
               <div className="flex flex-col gap-4">
                 <InputForm name="description" label="Descrição" />
@@ -120,16 +121,6 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit
 
             <div className="flex w-full gap-2 justify-between text-center ">
               <div
-                onClick={() => handleClickOperationType(OperationType.RECIPE)}
-                className={`bg-primary p-3 rounded w-full font-medium cursor-pointer border-solid border-2 ${
-                  operationSelected == OperationType.RECIPE
-                    ? 'bg-primary text-white border-transparent'
-                    : 'bg-white text-primary border-primary'
-                }`}
-              >
-                Entrada
-              </div>
-              <div
                 onClick={() => handleClickOperationType(OperationType.EXPENSE)}
                 className={`p-3 rounded w-full font-medium cursor-pointer border-solid border-2 ${
                   operationSelected == OperationType.EXPENSE
@@ -138,6 +129,16 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit
                 }`}
               >
                 Saída
+              </div>
+              <div
+                onClick={() => handleClickOperationType(OperationType.RECIPE)}
+                className={`bg-primary p-3 rounded w-full font-medium cursor-pointer border-solid border-2 ${
+                  operationSelected == OperationType.RECIPE
+                    ? 'bg-primary text-white border-transparent'
+                    : 'bg-white text-primary border-primary'
+                }`}
+              >
+                Entrada
               </div>
             </div>
           </div>

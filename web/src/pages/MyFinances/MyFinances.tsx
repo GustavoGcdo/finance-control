@@ -52,9 +52,10 @@ const MyFinances = () => {
     }
   };
 
-  const handleConfirmDialog = async (confirm: boolean) => {    
+  const handleConfirmDialog = async (confirm: boolean) => {
     if (confirm && itemSelected) {
       await deleteOperation(itemSelected.id);
+      setItemSelected(undefined);
       updateOperations();
       updateUserExtract();
     }

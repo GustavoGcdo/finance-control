@@ -1,6 +1,6 @@
 import { TextField } from '@material-ui/core';
 import { useField } from '@unform/core';
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import MaskCurrency from './masks/MaskCurrency';
 
 interface InputMaskProps {
@@ -11,7 +11,7 @@ interface InputMaskProps {
 
 type TypeMasks = 'currency';
 
-const InputMaskForm: FunctionComponent<InputMaskProps> = ({ name, label, typeMask }) => {
+const InputMaskForm = ({ name, label, typeMask }: InputMaskProps) => {
   const { fieldName, defaultValue, registerField, error } = useField(name);
   const [value, setValue] = useState(defaultValue);
 

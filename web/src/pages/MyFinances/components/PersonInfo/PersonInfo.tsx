@@ -11,7 +11,7 @@ const PersonInfo = () => {
         <div className="text-xl font-light whitespace-nowrap overflow-hidden text-ellipsis">
           {userExtract.name}
         </div>
-        <div className="mt-1 text-sm font-medium">Editar informações</div>
+        {/* <div className="mt-1 text-sm font-medium">Editar informações</div> */}
       </div>
 
       <div className="rounded p-4 bg-white border-2 border-solid border-primary flex flex-col items-end">

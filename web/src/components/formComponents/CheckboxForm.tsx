@@ -2,7 +2,7 @@ import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withStyles } from '@material-ui/core/styles';
 import { useField } from '@unform/core';
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const CustomCheckBox = withStyles({
   root: {
@@ -28,7 +28,7 @@ interface Props {
 
 type InputProps = Props & CheckboxProps;
 
-const CheckBoxForm: FunctionComponent<InputProps> = ({ name, label }) => {
+const CheckBoxForm = ({ name, label }: InputProps) => {
   const inputRef = useRef(null);
   const { fieldName, defaultValue = false, registerField } = useField(name);
   const [value, setValue] = useState(defaultValue);
@@ -53,7 +53,7 @@ const CheckBoxForm: FunctionComponent<InputProps> = ({ name, label }) => {
       control={
         <CustomCheckBox id={name} inputRef={inputRef} checked={value} onChange={handleChange} />
       }
-      className="input-form"
+      className="p-2 w-full"
       defaultValue={defaultValue}
       label={label}
     />

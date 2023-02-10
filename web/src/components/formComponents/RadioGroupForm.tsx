@@ -42,8 +42,7 @@ const RadioGroupForm: FunctionComponent<InputProps> = (props) => {
 
   return (
     <RadioGroup
-      id={props.name}
-      className="input-form"
+      id={props.name}      
       name="type"
       value={value}
       onChange={handleChange}

@@ -1,5 +1,4 @@
-import { Icon, Slide } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+import { Icon } from '@material-ui/core';
 import Collapse from '@material-ui/core/Collapse';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -13,17 +12,13 @@ import AlertErrorMessage from '../../../../components/AlertErrorMessage/AlertErr
 import CheckBoxForm from '../../../../components/formComponents/CheckboxForm';
 import DatePickerForm from '../../../../components/formComponents/DatePickerForm';
 import InputForm from '../../../../components/formComponents/InputForm';
-import InputMaskForm from '../../../../components/formComponents/InputMaskForm';
 import InputValueForm from '../../../../components/formComponents/InputValueForm';
-import MaskCurrency from '../../../../components/formComponents/masks/MaskCurrency';
-import RadioGroupForm from '../../../../components/formComponents/RadioGroupForm';
+import { useResponsive } from '../../../../hooks/useResponsive';
 import { ErrorHandler } from '../../../../infra/errorHandler';
 import { Result } from '../../../../infra/models/result';
 import { OperationType } from '../../../../models/enums/operation-type.enum';
 import { Operation } from '../../../../models/operation';
 import { addOperation, updateOperation } from '../../../../services/finances.service';
-import { useResponsive } from '../../../../hooks/useResponsive';
-import { TransitionProps } from '@material-ui/core/transitions/transition';
 
 type DialogProps = {
   open: boolean;
@@ -32,7 +27,7 @@ type DialogProps = {
 };
 
 const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit }) => {
-  const formRef = useRef<FormHandles>(null);
+  const formRef = useRef<FormHandles>(null);  
   const { isMobile } = useResponsive();
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [operationSelected, setOperationSelected] = useState(OperationType.EXPENSE);
@@ -96,14 +91,16 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit
       <DialogTitle id="simple-dialog-title">
         {objectToEdit ? 'Alterar' : 'Adicionar'} lançamento
       </DialogTitle>
-      <DialogContent className='flex flex-col justify-center'>
+      <DialogContent className="flex flex-col justify-center">
         <Form ref={formRef} onSubmit={handleSubmit} initialData={objectToEdit}>
           <div className="flex flex-col gap-4">
             <div className="mb-1">
-              <InputValueForm name="value" />
+              <InputValueForm name="value" autoFocus />
             </div>
 
-            <CheckBoxForm name="executed" label="Já está pago?" />
+            <div className=' border-gray-300 border-2 border-solid rounded'>
+              <CheckBoxForm name="executed" label="Já está pago?" />
+            </div>
 
             <div
               className="flex gap-2 justify-center cursor-pointer bg-gray-200 py-2 rounded items-center"
@@ -162,7 +159,7 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit
         </Button> */}
         <div className="flex flex-col gap-2 w-full py-1">
           <div
-            className="w-full uppercase text-center font-bold py-3 cursor-pointer hover:bg-gray-100 transition-all"
+            className="w-full uppercase text-center font-bold py-3 cursor-pointer text-primary hover:bg-gray-100 transition-all"
             onClick={handleConfirm}
           >
             <span className="block">{objectToEdit ? 'Salvar' : 'Cadastrar'}</span>

@@ -1,6 +1,7 @@
 import { TextField } from '@material-ui/core';
 import { useField } from '@unform/core';
 import { useEffect, useState } from 'react';
+import { useResponsive } from '../../hooks/useResponsive';
 import MaskCurrency from './masks/MaskCurrency';
 
 interface InputMaskProps {
@@ -12,6 +13,7 @@ interface InputMaskProps {
 type TypeMasks = 'currency';
 
 const InputMaskForm = ({ name, label, typeMask }: InputMaskProps) => {
+  const { isMobile } = useResponsive();
   const { fieldName, defaultValue, registerField, error } = useField(name);
   const [value, setValue] = useState(defaultValue);
 
@@ -46,7 +48,7 @@ const InputMaskForm = ({ name, label, typeMask }: InputMaskProps) => {
       label={label}
       id={name}
       className="input-form"
-      size="small"
+      size={isMobile ? 'medium' : 'small'}
       variant="outlined"
       value={value}
       onChange={handleChange}

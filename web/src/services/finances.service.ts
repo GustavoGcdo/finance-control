@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import queryString from 'query-string';
 import { DEFAULT_LIMIT, DEFAULT_PAGE } from '../constants/paginate.constants';
 import { Result } from '../infra/models/result';
@@ -12,8 +13,12 @@ export function getUserExtract(): Promise<Result> {
     .then((response) => response.data);
 }
 
-export function getOperations(page: number = DEFAULT_PAGE, limit: number = DEFAULT_LIMIT): Promise<Result> {
-  const queryStringResult = queryString.stringify({ page, limit })
+export function getOperations(page: number = DEFAULT_PAGE, date?: Date, limit: number = DEFAULT_LIMIT): Promise<Result> {
+  const filter: Record<string, any> = { page, limit };
+  if(date){
+    filter.monthOfTheYear = format(date, 'MM-yyyy');
+  }
+  const queryStringResult = queryString.stringify(filter)
   return api
     .get(`${URL_SERVICE_BASE}/operations?${queryStringResult}`)
     .then((response) => response.data);

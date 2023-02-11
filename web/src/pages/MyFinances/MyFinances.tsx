@@ -12,6 +12,7 @@ import PersonInfo from './components/PersonInfo/PersonInfo';
 import { useAppSelector } from '../../store/index';
 import { deleteOperation } from '../../services/finances.service';
 import ConfirmDialog from '../../components/DialogConfirmation/DialogConfirmation';
+import PagintateMonth from './components/PaginateMonth/PagintateMonth';
 
 const MyFinances = () => {
   const [openEditDialog, setOpenEditDialog] = useState(false);
@@ -19,7 +20,7 @@ const MyFinances = () => {
   const [itemSelected, setItemSelected] = useState<Operation | undefined>();
   const dispatch = useAppDispatch();
   const operations = useAppSelector((state) => state.operations);
-  const [activePage, setActivePage] = useState(1);
+  const [activeDateSelected, setActiveDateSelected] = useState(new Date());
 
   useEffect(() => {
     updateOperations();
@@ -28,7 +29,7 @@ const MyFinances = () => {
 
   useEffect(() => {
     updateOperations();
-  }, [activePage]);
+  }, [activeDateSelected]);
 
   const handleOpenEditDialog = () => {
     setOpenEditDialog(true);
@@ -67,11 +68,11 @@ const MyFinances = () => {
   };
 
   const updateOperations = () => {
-    dispatch(getOperationsAction(activePage));
+    dispatch(getOperationsAction(activeDateSelected));
   };
 
-  const handlePageChanged = (page: number) => {
-    setActivePage(page);
+  const handleMonthChanged = (dateSelected: Date) => {
+    setActiveDateSelected(dateSelected)
   };
 
   return (
@@ -92,17 +93,13 @@ const MyFinances = () => {
             Adicionar lançamento
           </Button>
         </div>
+
+        <PagintateMonth onChange={handleMonthChanged} />
+
         <OperationsList
           operationList={operations.paginateOperations.results}
           onItemSelected={handleItemSelected}
-        />
-
-        <Pagination
-          currentPage={activePage}
-          totalItems={operations.paginateOperations.total}
-          onChangePage={handlePageChanged}
-          pageSize={DEFAULT_LIMIT}
-        />
+        />       
       </div>
 
       {openEditDialog && (

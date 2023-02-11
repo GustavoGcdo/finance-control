@@ -38,11 +38,12 @@ export class FinanceController {
     try {
       const token = request.headers.authorization;
       const data = await this.authServiceUseCase.verifyToken(token || '');
-      const { page, limit } = request.query;
+      const { page, limit, monthOfTheYear } = request.query;
       const result = await this.getUserOperationsUseCase.handle({
         userId: data.id,
         page: page?.toString(),
-        limit: limit?.toString()
+        limit: limit?.toString(),
+        monthOfTheYear: monthOfTheYear?.toString()
       });
       return HandleResponse.handle(response, HttpStatus.SUCCESS, result);
     } catch (error) {

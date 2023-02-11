@@ -3,7 +3,10 @@ import { GetUserOperationsDto } from '../../application/useCases/getUserOperatio
 import { Contract } from '../models/contract';
 import { Notifiable } from '../models/notifiable';
 
-export class GetUserOperationsContract extends Notifiable implements Contract<GetUserOperationsDto> {
+export class GetUserOperationsContract
+  extends Notifiable
+  implements Contract<GetUserOperationsDto>
+{
   private dto: GetUserOperationsDto;
   private validator: Validator;
 
@@ -17,6 +20,7 @@ export class GetUserOperationsContract extends Notifiable implements Contract<Ge
     this.validateUserId();
     this.validatePage();
     this.validateLimit();
+    this.validadeFilter();
 
     this.addReports(this.validator.reports);
     return this.isValid();
@@ -44,6 +48,27 @@ export class GetUserOperationsContract extends Notifiable implements Contract<Ge
         'limit',
         `limit must be less than ${MAX_LIMIT}`
       );
+    }
+  }
+
+  private validadeFilter() {
+    if (this.dto.monthOfTheYear) {
+      const regexMonthAndYear = /^\d{2}-\d{4}$/g; // 02-2020
+      const isValid = regexMonthAndYear.test(this.dto.monthOfTheYear);
+
+      if (!isValid) {
+        this.addReport({
+          name: 'monthOfTheYear',
+          message: 'invalid format for monthOfTheYear. Ex. use 02-2020'
+        });
+      }
+      const [month, year] = this.dto.monthOfTheYear.split('-');
+      if (new Date(`${year}-${month}`).toString() === 'Invalid Date') {
+        this.addReport({
+          name: 'monthOfTheYear',
+          message: 'monthOfTheYear must be a valid date'
+        })
+      }
     }
   }
 }

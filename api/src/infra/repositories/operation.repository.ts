@@ -3,6 +3,7 @@ import { Operation } from '../../domain/entities/operation';
 import { PaginateOptions, PaginateResult } from '../../domain/valueObjects/paginate-options';
 import { OperationMap } from '../mappers/operation-map';
 import OperationModel from '../schemas/operation.schema';
+import { FilterOperation } from '../../domain/valueObjects/filter';
 
 export class OperationRepository implements IOperationRepository {
   async getById(id: string): Promise<Operation | null> {
@@ -20,18 +21,30 @@ export class OperationRepository implements IOperationRepository {
 
   async paginate(
     userId: string,
-    paginateOptions: PaginateOptions
+    paginateOptions: PaginateOptions,
+    filter: FilterOperation
   ): Promise<PaginateResult<Operation>> {
     const { skip = 0, limit = 10 } = paginateOptions;
 
-    const query = { 'user._id': userId };
+    const query: Record<string, any> = { 'user._id': userId };
+
+    if (filter.month) {
+      const date = filter.month;
+      
+      const firstDay = new Date(date.getUTCFullYear(), date.getUTCMonth() , 1);
+      const lastDay = new Date(date.getUTCFullYear(), date.getUTCMonth() + 1, 0);
+
+      query.date = {
+        $gte: firstDay,
+        $lte: lastDay
+      };
+    }
 
     const count = await OperationModel.countDocuments(query);
     const documentsOperations = await OperationModel.find(query)
       .skip(skip)
       .limit(limit)
       .sort({ createdAt: -1 });
-
     const operations = documentsOperations.map((o: any) => OperationMap.toDomain(o));
 
     const paginateResult: PaginateResult<Operation> = {

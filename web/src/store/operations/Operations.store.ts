@@ -10,15 +10,19 @@ const initialPaginateData: PaginateResult<Operation> = {
 const operations = createSlice({
   name: 'operations',
   initialState: {
-    paginateOperations: initialPaginateData
+    paginateOperations: initialPaginateData,
+    activeDateSelected: new Date().toJSON(),
   },
   reducers: {
     setOperations: (state, action) => {
       state.paginateOperations = action.payload;
+    },
+    setActiveDate: (state, action) => {
+      state.activeDateSelected = action.payload;
     }
   }
 });
 
-export const { setOperations } = operations.actions;
+export const { setOperations, setActiveDate } = operations.actions;
 export default operations.reducer;
 

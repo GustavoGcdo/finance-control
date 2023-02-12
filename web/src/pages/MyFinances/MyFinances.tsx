@@ -13,15 +13,15 @@ import { useAppSelector } from '../../store/index';
 import { deleteOperation } from '../../services/finances.service';
 import ConfirmDialog from '../../components/DialogConfirmation/DialogConfirmation';
 import PagintateMonth from './components/PaginateMonth/PagintateMonth';
+import { setActiveDate } from '../../store/operations/Operations.store';
 
 const MyFinances = () => {
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [itemSelected, setItemSelected] = useState<Operation | undefined>();
+  const { paginateOperations, activeDateSelected } = useAppSelector((state) => state.operations);
   const dispatch = useAppDispatch();
-  const operations = useAppSelector((state) => state.operations);
-  const [activeDateSelected, setActiveDateSelected] = useState(new Date());
-
+  
   useEffect(() => {
     updateOperations();
     updateUserExtract();
@@ -68,11 +68,11 @@ const MyFinances = () => {
   };
 
   const updateOperations = () => {
-    dispatch(getOperationsAction(activeDateSelected));
+    dispatch(getOperationsAction(new Date(activeDateSelected)));
   };
 
   const handleMonthChanged = (dateSelected: Date) => {
-    setActiveDateSelected(dateSelected)
+    dispatch(setActiveDate(dateSelected.toJSON()));
   };
 
   return (
@@ -97,9 +97,9 @@ const MyFinances = () => {
         <PagintateMonth onChange={handleMonthChanged} />
 
         <OperationsList
-          operationList={operations.paginateOperations.results}
+          operationList={paginateOperations.results}
           onItemSelected={handleItemSelected}
-        />       
+        />
       </div>
 
       {openEditDialog && (

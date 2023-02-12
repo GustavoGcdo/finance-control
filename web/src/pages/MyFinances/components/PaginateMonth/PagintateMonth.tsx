@@ -1,6 +1,7 @@
 import { Icon } from '@material-ui/core';
 import { format, addMonths, subMonths } from 'date-fns';
 import { useState, useEffect } from 'react';
+import { useResponsive } from '../../../../hooks/useResponsive';
 
 type Props = {
   onChange?: (dateSelected: Date) => void;
@@ -9,6 +10,7 @@ type Props = {
 const PagintateMonth = (props: Props) => {
   const [dates, setDates] = useState<Date[]>([]);
   const [currentDate, setCurrent] = useState<Date>(new Date());
+  const { isMobile } = useResponsive();
 
   useEffect(() => {
     generateMonth(currentDate);
@@ -20,9 +22,8 @@ const PagintateMonth = (props: Props) => {
     }
   }, [currentDate]);
 
-  const generateMonth = (current: Date = new Date()) => {
+  const generateMonth = (current: Date = new Date(), maxPageDates = 5) => {
     const dates = [];
-    const maxPageDates = 5;
 
     const isPairMaxPage = maxPageDates % 2 == 0;
     let pagesBefore = Math.trunc(maxPageDates / 2);
@@ -65,13 +66,13 @@ const PagintateMonth = (props: Props) => {
   };
 
   const handleBefore = () => {
-    const newDate = subMonths(currentDate, 1)
+    const newDate = subMonths(currentDate, 1);
     setCurrent(newDate);
     generateMonth(newDate);
   };
 
   const handleNext = () => {
-    const newDate = addMonths(currentDate, 1)
+    const newDate = addMonths(currentDate, 1);
     setCurrent(newDate);
     generateMonth(newDate);
   };
@@ -85,14 +86,18 @@ const PagintateMonth = (props: Props) => {
   };
 
   return (
-    <div className="my-4">
-      <div className="flex items-center justify-center gap-2">
-        <div onClick={handleBefore} className="rounded cursor-pointer bg-primary text-white ">
+    <div className="p-4 mb-4">
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-2">
+        <div
+          hidden={isMobile}
+          onClick={handleBefore}
+          className="rounded cursor-pointer bg-primary text-white "
+        >
           <div className="flex items-center p-3">
             <Icon>navigate_before</Icon>
           </div>
         </div>
-        <div className="flex flex-row items-center justify-center gap-2">
+        <div className="flex flex-row items-center justify-center gap-2 w-full sm:w-fit overflow-hidden">
           {dates.map((date) => (
             <div
               key={date.getTime()}
@@ -102,27 +107,37 @@ const PagintateMonth = (props: Props) => {
               }`}
             >
               <span
-                className={`uppercase border-2 border-solid px-2 mb-1 ${
+                className={`uppercase block border-2 border-solid px-2 mb-1 ${
                   isActualMonth(date) ? 'border-white' : 'border-transparent'
                 }`}
               >
                 {format(date, 'MMM')}
               </span>
-              <span>{format(date, 'yyyy')}</span>
+              <span className="block">{format(date, 'yyyy')}</span>
             </div>
           ))}
         </div>
-        <div onClick={handleNext} className="rounded cursor-pointer bg-primary text-white ">
+        <div
+          hidden={isMobile}
+          onClick={handleNext}
+          className="rounded cursor-pointer bg-primary text-white "
+        >
           <div className="flex items-center p-3">
             <Icon>navigate_next</Icon>
           </div>
         </div>
-        <div onClick={handleReset} className="rounded cursor-pointer bg-primary text-white ">
-          <div className="flex items-center p-3">
+      </div>
+      {!isActualMonth(currentDate) && (
+        <div
+          onClick={handleReset}
+          className="rounded cursor-pointer bg-primary text-white w-full mx-auto mt-4 sm:w-fit"
+        >
+          <div className="flex items-center justify-center p-3 gap-2">
             <Icon>restart_alt</Icon>
+            {<span>Ir para o mês atual</span>}
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

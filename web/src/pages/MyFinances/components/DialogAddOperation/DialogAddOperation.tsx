@@ -19,6 +19,7 @@ import { Result } from '../../../../infra/models/result';
 import { OperationType } from '../../../../models/enums/operation-type.enum';
 import { Operation } from '../../../../models/operation';
 import { addOperation, updateOperation } from '../../../../services/finances.service';
+import { useAppSelector } from '../../../../store';
 
 type DialogProps = {
   open: boolean;
@@ -32,6 +33,7 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [operationSelected, setOperationSelected] = useState(OperationType.EXPENSE);
   const [openDetails, setOpenDetails] = useState(false);
+  const { activeDateSelected } = useAppSelector((state) => state.operations);
 
   useEffect(() => {
     if (objectToEdit?.type) {
@@ -39,6 +41,11 @@ const DialogAddOperation: React.FC<DialogProps> = ({ open, onClose, objectToEdit
     }
   }, [objectToEdit]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      formRef.current?.setFieldValue('date', activeDateSelected);      
+    }, 10);
+  }, []);
   const handleClose = () => {
     onClose(false);
   };

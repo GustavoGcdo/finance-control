@@ -5,7 +5,7 @@ import TableView from './TableView/TableView';
 
 type OperationListProps = {
   operationList?: Operation[];
-  onItemSelected?: (operation: Operation, action: 'edit' | 'delete') => void;
+  onItemSelected?: (operation: Operation, action: 'edit' | 'delete' | 'execute') => void;
 };
 
 const OperationsList = ({ operationList = [], onItemSelected }: OperationListProps) => {
@@ -24,7 +24,9 @@ const OperationsList = ({ operationList = [], onItemSelected }: OperationListPro
       {renderViewList()}
 
       {operationList.length === 0 && (
-        <div className="p-4 font-medium text-neutral-400 rounded text-lg bg-neutral-200">Ops.. não há lançamentos aqui</div>
+        <div className="p-4 font-medium text-neutral-400 rounded text-lg bg-neutral-200">
+          Ops.. não há lançamentos aqui
+        </div>
       )}
     </div>
   );

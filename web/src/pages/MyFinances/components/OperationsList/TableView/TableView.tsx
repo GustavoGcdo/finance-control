@@ -9,7 +9,7 @@ type OperationListProps = {
   onItemSelected?: (operation: Operation, action: 'edit' | 'delete' | 'execute') => void;
 };
 
-const TableView: React.FC<OperationListProps> = ({ operationList, onItemSelected }) => {
+const TableView = ({ operationList, onItemSelected }: OperationListProps) => {
   const getIconByType = (operationType: OperationType) => {
     switch (operationType) {
       case OperationType.EXPENSE:
@@ -85,7 +85,7 @@ const TableView: React.FC<OperationListProps> = ({ operationList, onItemSelected
             <td>
               {!operation.executed && (
                 <button
-                  className="px-2 py-1 rounded cursor-pointer text-white hover:bg-slate-400 bg-slate-600"
+                  className="px-2 py-1 rounded cursor-pointer transition-all text-white hover:bg-orange-400 bg-orange-500"
                   onClick={() => handleItemSelected(operation, 'execute')}
                 >
                   {getTextAction(operation)}

@@ -24,14 +24,18 @@ const ConfirmDialog = ({ open, onClose, ...props }: DialogProps) => {
   return (
     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogTitle id="simple-dialog-title">{props.title || 'Confirmação'}</DialogTitle>
-      <DialogContent>{props.message || 'Deseja confirmar esta ação?'}</DialogContent>
+      <DialogContent>
+        <div className="p-5">{props.message || 'Deseja confirmar esta ação?'}</div>
+      </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="default">
-          Cancelar
-        </Button>
-        <Button onClick={handleConfirm} color="primary">
-          Confirmar
-        </Button>
+        <div className='flex gap-3 p-3'>
+          <Button onClick={handleClose} color="default">
+            Cancelar
+          </Button>
+          <Button onClick={handleConfirm} color="primary">
+            Confirmar
+          </Button>
+        </div>
       </DialogActions>
     </Dialog>
   );

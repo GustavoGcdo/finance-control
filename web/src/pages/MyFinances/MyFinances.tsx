@@ -1,27 +1,32 @@
-import Button from '@material-ui/core/Button';
 import { useEffect, useState } from 'react';
-import Pagination from '../../components/Pagination/Pagination';
-import { DEFAULT_LIMIT } from '../../constants/paginate.constants';
-import { Operation } from '../../models/operation';
-import { useAppDispatch } from '../../store';
-import { getOperationsAction } from '../../store/operations/Operation.actions';
-import { getUserExtractAction } from '../../store/person/Person.actions';
-import DialogAddOperation from './components/DialogAddOperation/DialogAddOperation';
-import OperationsList from './components/OperationsList/OperationsList';
-import PersonInfo from './components/PersonInfo/PersonInfo';
-import { useAppSelector } from '../../store/index';
-import { deleteOperation } from '../../services/finances.service';
 import ConfirmDialog from '../../components/DialogConfirmation/DialogConfirmation';
-import PagintateMonth from './components/PaginateMonth/PagintateMonth';
+import { OperationType } from '../../models/enums/operation-type.enum';
+import { Operation } from '../../models/operation';
+import { deleteOperation, updateOperation } from '../../services/finances.service';
+import { useAppDispatch } from '../../store';
+import { useAppSelector } from '../../store/index';
+import { getOperationsAction } from '../../store/operations/Operation.actions';
 import { setActiveDate } from '../../store/operations/Operations.store';
+import { getUserExtractAction } from '../../store/person/Person.actions';
+import DialogOperationForm from './components/DialogOperationForm/DialogOperationFormStep';
+import OperationsList from './components/OperationsList/OperationsList';
+import PagintateMonth from './components/PaginateMonth/PagintateMonth';
+import PersonInfo from './components/PersonInfo/PersonInfo';
 
 const MyFinances = () => {
   const [openEditDialog, setOpenEditDialog] = useState(false);
-  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState<{
+    open: boolean;
+    action: 'delete' | 'execute' | undefined;
+  }>({ open: false, action: undefined });
+
   const [itemSelected, setItemSelected] = useState<Operation | undefined>();
+  const [operationTypeSelected, setOperationTypeSelected] = useState<OperationType>(
+    OperationType.EXPENSE
+  );
   const { paginateOperations, activeDateSelected } = useAppSelector((state) => state.operations);
   const dispatch = useAppDispatch();
-  
+
   useEffect(() => {
     updateOperations();
     updateUserExtract();
@@ -31,8 +36,9 @@ const MyFinances = () => {
     updateOperations();
   }, [activeDateSelected]);
 
-  const handleOpenEditDialog = () => {
+  const handleOpenEditDialog = (type: OperationType) => {
     setOpenEditDialog(true);
+    setOperationTypeSelected(type);
   };
 
   const handleOnCloseDialog = (confirm: Boolean) => {
@@ -44,23 +50,29 @@ const MyFinances = () => {
     setItemSelected(undefined);
   };
 
-  const handleItemSelected = (operation: Operation, action: 'edit' | 'delete') => {
+  const handleItemSelected = (operation: Operation, action: 'edit' | 'delete' | 'execute') => {
     setItemSelected(operation);
+    setOperationTypeSelected(operation.type);
     if (action == 'edit') {
       setOpenEditDialog(true);
     } else {
-      setOpenConfirmDialog(true);
+      setConfirmDialog({ open: true, action });
     }
   };
 
   const handleConfirmDialog = async (confirm: boolean) => {
     if (confirm && itemSelected) {
-      await deleteOperation(itemSelected.id);
+      if (confirmDialog.action == 'delete') {
+        await deleteOperation(itemSelected.id);
+      } else {
+        await updateOperation(itemSelected.id, { executed: true } as Operation);
+      }
+
       setItemSelected(undefined);
       updateOperations();
       updateUserExtract();
     }
-    setOpenConfirmDialog(false);
+    setConfirmDialog({ open: false, action: undefined });
   };
 
   const updateUserExtract = () => {
@@ -84,14 +96,20 @@ const MyFinances = () => {
       <div>
         <div className="bg-white flex items-center my-7 p-4 flex-wrap justify-center gap-5 sm:justify-between">
           <h2>Meus lançamentos</h2>
-          <Button
-            variant="contained"
-            color="primary"
-            disableElevation
-            onClick={handleOpenEditDialog}
-          >
-            Adicionar lançamento
-          </Button>
+          <div className="flex gap-4">
+            <button
+              className="px-3 py-2 text-white font-medium bg-primary rounded"
+              onClick={() => handleOpenEditDialog(OperationType.RECIPE)}
+            >
+              Nova entrada
+            </button>
+            <button
+              className="px-3 py-2 text-white font-medium bg-red-500 rounded"
+              onClick={() => handleOpenEditDialog(OperationType.EXPENSE)}
+            >
+              Nova saída
+            </button>
+          </div>
         </div>
 
         <PagintateMonth onChange={handleMonthChanged} />
@@ -103,14 +121,15 @@ const MyFinances = () => {
       </div>
 
       {openEditDialog && (
-        <DialogAddOperation
+        <DialogOperationForm
           open={openEditDialog}
+          operationType={operationTypeSelected}
           onClose={handleOnCloseDialog}
           objectToEdit={itemSelected}
         />
       )}
 
-      <ConfirmDialog open={openConfirmDialog} onClose={handleConfirmDialog} />
+      <ConfirmDialog open={confirmDialog.open} onClose={handleConfirmDialog} />
     </div>
   );
 };

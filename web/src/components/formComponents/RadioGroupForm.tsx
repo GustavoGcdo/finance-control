@@ -3,7 +3,7 @@ import { useField } from '@unform/core';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
 interface Option {
-  value: string;
+  value: any;
   label: string;
 }
 
@@ -17,7 +17,7 @@ type InputProps = Props;
 
 const RadioGroupForm: FunctionComponent<InputProps> = (props) => {
   const { fieldName, registerField, defaultValue } = useField(props.name);
-  const [value, setValue] = useState(defaultValue || '');
+  const [value, setValue] = useState(defaultValue || undefined);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const valueChanged = (event.target as HTMLInputElement).value;
@@ -43,7 +43,7 @@ const RadioGroupForm: FunctionComponent<InputProps> = (props) => {
   return (
     <RadioGroup
       id={props.name}      
-      name="type"
+      name={props.name}
       value={value}
       onChange={handleChange}
     >

@@ -1,12 +1,12 @@
-import { Button, Collapse, Icon } from '@material-ui/core';
-import React, { useState } from 'react';
+import { Collapse, Icon } from '@material-ui/core';
+import { useState } from 'react';
 import { formatCurrency } from '../../../../../infra/formatCurrency';
 import { OperationType } from '../../../../../models/enums/operation-type.enum';
 import { Operation } from '../../../../../models/operation';
 
 type OperationListProps = {
   operationList: Operation[];
-  onItemSelected?: (operation: Operation, action: 'edit' | 'delete') => void;
+  onItemSelected?: (operation: Operation, action: 'edit' | 'delete' | 'execute') => void;
 };
 
 const CardsView = ({ operationList, onItemSelected }: OperationListProps) => {
@@ -35,7 +35,7 @@ const CardsView = ({ operationList, onItemSelected }: OperationListProps) => {
     return formatedValue;
   };
 
-  const handleItemSelected = (operation: Operation, action: 'edit' | 'delete') => {
+  const handleItemSelected = (operation: Operation, action: 'edit' | 'delete' | 'execute') => {
     if (onItemSelected) {
       onItemSelected(operation, action);
     }
@@ -53,25 +53,44 @@ const CardsView = ({ operationList, onItemSelected }: OperationListProps) => {
     return idShowingDetails === operationId;
   };
 
+  const getTextAction = (operation: Operation) => {
+    const { type } = operation;
+    return type == OperationType.RECIPE ? 'Já recebi' : 'Já paguei';
+  };
+
   return (
     <div>
       {operationList.map((operation) => (
         <div
-          className="card-item border-[1px] border-solid border-gray-300 mb-2 flex flex-col gap-1 rounded bg-white"
+          className="card-item border-[1px] border-solid border-gray-300 mb-2 flex flex-col rounded bg-white"
           key={operation.id}
-          onClick={() => handleToggleDetails(operation.id)}
         >
-          <div className="p-3 flex items-center gap-2 justify-between">
-            <div>{getIconByType(operation.type)}</div>
-            <div className="self-start grow">
-              <div className='flex'>
-                <div className='grow'>{formatOperationValue(operation.value, operation.type)}</div>
-                <div className="text-sm text-gray-500">{formatDateString(operation.date)}</div>
+          <div>
+            {!operation.executed && (
+              <div
+                className="bg-orange-400 text-white  text-sm flex justify-between items-center"
+                onClick={() => handleItemSelected(operation, 'execute')}
+              >
+                <span className="p-2 px-3">{getTextAction(operation)}</span>
               </div>
-              <div className="text-gray-400">{operation.description}</div>
-            </div>
-            <div className="uppercase text-sm cursor-pointer transition-all px-2 py-1 rounded">
-              <Icon>{isShowingDetails(operation.id) ? 'expand_less' : 'expand_more'}</Icon>
+            )}
+            <div className="p-3 flex items-center gap-2 justify-between">
+              <div>{getIconByType(operation.type)}</div>
+              <div className="self-start grow">
+                <div className="flex">
+                  <div className="grow">
+                    {formatOperationValue(operation.value, operation.type)}
+                  </div>
+                  <div className="text-sm text-gray-500">{formatDateString(operation.date)}</div>
+                </div>
+                <div className="text-gray-400">{operation.description}</div>
+              </div>
+              <button
+                className="uppercase bg-gray-200 text-sm cursor-pointer transition-all p-2 rounded"
+                onClick={() => handleToggleDetails(operation.id)}
+              >
+                <Icon>{isShowingDetails(operation.id) ? 'expand_less' : 'expand_more'}</Icon>
+              </button>
             </div>
           </div>
           <Collapse in={isShowingDetails(operation.id)} timeout="auto" unmountOnExit>

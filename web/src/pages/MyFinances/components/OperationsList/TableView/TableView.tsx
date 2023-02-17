@@ -6,7 +6,7 @@ import { Operation } from '../../../../../models/operation';
 
 type OperationListProps = {
   operationList: Operation[];
-  onItemSelected?: (operation: Operation, action: 'edit' | 'delete') => void;
+  onItemSelected?: (operation: Operation, action: 'edit' | 'delete' | 'execute') => void;
 };
 
 const TableView: React.FC<OperationListProps> = ({ operationList, onItemSelected }) => {
@@ -33,10 +33,24 @@ const TableView: React.FC<OperationListProps> = ({ operationList, onItemSelected
     return formatedValue;
   };
 
-  const handleItemSelected = (operation: Operation, action: 'edit' | 'delete') => {
+  const handleItemSelected = (operation: Operation, action: 'edit' | 'delete' | 'execute') => {
     if (onItemSelected) {
       onItemSelected(operation, action);
     }
+  };
+
+  const getTextExecuted = (operation: Operation) => {
+    const { type, executed } = operation;
+    if (executed) {
+      return type == OperationType.RECIPE ? 'Recebido' : 'Pago';
+    } else {
+      return type == OperationType.RECIPE ? 'Não recebido' : 'Não pago';
+    }
+  };
+
+  const getTextAction = (operation: Operation) => {
+    const { type } = operation;
+    return type == OperationType.RECIPE ? 'Já recebi' : 'Pagar';
   };
 
   return (
@@ -45,6 +59,8 @@ const TableView: React.FC<OperationListProps> = ({ operationList, onItemSelected
         <tr className="text-gray-500 font-semibold text-sm">
           <th></th>
           <th className="p-2 text-left">Descrição</th>
+          <th className="p-2 text-left">Situação</th>
+          <th className="p-2 text-left"></th>
           <th className="p-2">Valor</th>
           <th className="p-2">Categoria</th>
           <th className="p-2">Data</th>
@@ -60,7 +76,22 @@ const TableView: React.FC<OperationListProps> = ({ operationList, onItemSelected
             <td className="p-1 align-middle group-first:rounded-tl-lg group-last:rounded-bl-lg">
               {getIconByType(operation.type)}
             </td>
-            <td className="p-2 text-left">{operation.description}</td>
+            <td className="p-2 w-80 text-left">{operation.description}</td>
+            <td className="p-2 text-left">
+              <div className="flex gap-1  items-center">
+                <span>{getTextExecuted(operation)}</span>
+              </div>
+            </td>
+            <td>
+              {!operation.executed && (
+                <button
+                  className="px-2 py-1 rounded cursor-pointer text-white hover:bg-slate-400 bg-slate-600"
+                  onClick={() => handleItemSelected(operation, 'execute')}
+                >
+                  {getTextAction(operation)}
+                </button>
+              )}
+            </td>
             <td className="p-4">{formatOperationValue(operation.value, operation.type)}</td>
             <td className="p-4">{operation.category}</td>
             <td className="p-4">{formatDateString(operation.date)}</td>

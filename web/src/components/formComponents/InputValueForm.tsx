@@ -34,7 +34,7 @@ const InputValueForm = ({ name, label, ...rest }: InputValueProps) => {
     <div className="flex flex-col">
       <NumberFormat
         {...rest}
-        className="outline-none py-2 px-3 border-b-[1px] border-solid font-medium border-gray-400 text-xl"
+        className="outline-none py-2 pl-1 pr-3 border-b-[1px] border-solid font-medium border-gray-400 text-xl"
         placeholder="R$ 0,00"
         thousandSeparator="."
         decimalSeparator=","
